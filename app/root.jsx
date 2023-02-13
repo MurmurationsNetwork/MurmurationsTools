@@ -50,14 +50,14 @@ export default function App() {
                     Murmurations Tools
                   </div>
             <div className="flex flex-row justify-end items-center">
-              <Link to="/">
+              <Link to="/profile-generator">
                 <div className="text-md md:hidden">Generator</div>
                 <div className="hidden md:contents md:text-xl">
                   Profile Generator
                 </div>
               </Link>
               <div className="pl-8 md:pl-16">
-                <Link to="/get-nodes">
+                <Link to="/index-explorer">
                   <div className="text-md md:hidden">Explorer</div>
                   <div className="hidden md:contents md:text-xl">
                     Index Explorer
@@ -65,7 +65,7 @@ export default function App() {
                 </Link>
               </div>
               <div className="pl-8 md:pl-16">
-                <Link to="/tools">
+                <Link to="/index-updater">
                   <div className="text-md md:hidden">Updater</div>
                   <div className="hidden md:contents md:text-xl">
                     Index Updater

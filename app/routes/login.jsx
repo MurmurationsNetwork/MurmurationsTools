@@ -29,7 +29,7 @@ function validatePassword(password) {
 }
 
 function validateUrl(url) {
-  let urls = ['/login', '/']
+  let urls = ['/login', '/profile-generator']
   if (urls.includes(url)) {
     return url
   }
@@ -43,7 +43,7 @@ export const action = async ({ request }) => {
   const loginType = form.get('loginType')
   const email = form.get('email')
   const password = form.get('password')
-  const redirectTo = validateUrl(form.get('redirectTo') || '/')
+  const redirectTo = validateUrl(form.get('redirectTo') || '/profile-generator')
   if (
     typeof loginType !== 'string' ||
     typeof email !== 'string' ||
