@@ -1,0 +1,72 @@
+{
+  "name": "murmurations-tools",
+  "version": "1.0.0",
+  "license": "GPLv3",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:css && remix build",
+    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "postinstall": "remix setup node",
+    "start": "remix-serve build",
+    "lint": "eslint --ignore-path .gitignore --ext .js --ext .jsx .",
+    "lint-fix": "eslint --ignore-path .gitignore --ext .js --ext .jsx . --fix",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|json)\"",
+    "format": "npm run prettier -- --write",
+    "validate": "npm run lint && npm run format && npm run build",
+    "prepare": "husky install",
+    "test": "vitest run --config ./vitest.config.js",
+    "test:watch": "vitest watch"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint-config-prettier"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.+(js|jsx)": [
+      "eslint --fix"
+    ],
+    "src/**/*.+(js|jsx|json)": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^10.1.0",
+    "@remix-run/node": "^1.12.0",
+    "@remix-run/react": "^1.12.0",
+    "@remix-run/vercel": "^1.12.0",
+    "@vercel/node": "^2.9.0",
+    "bcryptjs": "^2.4.3",
+    "cuid": "^2.1.8",
+    "mongodb": "^5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.12.0",
+    "@remix-run/eslint-config": "^1.12.0",
+    "@remix-run/serve": "^1.12.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "autoprefixer": "^10.4.13",
+    "concurrently": "^7.6.0",
+    "eslint-config-prettier": "^8.6.0",
+    "husky": "^8.0.3",
+    "jsdom": "^21.1.0",
+    "lint-staged": "^13.1.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.21",
+    "postcss-cli": "^10.1.0",
+    "prettier": "^2.8.3",
+    "tailwindcss": "^3.2.4",
+    "vitest": "^0.28.4"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}
