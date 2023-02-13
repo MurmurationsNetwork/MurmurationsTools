@@ -28,7 +28,7 @@ export async function loader({ request }) {
 
 export default function App() {
   const { url } = useLoaderData()
-  const production = !!url?.match(/\/tools/)
+  const production = !!url?.match(/\/\/tools/)
   return (
     <html lang="en">
       <head>
@@ -44,26 +44,34 @@ export default function App() {
           </div>
         )}
         <div className="container max-w-full mx-auto p-0">
-          <div className="flex flex-row justify-end items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-8 md:h-12 mb-0">
-            <Link to="/">
-              <div className="text-md md:hidden">Profiles</div>
-              <div className="hidden md:contents md:text-xl">
-                Profile Generator
-              </div>
-            </Link>
-            <div className="pl-8 md:pl-16">
-              <Link to="/get-nodes">
-                <div className="text-md md:hidden">Explorer</div>
+          <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-8 md:h-12 mb-0">
+          <div className="text-md md:hidden">Tools</div>
+                  <div className="hidden md:contents md:text-xl">
+                    Murmurations Tools
+                  </div>
+            <div className="flex flex-row justify-end items-center">
+              <Link to="/">
+                <div className="text-md md:hidden">Generator</div>
                 <div className="hidden md:contents md:text-xl">
-                  Index Explorer
+                  Profile Generator
                 </div>
               </Link>
-            </div>
-            <div className="pl-8 md:pl-16">
-              <Link to="/tools">
-                <div className="text-md md:hidden">Tools</div>
-                <div className="hidden md:contents md:text-xl">Index Tools</div>
-              </Link>
+              <div className="pl-8 md:pl-16">
+                <Link to="/get-nodes">
+                  <div className="text-md md:hidden">Explorer</div>
+                  <div className="hidden md:contents md:text-xl">
+                    Index Explorer
+                  </div>
+                </Link>
+              </div>
+              <div className="pl-8 md:pl-16">
+                <Link to="/tools">
+                  <div className="text-md md:hidden">Updater</div>
+                  <div className="hidden md:contents md:text-xl">
+                    Index Updater
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
           <Outlet />

@@ -78,9 +78,8 @@ export default function Tools() {
   return (
     <div>
       <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-12 md:h-20 mb-2 md:mb-4">
-        <h1 className="text-xl md:hidden">Index Tools</h1>
-        <h1 className="hidden md:contents md:text-3xl">
-          Murmurations Index Tools
+        <h1 className="text-xl md:contents md:text-3xl">
+         Index Updater
         </h1>
       </div>
       <div className="mx-1 md:mx-4">
