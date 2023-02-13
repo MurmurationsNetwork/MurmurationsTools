@@ -73,7 +73,7 @@ export async function action({ request }) {
     values.last_updated = new Date(values.last_updated).valueOf() / 1000
   }
   let searchParams = getSearchUrl(values, false)
-  return redirect(`/get-nodes?${searchParams}`)
+  return redirect(`/index-explorer?${searchParams}`)
 }
 
 export async function loader({ request }) {
@@ -495,7 +495,7 @@ function SortableColumn({ prop, children, searchParams }) {
     <th scope="col" className="p-1 md:p-2 text-left text-sm text-gray-900">
       {prop ? (
         <Link
-          to={`/get-nodes?${searchQueries}`}
+          to={`/index-explorer?${searchQueries}`}
           className="inline-flex font-semibold group"
         >
           <span className="text-gray-900 dark:text-gray-50">{children}</span>
@@ -554,7 +554,7 @@ function Pagination({ links, searchParams }) {
         {links['prev'] ? (
           <li>
             <Link
-              to={`/get-nodes?${links['prev']}`}
+              to={`/index-explorer?${links['prev']}`}
               className="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Previous
@@ -566,7 +566,7 @@ function Pagination({ links, searchParams }) {
         {links['first'] ? (
           <li>
             <Link
-              to={`/get-nodes?${links['first']}`}
+              to={`/index-explorer?${links['first']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['first']}
@@ -578,7 +578,7 @@ function Pagination({ links, searchParams }) {
         {pages['self'] === 4 ? (
           <li>
             <Link
-              to={`/get-nodes?${links['second']}`}
+              to={`/index-explorer?${links['second']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['first'] + 1}
@@ -596,7 +596,7 @@ function Pagination({ links, searchParams }) {
         {links['prev'] ? (
           <li>
             <Link
-              to={`/get-nodes?${links['prev']}`}
+              to={`/index-explorer?${links['prev']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['prev']}
@@ -607,7 +607,7 @@ function Pagination({ links, searchParams }) {
         )}
         <li>
           <Link
-            to={`/get-nodes?${links['self']}`}
+            to={`/index-explorer?${links['self']}`}
             className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             {pages['self']}
@@ -616,7 +616,7 @@ function Pagination({ links, searchParams }) {
         {links['next'] ? (
           <li>
             <Link
-              to={`/get-nodes?${links['next']}`}
+              to={`/index-explorer?${links['next']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['next']}
@@ -628,7 +628,7 @@ function Pagination({ links, searchParams }) {
         {pages['last'] - pages['self'] === 3 ? (
           <li>
             <Link
-              to={`/get-nodes?${links['penultimate']}`}
+              to={`/index-explorer?${links['penultimate']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['next'] + 1}
@@ -646,7 +646,7 @@ function Pagination({ links, searchParams }) {
         {links['last'] ? (
           <li>
             <Link
-              to={`/get-nodes?${links['last']}`}
+              to={`/index-explorer?${links['last']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['last']}
@@ -658,7 +658,7 @@ function Pagination({ links, searchParams }) {
         {links['next'] ? (
           <li>
             <Link
-              to={`/get-nodes?${links['next']}`}
+              to={`/index-explorer?${links['next']}`}
               className="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Next
