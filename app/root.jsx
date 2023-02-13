@@ -28,7 +28,7 @@ export async function loader({ request }) {
 
 export default function App() {
   const { url } = useLoaderData()
-  const production = !!url?.match(/\/profiles/)
+  const production = !!url?.match(/\/tools/)
   return (
     <html lang="en">
       <head>
