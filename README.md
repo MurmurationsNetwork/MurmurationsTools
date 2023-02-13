@@ -15,4 +15,4 @@ Open up [http://localhost:3000](http://localhost:3000) and you should be ready t
 
 ## Try it out
 
-https://profiles.murmurations.network
+https://test-tools.murmurations.network
