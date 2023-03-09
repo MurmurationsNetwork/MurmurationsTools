@@ -407,10 +407,10 @@ export default function GetNodes() {
                             Primary URL
                           </SortableColumn>
                           <SortableColumn
-                            prop="locality"
+                            prop="profile_url"
                             searchParams={searchParams}
                           >
-                            Locality
+                            Profile URL
                           </SortableColumn>
                           <SortableColumn
                             prop="last_updated"
@@ -437,7 +437,16 @@ export default function GetNodes() {
                               </a>
                             </td>
                             <td className="p-1 md:p-2 text-sm text-gray-900 dark:text-gray-50 whitespace-nowrap">
-                              {node.locality}
+                              <a
+                                href={`${node.profile_url}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="no-underline hover:underline text-yellow-600 dark:text-green-300"
+                              >
+                                {node.profile_url?.length > 65
+                                  ? `${node.profile_url?.substr(0, 65)}...`
+                                  : node.profile_url}
+                              </a>
                             </td>
                             <td className="p-1 md:p-2 text-sm text-gray-900 dark:text-gray-50 whitespace-nowrap">
                               {timestampToDatetime(node.last_updated)}
