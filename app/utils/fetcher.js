@@ -39,6 +39,17 @@ export async function fetchJsonPost(url, body) {
   })
 }
 
+export async function fetchJsonPostWithFile(url, body) {
+  return fetch(url, {
+    method: 'POST',
+    body: body
+  }).catch(err => {
+    throw new Response(`fetchJsonPostWithFile error: ${err}`, {
+      status: 500
+    })
+  })
+}
+
 export async function fetchFilePostWithAuth(url, formData) {
   const username = process.env.PRIVATE_IPFS_USERNAME
   const password = process.env.PRIVATE_IPFS_PASSWORD
