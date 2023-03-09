@@ -5,11 +5,26 @@ export async function validateBatch(file, schemas) {
   let formData = new FormData()
   formData.append('file', file)
   formData.append('schemas', '[' + schemas + ']')
-  console.log('[' + schemas + ']')
   try {
     return await fetchJsonPostWithFile(validateUrl, formData)
   } catch (err) {
     throw new Response(`validateBatch failed: ${err}`, {
+      status: 500
+    })
+  }
+}
+
+export async function importBatch(file, schemas, title, userId) {
+  const uploadUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  let formData = new FormData()
+  formData.append('file', file)
+  formData.append('schemas', '[' + schemas + ']')
+  formData.append('title', title)
+  formData.append('user_id', userId)
+  try {
+    return await fetchJsonPostWithFile(uploadUrl, formData)
+  } catch (err) {
+    throw new Response(`importBatch failed: ${err}`, {
       status: 500
     })
   }
