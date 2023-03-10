@@ -13,13 +13,15 @@ import {
 import { userCookie } from '~/utils/cookie'
 import parseRef from '~/utils/parseRef'
 import {
+  getUser,
   getUserId,
   requireUserEmail,
   retrieveUser
 } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
 import { Toaster } from 'react-hot-toast'
-import { importBatch, validateBatch } from '~/utils/batch.server'
+import { getBatches, importBatch, validateBatch } from '~/utils/batch.server'
+import { fetchGet } from '~/utils/fetcher'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -29,7 +31,7 @@ export async function action({ request }) {
     rawData[key].length === 1 && (rawData[key] = rawData[key][0])
   }
   let { _action, ...data } = rawData
-  let response, schemas, file, title, fileName, userEmail, userId
+  let response, schemas, file, title, fileName, userEmail, user
   switch (_action) {
     case 'select':
       return await parseRef(data?.schema)
@@ -64,16 +66,19 @@ export async function action({ request }) {
       }
       // get user id
       userEmail = await requireUserEmail(request, '/')
-      userId = await getUserId(userEmail)
-      response = await importBatch(file, schemas, title, userId?.cuid)
+      user = await getUser(userEmail)
+      response = await importBatch(file, schemas, title, user?.cuid)
       const res = await response.json()
       if (response.status !== 200) {
         return json({
           importErrors: res?.errors
         })
       }
+      // get batch ids
+      const batches = await getBatches(user?.cuid)
       return json({
-        batchId: res?.meta?.batch_id
+        batchId: res?.meta?.batch_id,
+        batches: batches?.data
       })
   }
 }
@@ -104,9 +109,11 @@ export async function loader(request) {
       }
     })
   }
+  const batches = await getBatches(user.cuid)
   return json({
     schemas: schemas,
-    user: user
+    user: user,
+    batches: batches?.data
   })
 }
 
@@ -126,6 +133,7 @@ export default function Batch() {
   let [schema, setSchema] = useState('')
   let [fileName, setFileName] = useState('')
   let [batchId, setBatchId] = useState('')
+  let [batches, setBatches] = useState(loaderData.batches || [])
   let [errors, setErrors] = useState([])
   let [importErrors, setImportErrors] = useState([])
   const [submitType, setSubmitType] = useState('')
@@ -144,6 +152,9 @@ export default function Batch() {
       setFileName('')
       setErrors([])
       setImportErrors([])
+    }
+    if (data?.batches) {
+      setBatches(data.batches)
     }
     if (data?.errors) {
       // errors needs to be string array
@@ -305,6 +316,14 @@ export default function Batch() {
                   )}
                 </>
               ) : null}
+              {batches.length > 0 ? (
+                <div className="md:mt-4">
+                  <h1 className="hidden md:contents md:text-2xl">My Batches</h1>
+                  {batches.map(batch => (
+                    <BatchItem batch={batch} key={batch?.batch_id} />
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -379,6 +398,97 @@ export default function Batch() {
         </div>
       </div>
     </div>
+  )
+}
+
+function BatchItem({ batch }) {
+  const [deleteModal, setDeleteModal] = useState(false)
+  const transition = useTransition()
+
+  return (
+    <>
+      <div className="w-full md:w-96 rounded-lg overflow-hidden bg-gray-50 dark:bg-purple-800 my-2 md:my-4">
+        <div className="px-6 py-4">
+          <div className="text-lg mb-2">
+            Title: {batch?.title}
+            <br />
+            Batch ID: {batch?.batch_id}
+          </div>
+          <div className="flex flex-row">
+            <Form method="post" className="flex-none">
+              <input
+                type="hidden"
+                name="batch_id"
+                defaultValue={batch?.batch_id}
+              />
+              <button
+                className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
+                type="submit"
+                name="_action"
+                value="modify"
+              >
+                Modify
+              </button>
+            </Form>
+            <div className="flex-none pl-16 md:pl-32">
+              <button
+                className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4"
+                type="button"
+                onClick={() => setDeleteModal(true)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {deleteModal ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-xs md:max-w-md">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white dark:bg-gray-900 text-black dark:text-gray-50 outline-none focus:outline-none">
+                <div className="relative p-6 flex-auto">
+                  <p className="my-4 text-lg leading-relaxed">
+                    Are you sure you want to delete this batch?
+                  </p>
+                </div>
+                <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 dark:border-gray-700 rounded-b">
+                  <Form method="post">
+                    <input
+                      type="hidden"
+                      name="profile_id"
+                      defaultValue={batch?.batch_id}
+                    />
+                    <button
+                      className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
+                      type="submit"
+                      name="_action"
+                      value="delete"
+                    >
+                      {transition.state === 'submitting'
+                        ? 'Processing...'
+                        : transition.state === 'loading'
+                        ? 'Deleted!'
+                        : 'Confirm Delete'}
+                    </button>
+                  </Form>
+                  <div className="flex-none pl-4 md:pl-8">
+                    <button
+                      className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4"
+                      type="button"
+                      onClick={() => setDeleteModal(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+    </>
   )
 }
 

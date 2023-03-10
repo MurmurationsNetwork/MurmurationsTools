@@ -96,7 +96,7 @@ function getUserSession(request) {
   return storage.getSession(request?.headers?.get('Cookie'))
 }
 
-export async function getUserId(userEmail) {
+export async function getUser(userEmail) {
   const emailHash = crypto.createHash('sha256').update(userEmail).digest('hex')
   const client = await mongoConnect()
   try {
@@ -105,7 +105,7 @@ export async function getUserId(userEmail) {
       cuid
     }))(user)
   } catch (err) {
-    throw new Response(`getUserId failed: ${err}`, {
+    throw new Response(`getUser failed: ${err}`, {
       status: 500
     })
   } finally {

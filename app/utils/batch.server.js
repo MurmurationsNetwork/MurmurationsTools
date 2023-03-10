@@ -1,4 +1,17 @@
-import { fetchJsonPostWithFile } from '~/utils/fetcher'
+import { fetchGet, fetchJsonPostWithFile } from '~/utils/fetcher'
+
+export async function getBatches(userId) {
+  const url =
+    process.env.PUBLIC_DATA_PROXY_URL + '/batch/user?user_id=' + userId
+  const response = await fetchGet(url)
+  try {
+    return await response.json()
+  } catch (err) {
+    throw new Response(`getBatches failed: ${err}`, {
+      status: 500
+    })
+  }
+}
 
 export async function validateBatch(file, schemas) {
   const validateUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/validate'
