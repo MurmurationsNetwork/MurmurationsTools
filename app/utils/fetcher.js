@@ -78,3 +78,14 @@ export async function fetchDelete(url) {
     })
   })
 }
+
+export async function fetchDeleteWithBody(url, formData) {
+  return fetch(url, {
+    method: 'DELETE',
+    body: formData
+  }).catch(err => {
+    throw new Response(`fetchDeleteWithBody error: ${err}`, {
+      status: 500
+    })
+  })
+}

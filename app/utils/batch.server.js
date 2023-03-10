@@ -1,4 +1,9 @@
-import { fetchGet, fetchJsonPostWithFile } from '~/utils/fetcher'
+import {
+  fetchDelete,
+  fetchDeleteWithBody,
+  fetchGet,
+  fetchJsonPostWithFile
+} from '~/utils/fetcher'
 
 export async function getBatches(userId) {
   const url =
@@ -38,6 +43,21 @@ export async function importBatch(file, schemas, title, userId) {
     return await fetchJsonPostWithFile(uploadUrl, formData)
   } catch (err) {
     throw new Response(`importBatch failed: ${err}`, {
+      status: 500
+    })
+  }
+}
+
+export async function deleteBatch(batchId, userId) {
+  const deleteUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  let formData = new FormData()
+  formData.append('batch_id', batchId)
+  formData.append('user_id', userId)
+  let response = await fetchDeleteWithBody(deleteUrl, formData)
+  try {
+    return response
+  } catch (err) {
+    throw new Response(`deleteBatch failed: ${err}`, {
       status: 500
     })
   }

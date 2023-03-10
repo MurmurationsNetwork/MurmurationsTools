@@ -20,7 +20,12 @@ import {
 } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
 import { Toaster } from 'react-hot-toast'
-import { getBatches, importBatch, validateBatch } from '~/utils/batch.server'
+import {
+  deleteBatch,
+  getBatches,
+  importBatch,
+  validateBatch
+} from '~/utils/batch.server'
 import { fetchGet } from '~/utils/fetcher'
 
 export async function action({ request }) {
@@ -31,7 +36,7 @@ export async function action({ request }) {
     rawData[key].length === 1 && (rawData[key] = rawData[key][0])
   }
   let { _action, ...data } = rawData
-  let response, schemas, file, title, fileName, userEmail, user
+  let response, schemas, file, title, fileName, userEmail, user, batches, res
   switch (_action) {
     case 'select':
       return await parseRef(data?.schema)
@@ -68,16 +73,32 @@ export async function action({ request }) {
       userEmail = await requireUserEmail(request, '/')
       user = await getUser(userEmail)
       response = await importBatch(file, schemas, title, user?.cuid)
-      const res = await response.json()
+      res = await response.json()
       if (response.status !== 200) {
         return json({
           importErrors: res?.errors
         })
       }
       // get batch ids
-      const batches = await getBatches(user?.cuid)
+      batches = await getBatches(user?.cuid)
       return json({
         batchId: res?.meta?.batch_id,
+        batches: batches?.data
+      })
+    case 'delete':
+      // get user id
+      userEmail = await requireUserEmail(request, '/')
+      user = await getUser(userEmail)
+      const batchId = formData.get('batch_id')
+      response = await deleteBatch(batchId, user?.cuid)
+      if (response.status !== 200) {
+        res = await response.json()
+        return json({
+          importErrors: res?.errors
+        })
+      }
+      batches = await getBatches(user?.cuid)
+      return json({
         batches: batches?.data
       })
   }
@@ -155,6 +176,9 @@ export default function Batch() {
     }
     if (data?.batches) {
       setBatches(data.batches)
+      setFileName('')
+      setErrors([])
+      setImportErrors([])
     }
     if (data?.errors) {
       // errors needs to be string array
@@ -456,7 +480,7 @@ function BatchItem({ batch }) {
                   <Form method="post">
                     <input
                       type="hidden"
-                      name="profile_id"
+                      name="batch_id"
                       defaultValue={batch?.batch_id}
                     />
                     <button
