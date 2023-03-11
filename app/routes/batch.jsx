@@ -83,8 +83,17 @@ export async function action({ request }) {
       })
     case 'edit':
       file = formData.get('file')
+      schemas = formData.get('schemas')
       title = formData.get('title')
       batchId = formData.get('batch_id')
+      // validate batch
+      response = await validateBatch(file, schemas)
+      if (response.status !== 200) {
+        res = await response.json()
+        return json({
+          errors: res?.errors
+        })
+      }
       userEmail = await requireUserEmail(request, '/')
       user = await getUser(userEmail)
       response = await editBatch(file, title, user?.cuid, batchId)
