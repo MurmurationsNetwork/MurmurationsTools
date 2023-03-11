@@ -1,5 +1,4 @@
 import {
-  fetchDelete,
   fetchDeleteWithBody,
   fetchGet,
   fetchJsonPostWithFile,

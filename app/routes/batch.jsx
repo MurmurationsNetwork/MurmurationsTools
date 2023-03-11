@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { json, redirect } from '@remix-run/node'
 import {
   Form,
@@ -22,7 +22,6 @@ import {
   importBatch,
   validateBatch
 } from '~/utils/batch.server'
-import { fetchGet } from '~/utils/fetcher'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -36,7 +35,6 @@ export async function action({ request }) {
     schemas,
     file,
     title,
-    fileName,
     userEmail,
     user,
     batches,
@@ -71,7 +69,6 @@ export async function action({ request }) {
       // get batch ids
       batches = await getBatches(user?.cuid)
       return json({
-        success: true,
         batches: batches?.data
       })
     case 'modify':
@@ -99,7 +96,6 @@ export async function action({ request }) {
       }
       batches = await getBatches(user?.cuid)
       return json({
-        success: true,
         batches: batches?.data
       })
     case 'delete':
@@ -116,7 +112,6 @@ export async function action({ request }) {
       }
       batches = await getBatches(user?.cuid)
       return json({
-        success: true,
         batches: batches?.data
       })
   }
@@ -172,7 +167,6 @@ export default function Batch() {
   let [schema, setSchema] = useState('')
   let [batchTitle, setBatchTitle] = useState('')
   let [batchId, setBatchId] = useState('')
-  let [isSuccess, setIsSuccess] = useState(false)
   let [batches, setBatches] = useState(loaderData.batches || [])
   let [errors, setErrors] = useState([])
   const [submitType, setSubmitType] = useState('')
@@ -194,14 +188,12 @@ export default function Batch() {
     if (data?.batchId) {
       setBatchId(data.batchId)
     }
-    if (data?.success) {
-      setErrors([])
+    if (data?.batches) {
+      setBatches(data.batches)
       setSchema('')
       setBatchTitle('')
       setBatchId('')
-    }
-    if (data?.batches) {
-      setBatches(data.batches)
+      setErrors([])
     }
     if (data?.errors) {
       // errors needs to be string array
