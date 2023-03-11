@@ -2,7 +2,8 @@ import {
   fetchDelete,
   fetchDeleteWithBody,
   fetchGet,
-  fetchJsonPostWithFile
+  fetchJsonPostWithFile,
+  fetchPutWithFile
 } from '~/utils/fetcher'
 
 export async function getBatches(userId) {
@@ -33,14 +34,30 @@ export async function validateBatch(file, schemas) {
 }
 
 export async function importBatch(file, schemas, title, userId) {
-  const uploadUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  const importUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
   let formData = new FormData()
   formData.append('file', file)
   formData.append('schemas', '[' + schemas + ']')
   formData.append('title', title)
   formData.append('user_id', userId)
   try {
-    return await fetchJsonPostWithFile(uploadUrl, formData)
+    return await fetchJsonPostWithFile(importUrl, formData)
+  } catch (err) {
+    throw new Response(`importBatch failed: ${err}`, {
+      status: 500
+    })
+  }
+}
+
+export async function editBatch(file, title, userId, batchId) {
+  const editUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  let formData = new FormData()
+  formData.append('file', file)
+  formData.append('title', title)
+  formData.append('user_id', userId)
+  formData.append('batch_id', batchId)
+  try {
+    return await fetchPutWithFile(editUrl, formData)
   } catch (err) {
     throw new Response(`importBatch failed: ${err}`, {
       status: 500

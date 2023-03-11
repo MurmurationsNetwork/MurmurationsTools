@@ -69,6 +69,17 @@ export async function fetchFilePostWithAuth(url, formData) {
   })
 }
 
+export async function fetchPutWithFile(url, body) {
+  return fetch(url, {
+    method: 'PUT',
+    body: body
+  }).catch(err => {
+    throw new Response(`fetchJsonPostWithFile error: ${err}`, {
+      status: 500
+    })
+  })
+}
+
 export async function fetchDelete(url) {
   return fetch(url, {
     method: 'DELETE'

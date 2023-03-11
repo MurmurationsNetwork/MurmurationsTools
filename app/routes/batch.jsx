@@ -12,16 +12,12 @@ import {
 
 import { userCookie } from '~/utils/cookie'
 import parseRef from '~/utils/parseRef'
-import {
-  getUser,
-  getUserId,
-  requireUserEmail,
-  retrieveUser
-} from '~/utils/session.server'
+import { getUser, requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
 import { Toaster } from 'react-hot-toast'
 import {
   deleteBatch,
+  editBatch,
   getBatches,
   importBatch,
   validateBatch
@@ -36,69 +32,91 @@ export async function action({ request }) {
     rawData[key].length === 1 && (rawData[key] = rawData[key][0])
   }
   let { _action, ...data } = rawData
-  let response, schemas, file, title, fileName, userEmail, user, batches, res
+  let response,
+    schemas,
+    file,
+    title,
+    fileName,
+    userEmail,
+    user,
+    batches,
+    res,
+    batchId,
+    schemasString
   switch (_action) {
     case 'select':
       return await parseRef(data?.schema)
-    case 'validate':
-      schemas = formData.get('schemas')
-      file = formData.get('file')
-      response = await validateBatch(file, schemas)
-      if (response.status !== 200) {
-        const res = await response.json()
-        return json({
-          errors: res?.errors
-        })
-      }
-      return json({
-        schemas: schemas,
-        fileName: file?._name
-      })
-    case 'upload':
+    case 'import':
       schemas = formData.get('schemas')
       file = formData.get('file')
       title = formData.get('title')
-      fileName = formData.get('fileName')
-      if (file?._name !== fileName) {
+      // validate batch
+      response = await validateBatch(file, schemas)
+      if (response.status !== 200) {
+        res = await response.json()
         return json({
-          importErrors: [
-            {
-              title: 'File name does not match',
-              detail: 'Please upload the file you just validated'
-            }
-          ]
+          errors: res?.errors
         })
       }
       // get user id
       userEmail = await requireUserEmail(request, '/')
       user = await getUser(userEmail)
       response = await importBatch(file, schemas, title, user?.cuid)
-      res = await response.json()
       if (response.status !== 200) {
+        res = await response.json()
         return json({
-          importErrors: res?.errors
+          errors: res?.errors
         })
       }
       // get batch ids
       batches = await getBatches(user?.cuid)
       return json({
-        batchId: res?.meta?.batch_id,
+        success: true,
+        batches: batches?.data
+      })
+    case 'modify':
+      title = formData.get('title')
+      batchId = formData.get('batch_id')
+      schemasString = formData.get('schemas')
+      schemas = schemasString.split(',')
+      return json({
+        schemas: schemas,
+        batchTitle: title,
+        batchId: batchId
+      })
+    case 'edit':
+      file = formData.get('file')
+      title = formData.get('title')
+      batchId = formData.get('batch_id')
+      userEmail = await requireUserEmail(request, '/')
+      user = await getUser(userEmail)
+      response = await editBatch(file, title, user?.cuid, batchId)
+      if (response.status !== 200) {
+        res = await response.json()
+        return json({
+          errors: res?.errors
+        })
+      }
+      batches = await getBatches(user?.cuid)
+      return json({
+        success: true,
         batches: batches?.data
       })
     case 'delete':
       // get user id
       userEmail = await requireUserEmail(request, '/')
       user = await getUser(userEmail)
-      const batchId = formData.get('batch_id')
+      batchId = formData.get('batch_id')
       response = await deleteBatch(batchId, user?.cuid)
       if (response.status !== 200) {
         res = await response.json()
         return json({
-          importErrors: res?.errors
+          errors: res?.errors
         })
       }
       batches = await getBatches(user?.cuid)
       return json({
+        success: true,
         batches: batches?.data
       })
   }
@@ -152,33 +170,38 @@ export default function Batch() {
 
   let data = useActionData()
   let [schema, setSchema] = useState('')
-  let [fileName, setFileName] = useState('')
+  let [batchTitle, setBatchTitle] = useState('')
   let [batchId, setBatchId] = useState('')
+  let [isSuccess, setIsSuccess] = useState(false)
   let [batches, setBatches] = useState(loaderData.batches || [])
   let [errors, setErrors] = useState([])
-  let [importErrors, setImportErrors] = useState([])
   const [submitType, setSubmitType] = useState('')
 
   useEffect(() => {
     if (data?.$schema) {
-      setSchema(data)
+      setSchema(data?.metadata?.schema)
+      setBatchTitle('')
+      setBatchId('')
     }
-    if (data?.fileName) {
-      setFileName(data.fileName)
-      setErrors([])
-      setImportErrors([])
+    if (data?.schemas) {
+      setSchema(data.schemas)
+      setBatchTitle('')
+      setBatchId('')
+    }
+    if (data?.batchTitle) {
+      setBatchTitle(data.batchTitle)
     }
     if (data?.batchId) {
       setBatchId(data.batchId)
-      setFileName('')
+    }
+    if (data?.success) {
       setErrors([])
-      setImportErrors([])
+      setSchema('')
+      setBatchTitle('')
+      setBatchId('')
     }
     if (data?.batches) {
       setBatches(data.batches)
-      setFileName('')
-      setErrors([])
-      setImportErrors([])
     }
     if (data?.errors) {
       // errors needs to be string array
@@ -189,16 +212,6 @@ export default function Batch() {
         errs.push(str)
       }
       setErrors(errs)
-      setFileName('')
-    }
-    if (data?.importErrors) {
-      let importErrs = []
-      for (let key in data.importErrors) {
-        let obj = data.importErrors[key]
-        let str = 'Title: ' + obj?.title + ',Detail: ' + obj?.detail
-        importErrs.push(str)
-      }
-      setImportErrors(importErrs)
     }
   }, [data])
 
@@ -267,78 +280,6 @@ export default function Batch() {
                     ))}
                   </ul>
                 </div>
-              ) : fileName ? (
-                <>
-                  <p className="md:text-xl mb-2 md:mb-4">
-                    Your csv file has been validated successfully. Name your
-                    batch and click "Import to Data Proxy" to import your batch
-                    to Data Proxy.
-                  </p>
-                  {importErrors[0] ? (
-                    <div className="mb-4 p-2">
-                      <p className="text-xl text-red-500 dark:text-red-400">
-                        There were errors in your submission:
-                      </p>
-                      <ul className="list-disc px-4">
-                        {importErrors.map(error => (
-                          <li
-                            className="text-lg text-red-500 dark:text-red-400"
-                            key={error}
-                          >
-                            {error}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
-                  {user && (
-                    <Form method="post" encType="multipart/form-data">
-                      <input
-                        type="hidden"
-                        name="schemas"
-                        defaultValue={schema?.metadata?.schema}
-                      />
-                      <input type="hidden" name="fileName" value={fileName} />
-                      <label>
-                        <div className="font-bold mt-4">
-                          Batch Title
-                          <span className="text-red-500 dark:text-red-400">
-                            *
-                          </span>
-                          :
-                        </div>
-                        <input
-                          className="form-input w-full dark:bg-gray-700 mt-2"
-                          type="text"
-                          name="title"
-                          required="required"
-                          placeholder="Enter a memorable title"
-                        />
-                      </label>
-                      <div className="mt-8">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">
-                          Upload your batch profile here
-                        </label>
-                        <input type="file" name="file" required="required" />
-                      </div>
-                      <button
-                        className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
-                        type="submit"
-                        name="_action"
-                        value="upload"
-                        onClick={() => setSubmitType('upload')}
-                      >
-                        {transition.state === 'submitting' &&
-                        submitType === 'upload'
-                          ? 'Saving...'
-                          : transition.state === 'loading' &&
-                            submitType === 'upload'
-                          ? 'Uploaded!'
-                          : 'Import to Data Proxy'}
-                      </button>
-                    </Form>
-                  )}
-                </>
               ) : null}
               {batches.length > 0 ? (
                 <div className="md:mt-4">
@@ -386,37 +327,67 @@ export default function Batch() {
               <h3 className="mt-8">
                 Schemas selected:{' '}
                 <ol>
-                  {schema.metadata.schema.map((schemaName, index) => (
+                  {schema.map((schemaName, index) => (
                     <li key={index}>
                       <code>{schemaName}</code>
                     </li>
                   ))}
                 </ol>
               </h3>
-              <input
-                type="hidden"
-                name="schemas"
-                defaultValue={schema?.metadata?.schema}
-              />
+              <input type="hidden" name="schemas" defaultValue={schema} />
+              {batchId ? (
+                <input type="hidden" name="batch_id" defaultValue={batchId} />
+              ) : null}
+              <label>
+                <div className="font-bold mt-4">
+                  Batch Title
+                  <span className="text-red-500 dark:text-red-400">*</span>:
+                </div>
+                <input
+                  className="form-input w-full dark:bg-gray-700 mt-2"
+                  type="text"
+                  name="title"
+                  defaultValue={batchTitle}
+                  key={batchTitle}
+                  required="required"
+                  placeholder="Enter a memorable title"
+                />
+              </label>
               <div className="mt-8">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Upload your batch profile here
                 </label>
                 <input type="file" name="file" required="required" />
               </div>
-              <button
-                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
-                type="submit"
-                name="_action"
-                value="validate"
-                onClick={() => setSubmitType('validate')}
-              >
-                {transition.state === 'submitting' && submitType === 'validate'
-                  ? 'Processing...'
-                  : transition.state === 'loading' && submitType === 'validate'
-                  ? 'Done!'
-                  : 'Validate'}
-              </button>
+              {batchTitle ? (
+                <button
+                  className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                  type="submit"
+                  name="_action"
+                  value="edit"
+                  onClick={() => setSubmitType('edit')}
+                >
+                  {transition.state === 'submitting' && submitType === 'edit'
+                    ? 'Processing...'
+                    : transition.state === 'loading' && submitType === 'edit'
+                    ? 'Done!'
+                    : 'Edit'}
+                </button>
+              ) : (
+                <button
+                  className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                  type="submit"
+                  name="_action"
+                  value="import"
+                  onClick={() => setSubmitType('import')}
+                >
+                  {transition.state === 'submitting' && submitType === 'import'
+                    ? 'Processing...'
+                    : transition.state === 'loading' && submitType === 'import'
+                    ? 'Done!'
+                    : 'Import'}
+                </button>
+              )}
             </Form>
           ) : null}
         </div>
@@ -437,13 +408,21 @@ function BatchItem({ batch }) {
             Title: {batch?.title}
             <br />
             Batch ID: {batch?.batch_id}
+            <br />
+            Schemas: {batch?.schemas?.toString()}
           </div>
           <div className="flex flex-row">
             <Form method="post" className="flex-none">
+              <input type="hidden" name="title" defaultValue={batch?.title} />
               <input
                 type="hidden"
                 name="batch_id"
                 defaultValue={batch?.batch_id}
+              />
+              <input
+                type="hidden"
+                name="schemas"
+                defaultValue={batch?.schemas}
               />
               <button
                 className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
