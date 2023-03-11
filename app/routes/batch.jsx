@@ -14,7 +14,7 @@ import { userCookie } from '~/utils/cookie'
 import parseRef from '~/utils/parseRef'
 import { getUser, requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
-import { Toaster } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 import {
   deleteBatch,
   editBatch,
@@ -57,7 +57,7 @@ export async function action({ request }) {
         })
       }
       // get user id
-      userEmail = await requireUserEmail(request, '/')
+      userEmail = await requireUserEmail(request, '/batch')
       user = await getUser(userEmail)
       response = await importBatch(file, schemas, title, user?.cuid)
       if (response.status !== 200) {
@@ -94,7 +94,7 @@ export async function action({ request }) {
           errors: res?.errors
         })
       }
-      userEmail = await requireUserEmail(request, '/')
+      userEmail = await requireUserEmail(request, '/batch')
       user = await getUser(userEmail)
       response = await editBatch(file, title, user?.cuid, batchId)
       if (response.status !== 200) {
@@ -109,7 +109,7 @@ export async function action({ request }) {
       })
     case 'delete':
       // get user id
-      userEmail = await requireUserEmail(request, '/')
+      userEmail = await requireUserEmail(request, '/batch')
       user = await getUser(userEmail)
       batchId = formData.get('batch_id')
       response = await deleteBatch(batchId, user?.cuid)
@@ -135,10 +135,7 @@ export async function loader(request) {
     : -1
   let userWithProfile
   // If user is not login or logout, return empty user
-  if (
-    loginSession === -1 ||
-    cookieHeader.substring(loginSession, 22) === 'murmurations_session=;'
-  ) {
+  if (loginSession === -1 || cookieHeader.includes('murmurations_session=;')) {
     return json({
       schemas: schemas,
       user: userWithProfile
@@ -146,7 +143,7 @@ export async function loader(request) {
   }
   const user = await retrieveUser(request)
   if (!cookie || cookie === '{}' || user?.email_hash !== cookie?.email_hash) {
-    return redirect('/', {
+    return redirect('/batch', {
       headers: {
         'Set-Cookie': await userCookie.serialize(user)
       }
@@ -203,6 +200,7 @@ export default function Batch() {
       setBatchTitle('')
       setBatchId('')
       setErrors([])
+      toast.success('Batch imported successfully')
     }
     if (data?.errors) {
       // errors needs to be string array
@@ -213,6 +211,7 @@ export default function Batch() {
         errs.push(str)
       }
       setErrors(errs)
+      toast.error('Batch import failed')
     }
   }, [data])
 

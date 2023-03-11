@@ -172,6 +172,8 @@ export async function checkUser(email) {
 
 export async function logout(request) {
   const session = await getUserSession(request)
+  console.log(session)
+  session.unset('murmurations_user')
   return redirect('/', {
     headers: {
       'Set-Cookie': await storage.destroySession(session)
@@ -182,6 +184,7 @@ export async function logout(request) {
 export async function createUserSession(userEmail, redirectTo) {
   const session = await storage.getSession()
   session.set('userEmail', userEmail)
+  console.log(redirectTo)
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await storage.commitSession(session)
