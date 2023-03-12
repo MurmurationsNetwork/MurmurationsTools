@@ -371,7 +371,7 @@ export default function Batch() {
                     ? 'Processing...'
                     : transition.state === 'loading' && submitType === 'edit'
                     ? 'Done!'
-                    : 'Edit'}
+                    : 'Modify'}
                 </button>
               ) : (
                 <button
