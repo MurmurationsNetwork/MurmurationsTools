@@ -29,7 +29,7 @@ function validatePassword(password) {
 }
 
 function validateUrl(url) {
-  let urls = ['/login', '/profile-generator', '/batch']
+  let urls = ['/login', '/profile-generator', '/batch-importer']
   if (urls.includes(url)) {
     return url
   }

@@ -57,10 +57,10 @@ export default function App() {
                 </div>
               </Link>
               <div className="pl-8 md:pl-16">
-                <Link to="/batch">
-                  <div className="text-md md:hidden">Profiles</div>
+                <Link to="/batch-importer">
+                  <div className="text-md md:hidden">Importer</div>
                   <div className="hidden md:contents md:text-xl">
-                    Batch Import
+                    Batch Importer
                   </div>
                 </Link>
               </div>

@@ -200,7 +200,7 @@ export default function Batch() {
       setBatchTitle('')
       setBatchId('')
       setErrors([])
-      toast.success('Batch imported successfully')
+      toast.success('Batch processed successfully')
     }
     if (data?.errors) {
       // errors needs to be string array
@@ -220,7 +220,7 @@ export default function Batch() {
       <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-12 md:h-20 mb-2 md:mb-4">
         <h1 className="text-xl md:hidden">Batch Import</h1>
         <h1 className="hidden md:contents md:text-3xl">
-          Murmurations Batch Import
+          Batch Importer
         </h1>
         {user ? (
           <div>
@@ -250,10 +250,10 @@ export default function Batch() {
             {user || schema ? null : (
               <div>
                 <p>
-                  Login first if you want to upload your batch profile here.
+                  Login first to upload a batch of profiles.
                 </p>
                 <p className="mt-2 md:mt-4">
-                  Only support cvs with comma separator now.
+                  Only CSV files with comma separators are supported.
                 </p>
               </div>
             )}
