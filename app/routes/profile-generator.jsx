@@ -289,7 +289,15 @@ export default function Index() {
               <div>
                 <p>Login first if you want to save your profile here.</p>
                 <p className="mt-2 md:mt-4">
-                  Or just create a profile by selecting a schema from the list.
+                  Or just create a profile by selecting a schema from the list.{' '}
+                  <a
+                    className="text-red-500 dark:text-purple-200"
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://docs.murmurations.network/guides/create-a-profile.html#_1-hosted-by-our-profile-generator"
+                  >
+                    See our documentation for details
+                  </a>
                 </p>
               </div>
             )}
