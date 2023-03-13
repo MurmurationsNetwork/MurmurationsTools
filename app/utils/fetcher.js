@@ -39,6 +39,17 @@ export async function fetchJsonPost(url, body) {
   })
 }
 
+export async function fetchJsonPostWithFile(url, body) {
+  return fetch(url, {
+    method: 'POST',
+    body: body
+  }).catch(err => {
+    throw new Response(`fetchJsonPostWithFile error: ${err}`, {
+      status: 500
+    })
+  })
+}
+
 export async function fetchFilePostWithAuth(url, formData) {
   const username = process.env.PRIVATE_IPFS_USERNAME
   const password = process.env.PRIVATE_IPFS_PASSWORD
@@ -58,11 +69,33 @@ export async function fetchFilePostWithAuth(url, formData) {
   })
 }
 
+export async function fetchPutWithFile(url, body) {
+  return fetch(url, {
+    method: 'PUT',
+    body: body
+  }).catch(err => {
+    throw new Response(`fetchJsonPostWithFile error: ${err}`, {
+      status: 500
+    })
+  })
+}
+
 export async function fetchDelete(url) {
   return fetch(url, {
     method: 'DELETE'
   }).catch(err => {
     throw new Response(`fetchDelete error: ${err}`, {
+      status: 500
+    })
+  })
+}
+
+export async function fetchDeleteWithBody(url, formData) {
+  return fetch(url, {
+    method: 'DELETE',
+    body: formData
+  }).catch(err => {
+    throw new Response(`fetchDeleteWithBody error: ${err}`, {
       status: 500
     })
   })

@@ -45,10 +45,10 @@ export default function App() {
         )}
         <div className="container max-w-full mx-auto p-0">
           <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-8 md:h-12 mb-0">
-          <div className="text-md md:hidden">Tools</div>
-                  <div className="hidden md:contents md:text-xl">
-                    Murmurations Tools
-                  </div>
+            <div className="text-md md:hidden">Tools</div>
+            <div className="hidden md:contents md:text-xl">
+              Murmurations Tools
+            </div>
             <div className="flex flex-row justify-end items-center">
               <Link to="/profile-generator">
                 <div className="text-md md:hidden">Generator</div>
@@ -56,6 +56,14 @@ export default function App() {
                   Profile Generator
                 </div>
               </Link>
+              <div className="pl-8 md:pl-16">
+                <Link to="/batch-importer">
+                  <div className="text-md md:hidden">Importer</div>
+                  <div className="hidden md:contents md:text-xl">
+                    Batch Importer
+                  </div>
+                </Link>
+              </div>
               <div className="pl-8 md:pl-16">
                 <Link to="/index-explorer">
                   <div className="text-md md:hidden">Explorer</div>

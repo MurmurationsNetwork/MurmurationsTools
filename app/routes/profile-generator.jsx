@@ -165,10 +165,7 @@ export async function loader(request) {
   const profilePostUrl = process.env.PUBLIC_PROFILE_POST_URL
   let userWithProfile
   // If user is not login or logout, return empty user
-  if (
-    loginSession === -1 ||
-    cookieHeader.substring(loginSession, 22) === 'murmurations_session=;'
-  ) {
+  if (loginSession === -1 || cookieHeader.includes('murmurations_session=;')) {
     return json({
       schema: schema,
       user: userWithProfile,
