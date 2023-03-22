@@ -11,8 +11,8 @@ describe('generateInstance tests', () => {
     let formData = {
       linked_schemas: 'test_schema',
       name: 'The Dude',
-      'geolocation-lat': '34.05',
-      'geolocation-lon': '-118.24'
+      'geolocation.lat': '34.05',
+      'geolocation.lon': '-118.24'
     }
     let expected = {
       linked_schemas: ['test_schema'],
@@ -27,10 +27,10 @@ describe('generateInstance tests', () => {
     let formData = {
       linked_schemas: 'test_schema',
       name: 'Popular Languages',
-      'urls-0-name': 'JavaScript',
-      'urls-0-url': 'https://javascript.com',
-      'urls-1-name': 'Golang',
-      'urls-1-url': 'https://go.dev',
+      'urls[0].name': 'JavaScript',
+      'urls[0].url': 'https://javascript.com',
+      'urls[1].name': 'Golang',
+      'urls[1].url': 'https://go.dev',
       country: 'AF'
     }
     let expected = {
@@ -49,11 +49,11 @@ describe('generateInstance tests', () => {
   it('Should handle multiple nested objects', () => {
     let formData = {
       linked_schemas: 'test_schema',
-      'person-name': 'The Dude',
-      'person-address-street': '609 Venezia Avenue',
-      'person-address-location-locality': 'Venice',
-      'person-address-location-region': 'California',
-      'person-address-location-country': 'USA'
+      'person.name': 'The Dude',
+      'person.address.street': '609 Venezia Avenue',
+      'person.address.location.locality': 'Venice',
+      'person.address.location.region': 'California',
+      'person.address.location.country': 'USA'
     }
     let expected = {
       linked_schemas: ['test_schema'],
@@ -91,8 +91,8 @@ describe('generateInstance tests', () => {
   it('Should handle single and multiple input enumerated input lists embedded in an object', () => {
     let formData = {
       linked_schemas: 'test_schema',
-      'wrapping_object-single_choice': 'zero',
-      'wrapping_object-multi_choice': ['zero', 'one']
+      'wrapping_object.single_choice': 'zero',
+      'wrapping_object.multi_choice': ['zero', 'one']
     }
     let expected = {
       linked_schemas: ['test_schema'],

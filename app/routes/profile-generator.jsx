@@ -461,7 +461,7 @@ export default function Index() {
                 name="profile_ipfs_hash"
                 defaultValue={data?.profileIpfsHash}
               />
-              {generateForm(schema, profileData)}
+              {generateForm(schema)}
               <button
                 className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
                 type="submit"
