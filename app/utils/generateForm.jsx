@@ -47,6 +47,27 @@ export default function generateForm(schema, parentFieldName) {
                   </fieldset>
                 </div>
               )
+            } else if (schema?.properties[objectTitle]?.type === 'array') {
+              return (
+                <div key={objectTitle}>
+                  <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
+                    <legend className="block text-md font-bold">
+                      {schema?.properties[objectTitle]?.title}
+                      {schemaRequired?.includes(objectTitle) ? (
+                        <span className="text-red-500 dark:text-red-400">
+                          *
+                        </span>
+                      ) : (
+                        <></>
+                      )}
+                    </legend>
+                    {generateForm(
+                      schema?.properties[objectTitle],
+                      currentField
+                    )}
+                  </fieldset>
+                </div>
+              )
             } else {
               return (
                 <div key={objectTitle}>
@@ -68,20 +89,16 @@ export default function generateForm(schema, parentFieldName) {
         <></>
       )}
       {schemaType === 'array' ? (
-        <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
-          <legend className="block text-md font-bold">{parentFieldName}</legend>
+        <div>
           <div className="text-xs">{schema?.description}</div>
           {schema?.items?.type === 'string' ? (
             <ArrayField fieldName={parentFieldName} fieldType="text" />
-          ) : (
-            <></>
-          )}
-          {schema?.items?.type === 'number' ? (
+          ) : schema?.items?.type === 'number' ? (
             <ArrayField fieldName={parentFieldName} fieldType="number" />
           ) : (
             <></>
           )}
-        </fieldset>
+        </div>
       ) : (
         <></>
       )}
