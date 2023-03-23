@@ -1,7 +1,12 @@
 import { useState } from 'react'
 
-export default function ArrayField({ fieldName, fieldType, isFieldRequired }) {
-  const [inputValues, setInputValues] = useState([''])
+export default function ArrayField({
+  fieldName,
+  fieldType,
+  isFieldRequired,
+  profileData
+}) {
+  const [inputValues, setInputValues] = useState(profileData || [''])
 
   function handleChange(event, index) {
     const values = [...inputValues]
@@ -28,7 +33,7 @@ export default function ArrayField({ fieldName, fieldType, isFieldRequired }) {
         <div key={index} className="flex justify-around items-center">
           <input
             type={fieldType}
-            value={value}
+            defaultValue={value}
             name={fieldName + '[' + index + ']'}
             aria-label={fieldName + '[' + index + ']'}
             onChange={event => handleChange(event, index)}

@@ -4,13 +4,14 @@ import ArrayField from '../components/ArrayField'
 export default function ArrayObjectField({
   fieldName,
   properties,
-  requiredProperties
+  requiredProperties,
+  profileData
 }) {
   // init empty object with properties
   let objectFields = {}
   if (properties) {
     for (let property in properties) {
-      objectFields[property] = ''
+      objectFields[property] = profileData?.[property] || ''
     }
   }
 
@@ -86,6 +87,7 @@ export default function ArrayObjectField({
                         name={fieldName + '[' + index + '].' + prop}
                         multiple={properties[prop]?.multi}
                         required={!!requiredProperties?.includes(prop)}
+                        defaultValue={props[prop]}
                       >
                         {properties[prop]?.multi ? null : (
                           <option value="" key="0"></option>
@@ -117,7 +119,7 @@ export default function ArrayObjectField({
                       type={
                         properties[prop]?.type === 'string' ? 'text' : 'number'
                       }
-                      value={props[prop]}
+                      defaultValue={props[prop]}
                       name={fieldName + '[' + index + '].' + prop}
                       aria-label={fieldName + '[' + index + '].' + prop}
                       id={fieldName + '[' + index + '].' + prop}

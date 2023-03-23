@@ -2,7 +2,12 @@ import React from 'react'
 import ArrayField from '../components/ArrayField'
 import ArrayObjectField from '../components/ArrayObjectField'
 
-export default function generateForm(schema, parentFieldName, isFieldRequired) {
+export default function generateForm(
+  schema,
+  profileData,
+  parentFieldName,
+  isFieldRequired
+) {
   let schemaType = schema?.type
   let schemaRequired = schema?.required
 
@@ -43,6 +48,7 @@ export default function generateForm(schema, parentFieldName, isFieldRequired) {
                     </div>
                     {generateForm(
                       schema?.properties[objectTitle],
+                      profileData?.[objectTitle],
                       currentField,
                       !!schemaRequired?.includes(objectTitle)
                     )}
@@ -65,6 +71,7 @@ export default function generateForm(schema, parentFieldName, isFieldRequired) {
                     </legend>
                     {generateForm(
                       schema?.properties[objectTitle],
+                      profileData?.[objectTitle],
                       currentField,
                       !!schemaRequired?.includes(objectTitle)
                     )}
@@ -84,6 +91,7 @@ export default function generateForm(schema, parentFieldName, isFieldRequired) {
                   </legend>
                   {generateForm(
                     schema?.properties[objectTitle],
+                    profileData?.[objectTitle],
                     currentField,
                     !!schemaRequired?.includes(objectTitle)
                   )}
@@ -103,18 +111,21 @@ export default function generateForm(schema, parentFieldName, isFieldRequired) {
               fieldName={parentFieldName}
               fieldType="text"
               isFieldRequired={isFieldRequired}
+              profileData={profileData}
             />
           ) : schema?.items?.type === 'number' ? (
             <ArrayField
               fieldName={parentFieldName}
               fieldType="number"
               isFieldRequired={isFieldRequired}
+              profileData={profileData}
             />
           ) : schema?.items?.type === 'object' ? (
             <ArrayObjectField
               fieldName={parentFieldName}
               properties={schema?.items?.properties}
               requiredProperties={schema?.items?.required}
+              profileData={profileData}
             />
           ) : (
             <></>
@@ -133,6 +144,8 @@ export default function generateForm(schema, parentFieldName, isFieldRequired) {
                   aria-label={parentFieldName}
                   name={parentFieldName}
                   multiple={schema?.multi}
+                  required={isFieldRequired}
+                  defaultValue={profileData}
                 >
                   {schema?.multi ? null : <option value="" key="0"></option>}
                   {schema?.enum?.map((item, index) => (
@@ -152,6 +165,7 @@ export default function generateForm(schema, parentFieldName, isFieldRequired) {
                 <input
                   className="form-input w-full dark:bg-gray-700 mt-2"
                   type={schemaType === 'string' ? 'text' : 'number'}
+                  defaultValue={profileData}
                   name={parentFieldName}
                   aria-label={parentFieldName}
                   min={schema?.minimum}
