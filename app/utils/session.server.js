@@ -96,6 +96,23 @@ function getUserSession(request) {
   return storage.getSession(request?.headers?.get('Cookie'))
 }
 
+export async function getUser(userEmail) {
+  const emailHash = crypto.createHash('sha256').update(userEmail).digest('hex')
+  const client = await mongoConnect()
+  try {
+    const user = await mongoGetUser(client, emailHash)
+    return (({ cuid }) => ({
+      cuid
+    }))(user)
+  } catch (err) {
+    throw new Response(`getUser failed: ${err}`, {
+      status: 500
+    })
+  } finally {
+    await mongoDisconnect(client)
+  }
+}
+
 export async function getUserEmail(request) {
   const session = await getUserSession(request?.request)
   const userEmail = session.get('userEmail')
@@ -155,6 +172,7 @@ export async function checkUser(email) {
 
 export async function logout(request) {
   const session = await getUserSession(request)
+  session.unset('murmurations_user')
   return redirect('/', {
     headers: {
       'Set-Cookie': await storage.destroySession(session)
@@ -165,6 +183,7 @@ export async function logout(request) {
 export async function createUserSession(userEmail, redirectTo) {
   const session = await storage.getSession()
   session.set('userEmail', userEmail)
+  console.log('redirectTo ----> ', redirectTo)
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await storage.commitSession(session)

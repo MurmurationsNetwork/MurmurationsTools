@@ -202,14 +202,14 @@ export default function GetNodes() {
         <div className="sm:flex sm:items-center mb-4">
           <div className="sm:flex-auto text-gray-900 dark:text-gray-50">
             <p>
-              For a description of the input fields below, please see the{' '}
+              For a description of the input fields below, please{' '}
               <a
                 className="text-red-500 dark:text-purple-200"
                 target="_blank"
                 rel="noreferrer"
-                href="https://app.swaggerhub.com/apis-docs/MurmurationsNetwork/IndexAPI/2.0.0#/Aggregator%20Endpoints/get_nodes"
+                href="https://docs.murmurations.network/guides/view-the-data.html#search-the-index"
               >
-                GET /nodes endpoint in our API specification
+                see our documentation
               </a>
               .
             </p>
@@ -369,12 +369,10 @@ export default function GetNodes() {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto text-gray-900 dark:text-gray-50">
             <p className="text-sm">
-              Pick a schema and enter one or more tags to search for.
-            </p>
-            <p className="text-sm">
-              Select <em>all tags</em> so only results with all of the tags
-              entered are shown. Select <em>exact matches only</em> so that
-              spelling variations are not shown.
+              When searching for tags, select <em>all tags</em> so only nodes
+              with all of the tags entered are shown. Select{' '}
+              <em>exact matches only</em> so that spelling variations are not
+              shown.
             </p>
           </div>
         </div>

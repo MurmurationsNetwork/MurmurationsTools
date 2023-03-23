@@ -37,6 +37,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
+      <script
+        data-goatcounter="https://tools-murm.goatcounter.com/count"
+        async
+        src="//gc.zgo.at/count.js"
+      ></script>
       <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal text-md md:text-xl">
         {production ? null : (
           <div className="flex flex-row bg-fuchsia-200 dark:bg-fuchsia-700 py-1 px-2 md:py-2 md:px-4 justify-center">
@@ -45,32 +50,53 @@ export default function App() {
         )}
         <div className="container max-w-full mx-auto p-0">
           <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-8 md:h-12 mb-0">
-            <div className="text-md md:hidden">Tools</div>
             <div className="hidden md:contents md:text-xl">
               Murmurations Tools
             </div>
             <div className="flex flex-row justify-end items-center">
               <Link to="/profile-generator">
-                <div className="text-md md:hidden">Generator</div>
+                <div className="text-md md:hidden">Profiles</div>
                 <div className="hidden md:contents md:text-xl">
                   Profile Generator
                 </div>
               </Link>
-              <div className="pl-8 md:pl-16">
+              <div className="pl-6 md:pl-16">
+                <Link to="/batch-importer">
+                  <div className="text-md md:hidden">Batch</div>
+                  <div className="hidden md:contents md:text-xl">
+                    Batch Importer
+                  </div>
+                </Link>
+              </div>
+              <div className="pl-6 md:pl-16">
                 <Link to="/index-explorer">
-                  <div className="text-md md:hidden">Explorer</div>
+                  <div className="text-md md:hidden">Explore</div>
                   <div className="hidden md:contents md:text-xl">
                     Index Explorer
                   </div>
                 </Link>
               </div>
-              <div className="pl-8 md:pl-16">
+              <div className="pl-6 md:pl-16">
                 <Link to="/index-updater">
-                  <div className="text-md md:hidden">Updater</div>
+                  <div className="text-md md:hidden">Update</div>
                   <div className="hidden md:contents md:text-xl">
                     Index Updater
                   </div>
                 </Link>
+              </div>
+              <div className="pl-6 md:pl-16">
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={
+                    production
+                      ? 'https://map.murmurations.network'
+                      : 'https://test-map.murmurations.network'
+                  }
+                >
+                  <div className="text-md md:hidden">Map</div>
+                  <div className="hidden md:contents md:text-xl">Map</div>
+                </a>
               </div>
             </div>
           </div>
