@@ -62,7 +62,7 @@ export default function ArrayObjectField({
                   <div className="text-xs">{properties[prop]?.description}</div>
                   <ArrayField
                     fieldName={fieldName + '[' + index + '].' + prop}
-                    fieldType="text"
+                    fieldType={properties[prop]?.type}
                   />
                 </fieldset>
               ) : properties[prop]?.enum ? (
@@ -110,7 +110,9 @@ export default function ArrayObjectField({
                   </legend>
                   <div className="flex justify-around items-center">
                     <input
-                      type="text"
+                      type={
+                        properties[prop]?.type === 'string' ? 'text' : 'number'
+                      }
                       value={props[prop]}
                       name={fieldName + '[' + index + '].' + prop}
                       aria-label={fieldName + '[' + index + '].' + prop}
