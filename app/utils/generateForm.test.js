@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { screen, render } from '@testing-library/react'
 
 import generateForm from './generateForm'
-import { test_schema_1 } from './test_schemas'
+import { test_schema_1, test_schema_2 } from './test_schemas'
 
 /**
  * @vitest-environment jsdom
@@ -35,19 +35,17 @@ describe('render form tests', () => {
     ).toBeInTheDocument()
   })
 
-  // it('Should render input fields from object and Add button for array', () => {
-  //   const renderer = render(generateForm(test_schema_2))
-  //
-  //   console.log(prettyDOM(renderer.container.firstChild))
-  //
-  //   expect(
-  //     screen.getByRole('textbox', { name: /urls[0].name/i, type: /string/i })
-  //   ).toBeInTheDocument()
-  //   expect(
-  //     screen.getByRole('textbox', { name: /urls[0].url/i, type: /string/i })
-  //   ).toBeInTheDocument()
-  //   expect(
-  //     screen.getByRole('button', { name: /add/i, type: /button/i })
-  //   ).toBeInTheDocument()
-  // })
+  it('Should render input fields from object and Add button for array', () => {
+    render(generateForm(test_schema_2))
+
+    expect(
+      screen.getByRole('textbox', { name: /urls\[0].name/i, type: /string/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('textbox', { name: /urls\[0].url/i, type: /string/i })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /add/i, type: /button/i })
+    ).toBeInTheDocument()
+  })
 })

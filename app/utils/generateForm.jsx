@@ -1,5 +1,6 @@
 import React from 'react'
 import ArrayField from '../components/ArrayField'
+import ArrayObjectField from '../components/ArrayObjectField'
 
 export default function generateForm(schema, parentFieldName) {
   let schemaType = schema?.type
@@ -95,6 +96,12 @@ export default function generateForm(schema, parentFieldName) {
             <ArrayField fieldName={parentFieldName} fieldType="text" />
           ) : schema?.items?.type === 'number' ? (
             <ArrayField fieldName={parentFieldName} fieldType="number" />
+          ) : schema?.items?.type === 'object' ? (
+            <ArrayObjectField
+              fieldName={parentFieldName}
+              properties={schema?.items?.properties}
+              requiredProperties={schema?.items?.required}
+            />
           ) : (
             <></>
           )}
