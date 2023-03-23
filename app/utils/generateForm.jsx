@@ -2,7 +2,7 @@ import React from 'react'
 import ArrayField from '../components/ArrayField'
 import ArrayObjectField from '../components/ArrayObjectField'
 
-export default function generateForm(schema, parentFieldName) {
+export default function generateForm(schema, parentFieldName, isFieldRequired) {
   let schemaType = schema?.type
   let schemaRequired = schema?.required
 
@@ -43,7 +43,8 @@ export default function generateForm(schema, parentFieldName) {
                     </div>
                     {generateForm(
                       schema?.properties[objectTitle],
-                      currentField
+                      currentField,
+                      !!schemaRequired?.includes(objectTitle)
                     )}
                   </fieldset>
                 </div>
@@ -64,7 +65,8 @@ export default function generateForm(schema, parentFieldName) {
                     </legend>
                     {generateForm(
                       schema?.properties[objectTitle],
-                      currentField
+                      currentField,
+                      !!schemaRequired?.includes(objectTitle)
                     )}
                   </fieldset>
                 </div>
@@ -80,7 +82,11 @@ export default function generateForm(schema, parentFieldName) {
                       <></>
                     )}
                   </legend>
-                  {generateForm(schema?.properties[objectTitle], currentField)}
+                  {generateForm(
+                    schema?.properties[objectTitle],
+                    currentField,
+                    !!schemaRequired?.includes(objectTitle)
+                  )}
                 </div>
               )
             }
@@ -93,9 +99,17 @@ export default function generateForm(schema, parentFieldName) {
         <div>
           <div className="text-xs">{schema?.description}</div>
           {schema?.items?.type === 'string' ? (
-            <ArrayField fieldName={parentFieldName} fieldType="text" />
+            <ArrayField
+              fieldName={parentFieldName}
+              fieldType="text"
+              isFieldRequired={isFieldRequired}
+            />
           ) : schema?.items?.type === 'number' ? (
-            <ArrayField fieldName={parentFieldName} fieldType="number" />
+            <ArrayField
+              fieldName={parentFieldName}
+              fieldType="number"
+              isFieldRequired={isFieldRequired}
+            />
           ) : schema?.items?.type === 'object' ? (
             <ArrayObjectField
               fieldName={parentFieldName}
@@ -145,6 +159,7 @@ export default function generateForm(schema, parentFieldName) {
                   minLength={schema?.minLength}
                   maxLength={schema?.maxLength}
                   pattern={schema?.pattern}
+                  required={isFieldRequired}
                 />
               </label>
             </div>
