@@ -103,24 +103,47 @@ export default function generateForm(schema, parentFieldName) {
         <></>
       )}
       {schemaType === 'string' || schemaType === 'number' ? (
-        <div>
-          <div className="block text-sm my-2">
-            <label>
-              <input
-                className="form-input w-full dark:bg-gray-700 mt-2"
-                type={schemaType === 'string' ? 'text' : 'number'}
-                name={parentFieldName}
-                aria-label={parentFieldName}
-                min={schema?.minimum}
-                max={schema?.maximum}
-                minLength={schema?.minLength}
-                maxLength={schema?.maxLength}
-                pattern={schema?.pattern}
-              />
-            </label>
+        schema?.enum ? (
+          <div>
+            <div className="block text-sm my-2">
+              <label>
+                <select
+                  className="form-select w-full dark:bg-gray-700 mt-2 text-ellipsis"
+                  aria-label={parentFieldName}
+                  name={parentFieldName}
+                  multiple={schema?.multi}
+                >
+                  {schema?.multi ? null : <option value="" key="0"></option>}
+                  {schema?.enum?.map((item, index) => (
+                    <option value={item} key={item}>
+                      {schema?.enumNames ? schema?.enumNames?.[index] : item}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div className="text-xs">{schema?.description}</div>
           </div>
-          <div className="text-xs">{schema?.description}</div>
-        </div>
+        ) : (
+          <div>
+            <div className="block text-sm my-2">
+              <label>
+                <input
+                  className="form-input w-full dark:bg-gray-700 mt-2"
+                  type={schemaType === 'string' ? 'text' : 'number'}
+                  name={parentFieldName}
+                  aria-label={parentFieldName}
+                  min={schema?.minimum}
+                  max={schema?.maximum}
+                  minLength={schema?.minLength}
+                  maxLength={schema?.maxLength}
+                  pattern={schema?.pattern}
+                />
+              </label>
+            </div>
+            <div className="text-xs">{schema?.description}</div>
+          </div>
+        )
       ) : (
         <></>
       )}
