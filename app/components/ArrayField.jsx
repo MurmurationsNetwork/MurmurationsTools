@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function ArrayField({ fieldName }) {
+export default function ArrayField({ fieldName, fieldType }) {
   const [inputValues, setInputValues] = useState([''])
 
   function handleChange(event, index) {
@@ -25,7 +25,7 @@ export default function ArrayField({ fieldName }) {
       {inputValues.map((value, index) => (
         <div key={index} className="flex justify-around items-center">
           <input
-            type="text"
+            type={fieldType}
             value={value}
             name={fieldName + '[' + index + ']'}
             aria-label={fieldName + '[' + index + ']'}
