@@ -65,6 +65,39 @@ export default function ArrayObjectField({
                     fieldType="text"
                   />
                 </fieldset>
+              ) : properties[prop]?.enum ? (
+                <div key={prop + '.' + index}>
+                  <legend className="block text-md font-bold mt-2">
+                    {properties[prop]?.title}
+                    {requiredProperties?.includes(prop) ? (
+                      <span className="text-red-500 dark:text-red-400">*</span>
+                    ) : (
+                      <></>
+                    )}
+                  </legend>
+                  <div className="block text-sm my-2">
+                    <label>
+                      <select
+                        className="form-select w-full dark:bg-gray-700 mt-2 text-ellipsis"
+                        aria-label={fieldName + '[' + index + '].' + prop}
+                        name={fieldName + '[' + index + '].' + prop}
+                        multiple={properties[prop]?.multi}
+                      >
+                        {properties[prop]?.multi ? null : (
+                          <option value="" key="0"></option>
+                        )}
+                        {properties[prop]?.enum?.map((item, index) => (
+                          <option value={item} key={item}>
+                            {properties[prop]?.enumNames
+                              ? properties[prop]?.enumNames?.[index]
+                              : item}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+                  <div className="text-xs">{properties[prop]?.description}</div>
+                </div>
               ) : (
                 <div key={prop + '.' + index}>
                   <legend className="block text-md font-bold mt-2">
