@@ -37,11 +37,6 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <script
-        data-goatcounter="https://tools-murm.goatcounter.com/count"
-        async
-        src="//gc.zgo.at/count.js"
-      ></script>
       <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal text-md md:text-xl">
         {production ? null : (
           <div className="flex flex-row bg-fuchsia-200 dark:bg-fuchsia-700 py-1 px-2 md:py-2 md:px-4 justify-center">
@@ -102,6 +97,11 @@ export default function App() {
           </div>
           <Outlet />
           <ScrollRestoration />
+          <script
+            data-goatcounter="https://tools-murm.goatcounter.com/count"
+            async
+            src="//gc.zgo.at/count.js"
+          ></script>
           <Scripts />
           {process.env.NODE_ENV === 'development' && <LiveReload />}
         </div>
