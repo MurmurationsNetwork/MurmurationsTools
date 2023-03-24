@@ -2,17 +2,18 @@ import '@testing-library/jest-dom'
 import { screen, render } from '@testing-library/react'
 
 import generateForm from './generateForm'
-import { test_schema_1, test_schema_2 } from './test_schemas'
+import { schemaHeader, test_schema_1, test_schema_2 } from './test_schemas'
+import emptyForm from './generateForm-test-utils'
 
 /**
  * @vitest-environment jsdom
  */
 
-// describe('generateForm tests', () => {
-//   it('Schema with no properties should return null', () => {
-//     expect(generateForm(schemaHeader)).toBe(null)
-//   })
-// })
+describe('generateForm tests', () => {
+  it('Schema with no properties should return empty content', () => {
+    expect(generateForm(schemaHeader)).toEqual(emptyForm)
+  })
+})
 
 describe('render form tests', () => {
   it('Should render string and number input fields', () => {
