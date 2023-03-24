@@ -50,7 +50,9 @@ export default function generateForm(
                       schema?.properties[objectTitle],
                       profileData?.[objectTitle],
                       currentField,
-                      !!schemaRequired?.includes(objectTitle)
+                      isFieldRequired
+                        ? !!schemaRequired?.includes(objectTitle)
+                        : isFieldRequired
                     )}
                   </fieldset>
                 </div>
@@ -73,7 +75,9 @@ export default function generateForm(
                       schema?.properties[objectTitle],
                       profileData?.[objectTitle],
                       currentField,
-                      !!schemaRequired?.includes(objectTitle)
+                      isFieldRequired
+                        ? !!schemaRequired?.includes(objectTitle)
+                        : isFieldRequired
                     )}
                   </fieldset>
                 </div>
@@ -93,7 +97,9 @@ export default function generateForm(
                     schema?.properties[objectTitle],
                     profileData?.[objectTitle],
                     currentField,
-                    !!schemaRequired?.includes(objectTitle)
+                    isFieldRequired
+                      ? !!schemaRequired?.includes(objectTitle)
+                      : isFieldRequired
                   )}
                 </div>
               )
@@ -127,6 +133,7 @@ export default function generateForm(
               fieldName={parentFieldName}
               properties={schema?.items?.properties}
               requiredProperties={schema?.items?.required}
+              isFieldRequired={isFieldRequired}
               profileData={profileData}
             />
           ) : (

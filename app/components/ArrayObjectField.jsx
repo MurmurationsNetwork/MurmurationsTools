@@ -5,6 +5,7 @@ export default function ArrayObjectField({
   fieldName,
   properties,
   requiredProperties,
+  isFieldRequired,
   profileData
 }) {
   // init empty object with properties
@@ -52,6 +53,11 @@ export default function ArrayObjectField({
                     fieldName={fieldName + '[' + index + '].' + prop}
                     properties={properties[prop]?.items?.properties}
                     requiredProperties={properties[prop]?.items?.required}
+                    isFieldRequired={
+                      isFieldRequired
+                        ? !!requiredProperties?.includes(prop)
+                        : isFieldRequired
+                    }
                     profileData={props[prop]}
                   />
                 </fieldset>
@@ -62,13 +68,22 @@ export default function ArrayObjectField({
                 >
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}
+                    {requiredProperties?.includes(prop) ? (
+                      <span className="text-red-500 dark:text-red-400">*</span>
+                    ) : (
+                      <></>
+                    )}
                   </legend>
                   <div className="text-xs">{properties[prop]?.description}</div>
                   <ArrayField
                     schema={properties[prop]}
                     fieldName={fieldName + '[' + index + '].' + prop}
                     fieldType={properties[prop]?.type}
-                    isFieldRequired={!!requiredProperties?.includes(prop)}
+                    isFieldRequired={
+                      isFieldRequired
+                        ? !!requiredProperties?.includes(prop)
+                        : isFieldRequired
+                    }
                     profileData={props[prop]}
                   />
                 </fieldset>
@@ -89,7 +104,7 @@ export default function ArrayObjectField({
                         aria-label={fieldName + '[' + index + '].' + prop}
                         name={fieldName + '[' + index + '].' + prop}
                         multiple={properties[prop]?.multi}
-                        required={!!requiredProperties?.includes(prop)}
+                        required={isFieldRequired}
                         defaultValue={props[prop]}
                       >
                         {properties[prop]?.multi ? null : (
@@ -128,7 +143,7 @@ export default function ArrayObjectField({
                       id={fieldName + '[' + index + '].' + prop}
                       onChange={event => handleChange(event, index, prop)}
                       className="form-input w-full dark:bg-slate-700 mr-2"
-                      required={!!requiredProperties?.includes(prop)}
+                      required={isFieldRequired}
                       min={properties[prop]?.minimum}
                       max={properties[prop]?.maximum}
                       minLength={properties[prop]?.minLength}
