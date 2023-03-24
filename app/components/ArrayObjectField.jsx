@@ -49,6 +49,15 @@ export default function ArrayObjectField({
                   className="border-dotted border-4 border-slate-300 p-4 my-4"
                   key={prop + '.' + index}
                 >
+                  <legend className="block text-md font-bold mt-2">
+                    {properties[prop]?.title}
+                    {requiredProperties?.includes(prop) ? (
+                      <span className="text-red-500 dark:text-red-400">*</span>
+                    ) : (
+                      <></>
+                    )}
+                  </legend>
+                  <div className="text-xs">{properties[prop]?.description}</div>
                   <ArrayObjectField
                     fieldName={fieldName + '[' + index + '].' + prop}
                     properties={properties[prop]?.items?.properties}
