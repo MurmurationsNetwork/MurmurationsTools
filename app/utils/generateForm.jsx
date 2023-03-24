@@ -108,6 +108,7 @@ export default function generateForm(
           <div className="text-xs">{schema?.description}</div>
           {schema?.items?.type === 'string' ? (
             <ArrayField
+              schema={schema}
               fieldName={parentFieldName}
               fieldType="text"
               isFieldRequired={isFieldRequired}
@@ -115,6 +116,7 @@ export default function generateForm(
             />
           ) : schema?.items?.type === 'number' ? (
             <ArrayField
+              schema={schema}
               fieldName={parentFieldName}
               fieldType="number"
               isFieldRequired={isFieldRequired}

@@ -52,6 +52,7 @@ export default function ArrayObjectField({
                     fieldName={fieldName + '[' + index + '].' + prop}
                     properties={properties[prop]?.items?.properties}
                     requiredProperties={properties[prop]?.items?.required}
+                    profileData={props[prop]}
                   />
                 </fieldset>
               ) : properties[prop]?.type === 'array' ? (
@@ -64,9 +65,11 @@ export default function ArrayObjectField({
                   </legend>
                   <div className="text-xs">{properties[prop]?.description}</div>
                   <ArrayField
+                    schema={properties[prop]}
                     fieldName={fieldName + '[' + index + '].' + prop}
                     fieldType={properties[prop]?.type}
                     isFieldRequired={!!requiredProperties?.includes(prop)}
+                    profileData={props[prop]}
                   />
                 </fieldset>
               ) : properties[prop]?.enum ? (
@@ -126,6 +129,11 @@ export default function ArrayObjectField({
                       onChange={event => handleChange(event, index, prop)}
                       className="form-input w-full dark:bg-slate-700 mr-2"
                       required={!!requiredProperties?.includes(prop)}
+                      min={properties[prop]?.minimum}
+                      max={properties[prop]?.maximum}
+                      minLength={properties[prop]?.minLength}
+                      maxLength={properties[prop]?.maxLength}
+                      pattern={properties[prop]?.pattern}
                     />
                   </div>
                   <span className="text-xs">

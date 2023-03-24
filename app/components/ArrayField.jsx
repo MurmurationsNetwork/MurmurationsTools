@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 export default function ArrayField({
+  schema,
   fieldName,
   fieldType,
   isFieldRequired,
@@ -39,6 +40,11 @@ export default function ArrayField({
             onChange={event => handleChange(event, index)}
             className="form-input w-full dark:bg-slate-700 mr-2"
             required={isFieldRequired}
+            min={schema?.minimum}
+            max={schema?.maximum}
+            minLength={schema?.minLength}
+            maxLength={schema?.maxLength}
+            pattern={schema?.pattern}
           />
           {index === 0 && isFieldRequired ? (
             <></>
