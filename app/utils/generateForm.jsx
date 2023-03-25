@@ -97,9 +97,7 @@ export default function generateForm(
                     schema?.properties[objectTitle],
                     profileData?.[objectTitle],
                     currentField,
-                    isFieldRequired
-                      ? !!schemaRequired?.includes(objectTitle)
-                      : isFieldRequired
+                    !!schemaRequired?.includes(objectTitle) && !parentFieldName
                   )}
                 </div>
               )
