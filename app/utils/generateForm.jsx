@@ -37,7 +37,7 @@ export default function generateForm(
                       {schema?.properties[objectTitle]?.title}
                       {schemaRequired?.includes(objectTitle) ? (
                         <span className="text-red-500 dark:text-red-400">
-                          *
+                          {' '}*
                         </span>
                       ) : (
                         <></>
@@ -65,7 +65,7 @@ export default function generateForm(
                       {schema?.properties[objectTitle]?.title}
                       {schemaRequired?.includes(objectTitle) ? (
                         <span className="text-red-500 dark:text-red-400">
-                          *
+                          {' '}*
                         </span>
                       ) : (
                         <></>
@@ -85,10 +85,10 @@ export default function generateForm(
             } else {
               return (
                 <div key={objectTitle}>
-                  <legend className="block text-md font-bold mt-2">
-                    {schema?.properties[objectTitle]?.title}
+                  <legend className="block text-md font-bold mt-4">
+                    {schema?.properties[objectTitle]?.title}:
                     {schemaRequired?.includes(objectTitle) ? (
-                      <span className="text-red-500 dark:text-red-400">*</span>
+                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
                     ) : (
                       <></>
                     )}
@@ -170,7 +170,7 @@ export default function generateForm(
             <div className="block text-sm my-2">
               <label>
                 <input
-                  className="form-input w-full dark:bg-gray-700 mt-2"
+                  className="form-input w-full dark:bg-gray-700"
                   type={schemaType === 'string' ? 'text' : 'number'}
                   defaultValue={profileData}
                   name={parentFieldName}

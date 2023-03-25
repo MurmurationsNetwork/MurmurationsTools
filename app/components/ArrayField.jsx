@@ -38,7 +38,7 @@ export default function ArrayField({
             name={fieldName + '[' + index + ']'}
             aria-label={fieldName + '[' + index + ']'}
             onChange={event => handleChange(event, index)}
-            className="form-input w-full dark:bg-slate-700 mr-2"
+            className="form-input w-full dark:bg-gray-700 mr-2"
             required={isFieldRequired}
             min={schema?.minimum}
             max={schema?.maximum}

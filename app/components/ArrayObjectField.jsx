@@ -52,7 +52,7 @@ export default function ArrayObjectField({
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">*</span>
+                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
                     ) : (
                       <></>
                     )}
@@ -78,7 +78,7 @@ export default function ArrayObjectField({
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">*</span>
+                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
                     ) : (
                       <></>
                     )}
@@ -99,9 +99,9 @@ export default function ArrayObjectField({
               ) : properties[prop]?.enum ? (
                 <div key={prop + '.' + index}>
                   <legend className="block text-md font-bold mt-2">
-                    {properties[prop]?.title}
+                    {properties[prop]?.title}:
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">*</span>
+                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
                     ) : (
                       <></>
                     )}
@@ -134,9 +134,9 @@ export default function ArrayObjectField({
               ) : (
                 <div key={prop + '.' + index}>
                   <legend className="block text-md font-bold mt-2">
-                    {properties[prop]?.title}
+                    {properties[prop]?.title}:
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">*</span>
+                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
                     ) : (
                       <></>
                     )}
@@ -151,7 +151,7 @@ export default function ArrayObjectField({
                       aria-label={fieldName + '[' + index + '].' + prop}
                       id={fieldName + '[' + index + '].' + prop}
                       onChange={event => handleChange(event, index, prop)}
-                      className="form-input w-full dark:bg-slate-700 mr-2"
+                      className="form-input w-full dark:bg-gray-700 mr-2 mt-2"
                       required={isFieldRequired}
                       min={properties[prop]?.minimum}
                       max={properties[prop]?.maximum}
