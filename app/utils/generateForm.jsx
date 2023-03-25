@@ -108,6 +108,29 @@ export default function generateForm(
         <></>
       )}
       {schemaType === 'array' ? (
+        schema?.items?.enum ? (
+          <div>
+            <div className="block text-sm my-2">
+              <label>
+                <select
+                  className="form-select w-full dark:bg-gray-700 mt-2 text-ellipsis"
+                  aria-label={parentFieldName}
+                  name={parentFieldName}
+                  multiple
+                  required={isFieldRequired}
+                  defaultValue={profileData}
+                >
+                  {schema?.items?.enum?.map((item, index) => (
+                    <option value={item} key={item}>
+                      {schema?.items?.enumNames ? schema?.items?.enumNames?.[index] : item}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div className="text-xs">{schema?.description}</div>
+          </div>
+        ) : (
         <div>
           <div className="text-xs">{schema?.description}</div>
           {schema?.items?.type === 'string' ? (
@@ -137,7 +160,7 @@ export default function generateForm(
           ) : (
             <></>
           )}
-        </div>
+        </div>)
       ) : (
         <></>
       )}
@@ -150,11 +173,10 @@ export default function generateForm(
                   className="form-select w-full dark:bg-gray-700 mt-2 text-ellipsis"
                   aria-label={parentFieldName}
                   name={parentFieldName}
-                  multiple={schema?.multi}
                   required={isFieldRequired}
                   defaultValue={profileData}
                 >
-                  {schema?.multi ? null : <option value="" key="0"></option>}
+                  <option value="" key="0"></option>
                   {schema?.enum?.map((item, index) => (
                     <option value={item} key={item}>
                       {schema?.enumNames ? schema?.enumNames?.[index] : item}
