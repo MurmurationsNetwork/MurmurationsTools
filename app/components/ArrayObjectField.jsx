@@ -52,7 +52,7 @@ export default function ArrayObjectField({
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
+                      <span className="text-red-500 dark:text-red-400"> *</span>
                     ) : (
                       <></>
                     )}
@@ -78,7 +78,7 @@ export default function ArrayObjectField({
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
+                      <span className="text-red-500 dark:text-red-400"> *</span>
                     ) : (
                       <></>
                     )}
@@ -101,7 +101,7 @@ export default function ArrayObjectField({
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}:
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
+                      <span className="text-red-500 dark:text-red-400"> *</span>
                     ) : (
                       <></>
                     )}
@@ -136,7 +136,7 @@ export default function ArrayObjectField({
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}:
                     {requiredProperties?.includes(prop) ? (
-                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
+                      <span className="text-red-500 dark:text-red-400"> *</span>
                     ) : (
                       <></>
                     )}

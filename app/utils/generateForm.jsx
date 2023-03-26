@@ -6,7 +6,7 @@ export default function generateForm(
   schema,
   profileData,
   parentFieldName,
-  isFieldRequired
+  isFieldRequired = true
 ) {
   let schemaType = schema?.type
   let schemaRequired = schema?.required
@@ -37,7 +37,8 @@ export default function generateForm(
                       {schema?.properties[objectTitle]?.title}
                       {schemaRequired?.includes(objectTitle) ? (
                         <span className="text-red-500 dark:text-red-400">
-                          {' '}*
+                          {' '}
+                          *
                         </span>
                       ) : (
                         <></>
@@ -65,7 +66,8 @@ export default function generateForm(
                       {schema?.properties[objectTitle]?.title}
                       {schemaRequired?.includes(objectTitle) ? (
                         <span className="text-red-500 dark:text-red-400">
-                          {' '}*
+                          {' '}
+                          *
                         </span>
                       ) : (
                         <></>
@@ -88,7 +90,7 @@ export default function generateForm(
                   <legend className="block text-md font-bold mt-4">
                     {schema?.properties[objectTitle]?.title}:
                     {schemaRequired?.includes(objectTitle) ? (
-                      <span className="text-red-500 dark:text-red-400">{' '}*</span>
+                      <span className="text-red-500 dark:text-red-400"> *</span>
                     ) : (
                       <></>
                     )}
@@ -97,7 +99,9 @@ export default function generateForm(
                     schema?.properties[objectTitle],
                     profileData?.[objectTitle],
                     currentField,
-                    !!schemaRequired?.includes(objectTitle) && !parentFieldName
+                    isFieldRequired
+                      ? !!schemaRequired?.includes(objectTitle)
+                      : isFieldRequired
                   )}
                 </div>
               )
@@ -122,7 +126,9 @@ export default function generateForm(
                 >
                   {schema?.items?.enum?.map((item, index) => (
                     <option value={item} key={item}>
-                      {schema?.items?.enumNames ? schema?.items?.enumNames?.[index] : item}
+                      {schema?.items?.enumNames
+                        ? schema?.items?.enumNames?.[index]
+                        : item}
                     </option>
                   ))}
                 </select>
@@ -131,36 +137,37 @@ export default function generateForm(
             <div className="text-xs">{schema?.description}</div>
           </div>
         ) : (
-        <div>
-          <div className="text-xs">{schema?.description}</div>
-          {schema?.items?.type === 'string' ? (
-            <ArrayField
-              schema={schema}
-              fieldName={parentFieldName}
-              fieldType="text"
-              isFieldRequired={isFieldRequired}
-              profileData={profileData}
-            />
-          ) : schema?.items?.type === 'number' ? (
-            <ArrayField
-              schema={schema}
-              fieldName={parentFieldName}
-              fieldType="number"
-              isFieldRequired={isFieldRequired}
-              profileData={profileData}
-            />
-          ) : schema?.items?.type === 'object' ? (
-            <ArrayObjectField
-              fieldName={parentFieldName}
-              properties={schema?.items?.properties}
-              requiredProperties={schema?.items?.required}
-              isFieldRequired={isFieldRequired}
-              profileData={profileData}
-            />
-          ) : (
-            <></>
-          )}
-        </div>)
+          <div>
+            <div className="text-xs">{schema?.description}</div>
+            {schema?.items?.type === 'string' ? (
+              <ArrayField
+                schema={schema}
+                fieldName={parentFieldName}
+                fieldType="text"
+                isFieldRequired={isFieldRequired}
+                profileData={profileData}
+              />
+            ) : schema?.items?.type === 'number' ? (
+              <ArrayField
+                schema={schema}
+                fieldName={parentFieldName}
+                fieldType="number"
+                isFieldRequired={isFieldRequired}
+                profileData={profileData}
+              />
+            ) : schema?.items?.type === 'object' ? (
+              <ArrayObjectField
+                fieldName={parentFieldName}
+                properties={schema?.items?.properties}
+                requiredProperties={schema?.items?.required}
+                isFieldRequired={isFieldRequired}
+                profileData={profileData}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+        )
       ) : (
         <></>
       )}
