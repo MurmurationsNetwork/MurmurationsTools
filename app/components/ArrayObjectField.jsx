@@ -180,7 +180,7 @@ export default function ArrayObjectField({
                       type={
                         properties[prop]?.type === 'string' ? 'text' : 'number'
                       }
-                      defaultValue={props[prop]}
+                      value={props[prop]}
                       name={fieldName + '[' + index + '].' + prop}
                       aria-label={fieldName + '[' + index + '].' + prop}
                       id={fieldName + '[' + index + '].' + prop}

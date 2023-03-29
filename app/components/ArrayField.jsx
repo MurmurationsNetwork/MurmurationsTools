@@ -34,7 +34,7 @@ export default function ArrayField({
         <div key={index} className="flex justify-around items-center">
           <input
             type={fieldType}
-            defaultValue={value}
+            value={value}
             name={fieldName + '[' + index + ']'}
             aria-label={fieldName + '[' + index + ']'}
             onChange={event => handleChange(event, index)}
