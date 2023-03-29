@@ -84,6 +84,19 @@ export default function generateForm(
                   </fieldset>
                 </div>
               )
+            } else if (schema?.properties[objectTitle]?.default) {
+              return (
+                <div key={objectTitle}>
+                  {generateForm(
+                    schema?.properties[objectTitle],
+                    profileData?.[objectTitle],
+                    currentField,
+                    isFieldRequired
+                      ? !!schemaRequired?.includes(objectTitle)
+                      : isFieldRequired
+                  )}
+                </div>
+              )
             } else {
               return (
                 <div key={objectTitle}>
@@ -171,7 +184,14 @@ export default function generateForm(
       ) : (
         <></>
       )}
-      {schemaType === 'string' || schemaType === 'number' ? (
+      {schema?.default ? (
+        <input
+          type="hidden"
+          defaultValue={schema.default}
+          name={parentFieldName}
+          aria-label={parentFieldName}
+        />
+      ) : schemaType === 'string' || schemaType === 'number' ? (
         schema?.enum ? (
           <div>
             <div className="block text-sm my-2">
