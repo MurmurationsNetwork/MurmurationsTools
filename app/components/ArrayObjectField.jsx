@@ -58,7 +58,6 @@ export default function ArrayObjectField({
                     )}
                   </legend>
                   <div className="text-xs">{properties[prop]?.description}</div>
-                  {isFieldRequired}
                   <ArrayObjectField
                     fieldName={fieldName + '[' + index + '].' + prop}
                     properties={properties[prop]?.items?.properties}
@@ -154,7 +153,11 @@ export default function ArrayObjectField({
                       id={fieldName + '[' + index + '].' + prop}
                       onChange={event => handleChange(event, index, prop)}
                       className="form-input w-full dark:bg-gray-700 mr-2 mt-2"
-                      required={!!requiredProperties?.includes(prop)}
+                      required={
+                        isFieldRequired
+                          ? !!requiredProperties?.includes(prop)
+                          : isFieldRequired
+                      }
                       min={properties[prop]?.minimum}
                       max={properties[prop]?.maximum}
                       minLength={properties[prop]?.minLength}
@@ -167,7 +170,7 @@ export default function ArrayObjectField({
                   </span>
                 </div>
               ) : (
-                <></>
+                <div key={prop + '.' + index}></div>
               )
             )}
             <button
