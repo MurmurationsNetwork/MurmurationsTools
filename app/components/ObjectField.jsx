@@ -152,6 +152,7 @@ export default function ObjectField({
                 }
                 min={properties[prop]?.minimum}
                 max={properties[prop]?.maximum}
+                step={properties[prop]?.type === 'number' ? 'any' : null}
                 minLength={properties[prop]?.minLength}
                 maxLength={properties[prop]?.maxLength}
                 pattern={properties[prop]?.pattern}

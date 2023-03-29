@@ -226,6 +226,7 @@ export default function generateForm(
                   aria-label={parentFieldName}
                   min={schema?.minimum}
                   max={schema?.maximum}
+                  step={schemaType === 'number' ? 'any' : null}
                   minLength={schema?.minLength}
                   maxLength={schema?.maxLength}
                   pattern={schema?.pattern}
