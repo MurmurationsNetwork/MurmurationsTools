@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ArrayField from '../components/ArrayField'
+import ObjectField from '../components/ObjectField'
 
 export default function ArrayObjectField({
   fieldName,
@@ -16,7 +17,12 @@ export default function ArrayObjectField({
     }
   }
 
-  const [inputValues, setInputValues] = useState([objectFields])
+  let defaultState = [objectFields]
+  if (profileData) {
+    defaultState = profileData
+  }
+
+  const [inputValues, setInputValues] = useState(defaultState)
 
   function handleChange(event, index, prop) {
     const values = [...inputValues]
@@ -88,6 +94,33 @@ export default function ArrayObjectField({
                     schema={properties[prop]}
                     fieldName={fieldName + '[' + index + '].' + prop}
                     fieldType={properties[prop]?.type}
+                    isFieldRequired={
+                      isFieldRequired
+                        ? !!requiredProperties?.includes(prop)
+                        : isFieldRequired
+                    }
+                    profileData={props[prop]}
+                  />
+                </fieldset>
+              ) : properties[prop]?.type === 'object' &&
+                properties[prop]?.properties ? (
+                <fieldset
+                  className="border-dotted border-4 border-slate-300 p-4 my-4"
+                  key={prop + '.' + index}
+                >
+                  <legend className="block text-md font-bold mt-2">
+                    {properties[prop]?.title}
+                    {requiredProperties?.includes(prop) ? (
+                      <span className="text-red-500 dark:text-red-400"> *</span>
+                    ) : (
+                      <></>
+                    )}
+                  </legend>
+                  <div className="text-xs">{properties[prop]?.description}</div>
+                  <ObjectField
+                    fieldName={fieldName + '[' + index + '].' + prop}
+                    properties={properties[prop]?.properties}
+                    requiredProperties={properties[prop]?.required}
                     isFieldRequired={
                       isFieldRequired
                         ? !!requiredProperties?.includes(prop)
