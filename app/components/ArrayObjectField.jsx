@@ -132,7 +132,8 @@ export default function ArrayObjectField({
                   </div>
                   <div className="text-xs">{properties[prop]?.description}</div>
                 </div>
-              ) : (
+              ) : properties[prop]?.type === 'string' ||
+                properties[prop]?.type === 'number' ? (
                 <div key={prop + '.' + index}>
                   <legend className="block text-md font-bold mt-2">
                     {properties[prop]?.title}:
@@ -165,6 +166,8 @@ export default function ArrayObjectField({
                     {properties[prop]?.description}
                   </span>
                 </div>
+              ) : (
+                <></>
               )
             )}
             <button
