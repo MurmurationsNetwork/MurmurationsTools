@@ -348,7 +348,7 @@ export default function Batch() {
                   <span className="text-red-500 dark:text-red-400">*</span>:
                 </div>
                 <input
-                  className="form-input w-full dark:bg-gray-700 mt-2"
+                  className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700 mt-2"
                   type="text"
                   name="title"
                   defaultValue={batchTitle}

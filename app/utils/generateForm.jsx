@@ -219,7 +219,7 @@ export default function generateForm(
             <div className="block text-sm my-2">
               <label>
                 <input
-                  className="form-input w-full dark:bg-gray-700"
+                  className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700"
                   type={schemaType === 'string' ? 'text' : 'number'}
                   defaultValue={profileData}
                   name={parentFieldName}

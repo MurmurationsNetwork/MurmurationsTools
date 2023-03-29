@@ -185,7 +185,7 @@ export default function ArrayObjectField({
                       aria-label={fieldName + '[' + index + '].' + prop}
                       id={fieldName + '[' + index + '].' + prop}
                       onChange={event => handleChange(event, index, prop)}
-                      className="form-input w-full dark:bg-gray-700 mr-2 mt-2"
+                      className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700 mr-2 mt-2"
                       required={
                         isFieldRequired
                           ? !!requiredProperties?.includes(prop)
