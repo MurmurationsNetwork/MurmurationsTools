@@ -146,7 +146,11 @@ export default function ArrayObjectField({
                         aria-label={fieldName + '[' + index + '].' + prop}
                         name={fieldName + '[' + index + '].' + prop}
                         multiple={properties[prop]?.multi}
-                        required={isFieldRequired}
+                        required={
+                          isFieldRequired
+                            ? !!requiredProperties?.includes(prop)
+                            : isFieldRequired
+                        }
                         defaultValue={props[prop]}
                       >
                         {properties[prop]?.multi ? null : (
