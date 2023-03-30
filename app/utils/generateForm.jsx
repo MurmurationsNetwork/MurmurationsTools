@@ -29,7 +29,10 @@ export default function generateForm(
               />
             )
           } else {
-            if (schema?.properties[objectTitle]?.type === 'object') {
+            if (
+              schema?.properties[objectTitle]?.type === 'object' &&
+              schema?.properties[objectTitle]?.properties
+            ) {
               return (
                 <div key={objectTitle}>
                   <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
@@ -97,7 +100,10 @@ export default function generateForm(
                   )}
                 </div>
               )
-            } else {
+            } else if (
+              schema?.properties[objectTitle]?.type === 'string' ||
+              schema?.properties[objectTitle]?.type === 'number'
+            ) {
               return (
                 <div key={objectTitle}>
                   <legend className="block text-md font-bold mt-4">
@@ -118,6 +124,8 @@ export default function generateForm(
                   )}
                 </div>
               )
+            } else {
+              return <> </>
             }
           }
         })

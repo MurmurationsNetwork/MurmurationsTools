@@ -65,7 +65,8 @@ export default function ObjectField({
               profileData={properties[prop]}
             />
           </fieldset>
-        ) : properties[prop]?.type === 'object' ? (
+        ) : properties[prop]?.type === 'object' &&
+          properties[prop]?.properties ? (
           <fieldset
             className="border-dotted border-4 border-slate-300 p-4 my-4"
             key={prop}
