@@ -13,7 +13,6 @@ import {
 
 import { userCookie } from '~/utils/cookie'
 import { fetchGet, fetchJsonPost } from '~/utils/fetcher'
-import generateForm from '~/utils/generateForm'
 import generateInstance from '~/utils/generateInstance'
 import parseRef from '~/utils/parseRef'
 import {
@@ -25,6 +24,7 @@ import {
 } from '~/utils/profile.server'
 import { requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
+import GenerateForm from '~/components/generateForm'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -466,7 +466,7 @@ export default function Index() {
                 name="profile_ipfs_hash"
                 defaultValue={data?.profileIpfsHash}
               />
-              {generateForm(schema, profileData)}
+              <GenerateForm schema={schema} profileData={profileData} />
               <button
                 className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
                 type="submit"
@@ -493,7 +493,7 @@ export default function Index() {
                   ))}
                 </ol>
               </h3>
-              {generateForm(schema)}
+              <GenerateForm schema={schema} />
               <button
                 className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
                 type="submit"
