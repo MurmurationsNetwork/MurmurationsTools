@@ -11,7 +11,8 @@ export default function ObjectField({
   return Object.keys(schema?.properties)?.map(property => {
     if (
       schema?.properties[property]?.type === 'string' ||
-      schema?.properties[property]?.type === 'number'
+      schema?.properties[property]?.type === 'number' ||
+      schema?.properties[property]?.type === 'array'
     ) {
       return (
         <div key={parentFieldName + '.' + property}>
@@ -28,12 +29,12 @@ export default function ObjectField({
           />
         </div>
       )
-    } else {
+    } else if (schema?.properties[property]?.properties) {
       return (
         <div key={parentFieldName + '.' + property}>
           <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
             <legend className="block text-md font-bold mt-2">
-              {schema?.properties[property]?.title}
+              {schema?.properties[property]?.title}2
               {requiredProperties?.includes(property) ? (
                 <span className="text-red-500 dark:text-red-400"> *</span>
               ) : (
@@ -57,6 +58,8 @@ export default function ObjectField({
           </fieldset>
         </div>
       )
+    } else {
+      return <div key={parentFieldName + '.' + property}></div>
     }
   })
 }
