@@ -10,9 +10,7 @@ export default function RecursiveForm({
   profileData,
   parentFieldName,
   isFieldRequired,
-  requiredProperties,
-  inputValues,
-  setInputValues
+  requiredProperties
 }) {
   return (
     <div>

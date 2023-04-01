@@ -24,7 +24,7 @@ import {
 } from '~/utils/profile.server'
 import { requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
-import GenerateForm from '~/components/generateForm'
+import GenerateForm from '~/components/GenerateForm'
 
 export async function action({ request }) {
   let formData = await request.formData()
