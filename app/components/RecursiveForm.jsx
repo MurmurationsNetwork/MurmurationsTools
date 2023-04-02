@@ -10,7 +10,9 @@ export default function RecursiveForm({
   profileData,
   parentFieldName,
   isFieldRequired,
-  requiredProperties
+  requiredProperties,
+  inputs,
+  setInputs
 }) {
   return (
     <div>
@@ -21,6 +23,8 @@ export default function RecursiveForm({
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
+          inputs={inputs}
+          setInputs={setInputs}
         />
       ) : schema?.type === 'array' ? (
         <ArrayField
@@ -29,6 +33,8 @@ export default function RecursiveForm({
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
+          inputs={inputs}
+          setInputs={setInputs}
         />
       ) : schema?.default ? (
         <DefaultField schema={schema} parentFieldName={parentFieldName} />
@@ -39,6 +45,8 @@ export default function RecursiveForm({
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
+          inputs={inputs}
+          setInputs={setInputs}
         />
       ) : schema?.type === 'string' || schema?.type === 'number' ? (
         <TextField
@@ -47,6 +55,8 @@ export default function RecursiveForm({
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
+          inputs={inputs}
+          setInputs={setInputs}
         />
       ) : (
         <></>

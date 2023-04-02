@@ -6,7 +6,9 @@ export default function ObjectField({
   profileData,
   parentFieldName,
   isFieldRequired,
-  requiredProperties
+  requiredProperties,
+  inputs,
+  setInputs
 }) {
   return Object.keys(schema?.properties)?.map(property => {
     if (
@@ -26,6 +28,8 @@ export default function ObjectField({
                 : isFieldRequired
             }
             requiredProperties={schema?.required}
+            inputs={inputs}
+            setInputs={setInputs}
           />
         </div>
       )
@@ -34,7 +38,7 @@ export default function ObjectField({
         <div key={parentFieldName + '.' + property}>
           <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
             <legend className="block text-md font-bold mt-2">
-              {schema?.properties[property]?.title}2
+              {schema?.properties[property]?.title}
               {requiredProperties?.includes(property) ? (
                 <span className="text-red-500 dark:text-red-400"> *</span>
               ) : (
@@ -54,6 +58,8 @@ export default function ObjectField({
                   : isFieldRequired
               }
               requiredProperties={schema?.required}
+              inputs={inputs}
+              setInputs={setInputs}
             />
           </fieldset>
         </div>
