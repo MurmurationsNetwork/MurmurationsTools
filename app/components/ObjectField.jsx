@@ -3,12 +3,12 @@ import RecursiveForm from './RecursiveForm'
 
 export default function ObjectField({
   schema,
-  profileData,
   parentFieldName,
   isFieldRequired,
   requiredProperties,
-  inputs,
-  setInputs
+  arrayData,
+  arrayPath,
+  onChildChange
 }) {
   return Object.keys(schema?.properties)?.map(property => {
     if (
@@ -20,7 +20,6 @@ export default function ObjectField({
         <div key={parentFieldName + '.' + property}>
           <RecursiveForm
             schema={schema?.properties[property]}
-            profileData={profileData?.[property]}
             parentFieldName={parentFieldName + '.' + property}
             isFieldRequired={
               isFieldRequired
@@ -28,8 +27,9 @@ export default function ObjectField({
                 : isFieldRequired
             }
             requiredProperties={schema?.required}
-            inputs={inputs}
-            setInputs={setInputs}
+            arrayData={arrayData}
+            arrayPath={arrayPath + '.' + property}
+            onChildChange={onChildChange}
           />
         </div>
       )
@@ -50,7 +50,6 @@ export default function ObjectField({
             </div>
             <RecursiveForm
               schema={schema?.properties[property]}
-              profileData={profileData?.[property]}
               parentFieldName={parentFieldName + '.' + property}
               isFieldRequired={
                 isFieldRequired
@@ -58,8 +57,9 @@ export default function ObjectField({
                   : isFieldRequired
               }
               requiredProperties={schema?.required}
-              inputs={inputs}
-              setInputs={setInputs}
+              arrayData={arrayData}
+              arrayPath={arrayPath + '.' + property}
+              onChildChange={onChildChange}
             />
           </fieldset>
         </div>

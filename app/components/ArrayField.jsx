@@ -1,111 +1,42 @@
 import React, { useState } from 'react'
 import RecursiveForm from './RecursiveForm'
 import { constructState } from '../utils/constructState'
-import { parsePath } from '../utils/parsePath'
 
 export default function ArrayField({
   schema,
   parentFieldName,
   isFieldRequired,
-  requiredProperties,
-  inputs,
-  setInputs
+  requiredProperties
 }) {
-  const [currentArray, setCurrentArray] = useState(
-    getCurrentArray(inputs, parentFieldName)
-  )
+  const [arrayData, setArrayData] = useState([constructState(schema?.items)])
 
-  // handle the change event from the input and change the state in the parent component
-  const handleChange = (event, parentFieldName, itemIndex) => {
+  const handleChange = (event, index) => {
     event.preventDefault()
-    // use regex to get the array and object path.
-    const parts = parsePath(parentFieldName)
-
-    // create a copy of the state, and get the value from the input
-    const values = inputs
-    const value = event.target.value
-
-    // traverse the object and update the value
-    let currentObj = values
-    for (let i = 0; i < parts.length; i++) {
-      let part = parts[i]
-      // if the part can be parsed as an integer, then it is an array index
-      const index = parseInt(part)
-      if (!isNaN(index)) {
-        part = index
-      }
-      if (i === parts.length - 1) {
-        const currentObjValues = [...currentObj[part]]
-        currentObjValues[itemIndex] = value
-        currentObj[part] = currentObjValues
-      } else {
-        currentObj = currentObj[part]
-      }
-    }
-
-    setInputs(values)
-    setCurrentArray(getCurrentArray(inputs, parentFieldName))
+    const values = [...arrayData]
+    values[index] = event.target.value
+    setArrayData(values)
+    console.log('change Values', values)
   }
 
-  const handleAdd = (event, parentFieldName, schema) => {
+  const handleAdd = (event, schema) => {
     event.preventDefault()
     // use schema to construct the state
     const defaultState = constructState(schema?.items)
-
-    // use regex to get the array and object path.
-    const parts = parsePath(parentFieldName)
-
-    // create a copy of the state, and get the value from the input
-    const values = inputs
-
-    // traverse the object and update the value
-    let currentObj = values
-    for (let i = 0; i < parts.length; i++) {
-      let part = parts[i]
-      // if the part can be parsed as an integer, then it is an array index
-      const index = parseInt(part)
-      if (!isNaN(index)) {
-        part = index
-      }
-      if (i === parts.length - 1) {
-        currentObj[part] = [...currentObj[part], defaultState]
-      } else {
-        currentObj = currentObj[part]
-      }
-    }
-
-    setInputs(values)
-    setCurrentArray(getCurrentArray(inputs, parentFieldName))
+    const values = [...arrayData, defaultState]
+    setArrayData(values)
+    console.log('add Values', values)
   }
 
-  const handleRemove = (event, parentFieldName, itemIndex) => {
+  const handleRemove = (event, index) => {
     event.preventDefault()
-    // use regex to get the array and object path.
-    const parts = parsePath(parentFieldName)
+    const values = [...arrayData]
+    values.splice(index, 1)
+    setArrayData(values)
+    console.log('remove Values', values)
+  }
 
-    // create a copy of the state, and get the value from the input
-    const values = inputs
-
-    // traverse the object and update the value
-    let currentObj = values
-    for (let i = 0; i < parts.length; i++) {
-      let part = parts[i]
-      // if the part can be parsed as an integer, then it is an array index
-      const index = parseInt(part)
-      if (!isNaN(index)) {
-        part = index
-      }
-      if (i === parts.length - 1) {
-        const currentObjValues = [...currentObj[part]]
-        currentObjValues.splice(itemIndex, 1)
-        currentObj[part] = currentObjValues
-      } else {
-        currentObj = currentObj[part]
-      }
-    }
-
-    setInputs(values)
-    setCurrentArray(getCurrentArray(inputs, parentFieldName))
+  const handleChildChange = newArrayData => {
+    setArrayData(newArrayData)
   }
 
   if (schema?.items?.type === 'object') {
@@ -120,22 +51,22 @@ export default function ArrayField({
           )}
         </legend>
         <div className="text-xs">{schema?.description}</div>
-        {currentArray.map((value, index) => (
+        {arrayData.map((value, index) => (
           <div key={parentFieldName + '[' + index + ']'}>
             <RecursiveForm
               schema={schema?.items}
-              profileData={value}
               parentFieldName={parentFieldName + '[' + index + ']'}
               isFieldRequired={isFieldRequired}
               requiredProperties={requiredProperties}
-              inputs={inputs}
-              setInputs={setInputs}
+              arrayData={arrayData}
+              arrayPath={'[' + index + ']'}
+              onChildChange={handleChildChange}
             />
             {index === 0 && isFieldRequired ? (
               <></>
             ) : (
               <button
-                onClick={event => handleRemove(event, parentFieldName, index)}
+                onClick={event => handleRemove(event, index)}
                 className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 my-4"
               >
                 Remove
@@ -144,7 +75,7 @@ export default function ArrayField({
           </div>
         ))}
         <button
-          onClick={event => handleAdd(event, parentFieldName, schema)}
+          onClick={event => handleAdd(event, schema)}
           className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 my-4"
         >
           Add
@@ -163,14 +94,14 @@ export default function ArrayField({
           )}
         </legend>
         <div className="text-xs">{schema?.description}</div>
-        {currentArray.map((value, index) => (
+        {arrayData.map((value, index) => (
           <div key={index} className="flex justify-around items-center">
             <input
               type={schema?.items?.type === 'number' ? 'number' : 'text'}
               value={value}
               name={parentFieldName + '[' + index + ']'}
               aria-label={parentFieldName + '[' + index + ']'}
-              onChange={event => handleChange(event, parentFieldName, index)}
+              onChange={event => handleChange(event, index)}
               className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700 mr-2"
               required={isFieldRequired}
               min={schema?.minimum}
@@ -183,7 +114,7 @@ export default function ArrayField({
               <></>
             ) : (
               <button
-                onClick={event => handleRemove(event, parentFieldName, index)}
+                onClick={event => handleRemove(event, index)}
                 className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 my-4"
               >
                 Remove
@@ -192,7 +123,7 @@ export default function ArrayField({
           </div>
         ))}
         <button
-          onClick={event => handleAdd(event, parentFieldName, schema)}
+          onClick={event => handleAdd(event, schema)}
           className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 my-4"
         >
           Add
@@ -202,19 +133,19 @@ export default function ArrayField({
   }
 }
 
-const getCurrentArray = (inputs, parentFieldName) => {
-  // use regex to get the array and object path.
-  const parts = parsePath(parentFieldName)
-
-  let returnArray = inputs
-  for (let i = 0; i < parts.length; i++) {
-    let part = parts[i]
-    // if the part can be parsed as an integer, then it is an array index
-    const index = parseInt(part)
-    if (!isNaN(index)) {
-      part = index
-    }
-    returnArray = returnArray[part]
-  }
-  return returnArray
-}
+// const getCurrentArray = (inputs, parentFieldName) => {
+//   // use regex to get the array and object path.
+//   const parts = parsePath(parentFieldName)
+//
+//   let returnArray = inputs
+//   for (let i = 0; i < parts.length; i++) {
+//     let part = parts[i]
+//     // if the part can be parsed as an integer, then it is an array index
+//     const index = parseInt(part)
+//     if (!isNaN(index)) {
+//       part = index
+//     }
+//     returnArray = returnArray[part]
+//   }
+//   return returnArray
+// }

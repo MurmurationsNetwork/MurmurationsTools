@@ -1,13 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import RecursiveForm from './RecursiveForm'
 import SchemaField from './SchemaField'
-import { constructState } from '../utils/constructState'
 
 export default function GenerateForm({ schema, profileData }) {
-  // using schema to construct the state
-  const defaultState = constructState(schema)
-  const [inputs, setInputs] = useState(defaultState)
-
   if (schema?.properties) {
     return Object.keys(schema?.properties)?.map(property => {
       if (property === 'linked_schemas') {
@@ -19,15 +14,34 @@ export default function GenerateForm({ schema, profileData }) {
       } else {
         return (
           <div key={property}>
-            <RecursiveForm
-              schema={schema?.properties[property]}
-              profileData={profileData?.[property]}
-              parentFieldName={property}
-              isFieldRequired={!!schema?.required?.includes(property)}
-              requiredProperties={schema?.required}
-              inputs={inputs}
-              setInputs={setInputs}
-            />
+            {schema?.properties[property]?.type === 'object' ? (
+              <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
+                <legend className="block text-md font-bold mt-2">
+                  {schema?.properties[property]?.title}
+                  {schema?.required?.includes(property) ? (
+                    <span className="text-red-500 dark:text-red-400"> *</span>
+                  ) : (
+                    <></>
+                  )}
+                </legend>
+                <div className="text-xs">
+                  {schema?.properties[property]?.description}
+                </div>
+                <RecursiveForm
+                  schema={schema?.properties[property]}
+                  parentFieldName={property}
+                  isFieldRequired={!!schema?.required?.includes(property)}
+                  requiredProperties={schema?.required}
+                />
+              </fieldset>
+            ) : (
+              <RecursiveForm
+                schema={schema?.properties[property]}
+                parentFieldName={property}
+                isFieldRequired={!!schema?.required?.includes(property)}
+                requiredProperties={schema?.required}
+              />
+            )}
           </div>
         )
       }
