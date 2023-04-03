@@ -1,16 +1,56 @@
 import React, { useState } from 'react'
+import { parsePath } from '../utils/parsePath'
 
 export default function EnumField({
   schema,
   profileData,
   parentFieldName,
   isFieldRequired,
-  requiredProperties
+  requiredProperties,
+  arrayData,
+  arrayPath,
+  onChildChange
 }) {
   const [inputValue, setInputValue] = useState(profileData || '')
 
   const handleChange = event => {
-    setInputValue(event.target.value)
+    if (arrayData && arrayPath) {
+      const newArray = [...arrayData]
+      let values = newArray
+      const parts = parsePath(arrayPath)
+      for (let i = 0; i < parts.length; i++) {
+        let part = parts[i]
+        const index = parseInt(part)
+        if (!isNaN(index)) {
+          part = index
+        }
+        if (i === parts.length - 1) {
+          values[part] = event.target.value
+        } else {
+          values = values[part]
+        }
+      }
+      onChildChange(newArray)
+    } else {
+      setInputValue(event.target.value)
+    }
+  }
+
+  const getValue = (arrayData, arrayPath) => {
+    if (arrayData && arrayPath) {
+      let result = arrayData
+      const parts = parsePath(arrayPath)
+      for (let part of parts) {
+        const index = parseInt(part)
+        if (!isNaN(index)) {
+          part = index
+        }
+        result = result[part]
+      }
+      return result
+    } else {
+      return ''
+    }
   }
 
   return (
@@ -29,7 +69,7 @@ export default function EnumField({
           aria-label={parentFieldName}
           name={parentFieldName}
           required={isFieldRequired}
-          value={inputValue}
+          value={arrayData ? getValue(arrayData, arrayPath) : inputValue}
           onChange={event => handleChange(event)}
         >
           <option value="" key="0"></option>

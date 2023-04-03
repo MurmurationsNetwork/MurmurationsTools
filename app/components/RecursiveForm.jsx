@@ -35,6 +35,9 @@ export default function RecursiveForm({
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
+          parentArrayData={arrayData}
+          parentArrayPath={arrayPath}
+          parentOnChildChange={onChildChange}
         />
       ) : schema?.default ? (
         <DefaultField schema={schema} parentFieldName={parentFieldName} />
@@ -45,6 +48,9 @@ export default function RecursiveForm({
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
+          arrayData={arrayData}
+          arrayPath={arrayPath}
+          onChildChange={onChildChange}
         />
       ) : schema?.type === 'string' || schema?.type === 'number' ? (
         <TextField

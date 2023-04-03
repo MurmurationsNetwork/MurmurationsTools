@@ -1,17 +1,44 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RecursiveForm from './RecursiveForm'
 import { constructState } from '../utils/constructState'
+import { parsePath } from '../utils/parsePath'
 
 export default function ArrayField({
   schema,
   profileData,
   parentFieldName,
   isFieldRequired,
-  requiredProperties
+  requiredProperties,
+  parentArrayData,
+  parentArrayPath,
+  parentOnChildChange
 }) {
+  console.log(parentArrayData, parentArrayPath)
+
   const [arrayData, setArrayData] = useState(
     profileData ? profileData : [constructState(schema?.items)]
   )
+
+  useEffect(() => {
+    if (parentArrayData && parentArrayPath) {
+      let currentArray = parentArrayData
+      // parse array
+      const parts = parsePath(parentArrayPath)
+      for (let i = 0; i < parts.length; i++) {
+        let part = parts[i]
+        const index = parseInt(part)
+        if (!isNaN(index)) {
+          part = index
+        }
+        currentArray = currentArray[part]
+      }
+
+      // if the current array is different from the parent array, update the state
+      if (currentArray !== arrayData) {
+        setArrayData(currentArray)
+      }
+    }
+  }, [parentArrayData, parentArrayPath, arrayData])
 
   const handleChange = (event, index) => {
     event.preventDefault()
@@ -19,6 +46,11 @@ export default function ArrayField({
     values[index] = event.target.value
     setArrayData(values)
     console.log('change Values', values)
+
+    // if we have a parent array, we need to update it
+    if (parentArrayData && parentArrayPath) {
+      updateParentArray(values)
+    }
   }
 
   const handleAdd = (event, schema) => {
@@ -28,6 +60,11 @@ export default function ArrayField({
     const values = [...arrayData, defaultState]
     setArrayData(values)
     console.log('add Values', values)
+
+    // if we have a parent array, we need to update it
+    if (parentArrayData && parentArrayPath) {
+      updateParentArray(values)
+    }
   }
 
   const handleRemove = (event, index) => {
@@ -36,10 +73,34 @@ export default function ArrayField({
     values.splice(index, 1)
     setArrayData(values)
     console.log('remove Values', values)
+
+    // if we have a parent array, we need to update it
+    if (parentArrayData && parentArrayPath) {
+      updateParentArray(values)
+    }
   }
 
   const handleChildChange = newArrayData => {
     setArrayData(newArrayData)
+  }
+
+  const updateParentArray = newChildArray => {
+    const newArray = [...parentArrayData]
+    let values = newArray
+    const parts = parsePath(parentArrayPath)
+    for (let i = 0; i < parts.length; i++) {
+      let part = parts[i]
+      const index = parseInt(part)
+      if (!isNaN(index)) {
+        part = index
+      }
+      if (i === parts.length - 1) {
+        values[part] = newChildArray
+      } else {
+        values = values[part]
+      }
+    }
+    parentOnChildChange(newArray)
   }
 
   if (schema?.items?.type === 'object') {
