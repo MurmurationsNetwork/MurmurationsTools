@@ -3,6 +3,7 @@ import RecursiveForm from './RecursiveForm'
 
 export default function ObjectField({
   schema,
+  profileData,
   parentFieldName,
   isFieldRequired,
   requiredProperties,
@@ -20,6 +21,7 @@ export default function ObjectField({
         <div key={parentFieldName + '.' + property}>
           <RecursiveForm
             schema={schema?.properties[property]}
+            profileData={profileData?.[property]}
             parentFieldName={parentFieldName + '.' + property}
             isFieldRequired={
               isFieldRequired
@@ -50,6 +52,7 @@ export default function ObjectField({
             </div>
             <RecursiveForm
               schema={schema?.properties[property]}
+              profileData={profileData?.[property]}
               parentFieldName={parentFieldName + '.' + property}
               isFieldRequired={
                 isFieldRequired

@@ -4,11 +4,14 @@ import { constructState } from '../utils/constructState'
 
 export default function ArrayField({
   schema,
+  profileData,
   parentFieldName,
   isFieldRequired,
   requiredProperties
 }) {
-  const [arrayData, setArrayData] = useState([constructState(schema?.items)])
+  const [arrayData, setArrayData] = useState(
+    profileData ? profileData : [constructState(schema?.items)]
+  )
 
   const handleChange = (event, index) => {
     event.preventDefault()
@@ -55,6 +58,7 @@ export default function ArrayField({
           <div key={parentFieldName + '[' + index + ']'}>
             <RecursiveForm
               schema={schema?.items}
+              profileData={value}
               parentFieldName={parentFieldName + '[' + index + ']'}
               isFieldRequired={isFieldRequired}
               requiredProperties={requiredProperties}

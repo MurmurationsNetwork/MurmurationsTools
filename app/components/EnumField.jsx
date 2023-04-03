@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 
 export default function EnumField({
   schema,
+  profileData,
   parentFieldName,
   isFieldRequired,
   requiredProperties
 }) {
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState(profileData || '')
 
   const handleChange = event => {
     setInputValue(event.target.value)

@@ -7,6 +7,7 @@ import ArrayField from './ArrayField'
 
 export default function RecursiveForm({
   schema,
+  profileData,
   parentFieldName,
   isFieldRequired,
   requiredProperties,
@@ -19,6 +20,7 @@ export default function RecursiveForm({
       {schema?.type === 'object' && schema?.properties ? (
         <ObjectField
           schema={schema}
+          profileData={profileData}
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
@@ -29,6 +31,7 @@ export default function RecursiveForm({
       ) : schema?.type === 'array' ? (
         <ArrayField
           schema={schema}
+          profileData={profileData}
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
@@ -38,6 +41,7 @@ export default function RecursiveForm({
       ) : schema?.enum ? (
         <EnumField
           schema={schema}
+          profileData={profileData}
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}
@@ -45,6 +49,7 @@ export default function RecursiveForm({
       ) : schema?.type === 'string' || schema?.type === 'number' ? (
         <TextField
           schema={schema}
+          profileData={profileData}
           parentFieldName={parentFieldName}
           isFieldRequired={isFieldRequired}
           requiredProperties={requiredProperties}

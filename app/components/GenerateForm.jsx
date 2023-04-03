@@ -29,6 +29,7 @@ export default function GenerateForm({ schema, profileData }) {
                 </div>
                 <RecursiveForm
                   schema={schema?.properties[property]}
+                  profileData={profileData?.[property]}
                   parentFieldName={property}
                   isFieldRequired={!!schema?.required?.includes(property)}
                   requiredProperties={schema?.required}
@@ -37,6 +38,7 @@ export default function GenerateForm({ schema, profileData }) {
             ) : (
               <RecursiveForm
                 schema={schema?.properties[property]}
+                profileData={profileData?.[property]}
                 parentFieldName={property}
                 isFieldRequired={!!schema?.required?.includes(property)}
                 requiredProperties={schema?.required}

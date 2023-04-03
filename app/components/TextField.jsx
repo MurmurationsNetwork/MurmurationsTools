@@ -3,6 +3,7 @@ import { parsePath } from '../utils/parsePath'
 
 export default function TextField({
   schema,
+  profileData,
   parentFieldName,
   isFieldRequired,
   requiredProperties,
@@ -10,7 +11,7 @@ export default function TextField({
   arrayPath,
   onChildChange
 }) {
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState(profileData || '')
 
   const handleChange = event => {
     if (arrayData && arrayPath) {
