@@ -114,7 +114,7 @@ export default function ArrayField({
             <></>
           )}
         </legend>
-        <div className="text-xs">{schema?.description}</div>
+        <div className="block text-sm mb-4">{schema?.description}</div>
         {arrayData.map((value, index) => (
           <div key={parentFieldName + '[' + index + ']'}>
             <RecursiveForm
@@ -158,7 +158,7 @@ export default function ArrayField({
             <></>
           )}
         </legend>
-        <div className="text-xs">{schema?.description}</div>
+        <div className="block text-sm mb-4">{schema?.description}</div>
         {arrayData.map((value, index) => (
           <div key={index} className="flex justify-around items-center">
             <input

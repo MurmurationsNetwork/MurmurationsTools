@@ -4,6 +4,7 @@ import TextField from './TextField'
 import EnumField from './EnumField'
 import DefaultField from './DefaultField'
 import ArrayField from './ArrayField'
+import MultipleEnumField from './MultipleEnumField'
 
 export default function RecursiveForm({
   schema,
@@ -29,16 +30,29 @@ export default function RecursiveForm({
           onChildChange={onChildChange}
         />
       ) : schema?.type === 'array' ? (
-        <ArrayField
-          schema={schema}
-          profileData={profileData}
-          parentFieldName={parentFieldName}
-          isFieldRequired={isFieldRequired}
-          requiredProperties={requiredProperties}
-          parentArrayData={arrayData}
-          parentArrayPath={arrayPath}
-          parentOnChildChange={onChildChange}
-        />
+        schema?.items?.enum ? (
+          <MultipleEnumField
+            schema={schema}
+            profileData={profileData}
+            parentFieldName={parentFieldName}
+            isFieldRequired={isFieldRequired}
+            requiredProperties={requiredProperties}
+            arrayData={arrayData}
+            arrayPath={arrayPath}
+            onChildChange={onChildChange}
+          />
+        ) : (
+          <ArrayField
+            schema={schema}
+            profileData={profileData}
+            parentFieldName={parentFieldName}
+            isFieldRequired={isFieldRequired}
+            requiredProperties={requiredProperties}
+            parentArrayData={arrayData}
+            parentArrayPath={arrayPath}
+            parentOnChildChange={onChildChange}
+          />
+        )
       ) : schema?.default ? (
         <DefaultField schema={schema} parentFieldName={parentFieldName} />
       ) : schema?.enum ? (
