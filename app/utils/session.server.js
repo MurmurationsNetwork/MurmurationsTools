@@ -190,4 +190,3 @@ export async function createUserSession(userEmail, redirectTo) {
     }
   })
 }
-

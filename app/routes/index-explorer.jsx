@@ -202,7 +202,7 @@ export default function GetNodes() {
         <div className="sm:flex sm:items-center mb-4">
           <div className="sm:flex-auto text-gray-900 dark:text-gray-50">
             <p>
-              For a description of the input fields below, please {' '}
+              For a description of the input fields below, please{' '}
               <a
                 className="text-red-500 dark:text-purple-200"
                 target="_blank"
@@ -369,9 +369,10 @@ export default function GetNodes() {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto text-gray-900 dark:text-gray-50">
             <p className="text-sm">
-              When searching for tags, select <em>all tags</em> so only nodes with all of the tags
-              entered are shown. Select <em>exact matches only</em> so that
-              spelling variations are not shown.
+              When searching for tags, select <em>all tags</em> so only nodes
+              with all of the tags entered are shown. Select{' '}
+              <em>exact matches only</em> so that spelling variations are not
+              shown.
             </p>
           </div>
         </div>

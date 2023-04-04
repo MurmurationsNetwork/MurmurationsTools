@@ -87,7 +87,9 @@ export default function Tools() {
               Add/Update Profile in Index
             </h2>
             <p className="text-sm mb-2 md:mb-4">
-              Post your profile to your website then add your profile, and always update the Index every time you change it to enable data aggregators to learn about your recent changes.
+              Post your profile to your website then add your profile, and
+              always update the Index every time you change it to enable data
+              aggregators to learn about your recent changes.
             </p>
             <input
               className="form-input w-full md:w-1/2 dark:bg-gray-700 md:mr-2"
@@ -128,9 +130,10 @@ export default function Tools() {
             <h2 className="font-bold text-lg md:text-2xl mb-2 md:mb-4">
               Check Profile Status in Index
             </h2>
-              <p className="text-sm mb-2 md:mb-4">
-                Get status and other information about your profile from the Index.
-              </p>
+            <p className="text-sm mb-2 md:mb-4">
+              Get status and other information about your profile from the
+              Index.
+            </p>
             <input
               className="form-input w-full md:w-1/2 dark:bg-gray-700 md:mr-2"
               type="text"
@@ -171,7 +174,9 @@ export default function Tools() {
               Delete Profile from Index
             </h2>
             <p className="text-sm mb-2 md:mb-4">
-              Remove your profile from your website first (it should return a <code>404 Not Found</code> status code) and then submit it here to delete it from the Index.
+              Remove your profile from your website first (it should return a{' '}
+              <code>404 Not Found</code> status code) and then submit it here to
+              delete it from the Index.
             </p>
             <input
               className="form-input w-full md:w-1/2 dark:bg-gray-700 md:mr-2"
