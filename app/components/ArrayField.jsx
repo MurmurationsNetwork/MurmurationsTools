@@ -13,8 +13,6 @@ export default function ArrayField({
   parentArrayPath,
   parentOnChildChange
 }) {
-  console.log(parentArrayData, parentArrayPath)
-
   const [arrayData, setArrayData] = useState(
     profileData ? profileData : [constructState(schema?.items)]
   )
@@ -45,7 +43,6 @@ export default function ArrayField({
     const values = [...arrayData]
     values[index] = event.target.value
     setArrayData(values)
-    console.log('change Values', values)
 
     // if we have a parent array, we need to update it
     if (parentArrayData && parentArrayPath) {
@@ -59,7 +56,6 @@ export default function ArrayField({
     const defaultState = constructState(schema?.items)
     const values = [...arrayData, defaultState]
     setArrayData(values)
-    console.log('add Values', values)
 
     // if we have a parent array, we need to update it
     if (parentArrayData && parentArrayPath) {
@@ -72,7 +68,6 @@ export default function ArrayField({
     const values = [...arrayData]
     values.splice(index, 1)
     setArrayData(values)
-    console.log('remove Values', values)
 
     // if we have a parent array, we need to update it
     if (parentArrayData && parentArrayPath) {
@@ -197,20 +192,3 @@ export default function ArrayField({
     )
   }
 }
-
-// const getCurrentArray = (inputs, parentFieldName) => {
-//   // use regex to get the array and object path.
-//   const parts = parsePath(parentFieldName)
-//
-//   let returnArray = inputs
-//   for (let i = 0; i < parts.length; i++) {
-//     let part = parts[i]
-//     // if the part can be parsed as an integer, then it is an array index
-//     const index = parseInt(part)
-//     if (!isNaN(index)) {
-//       part = index
-//     }
-//     returnArray = returnArray[part]
-//   }
-//   return returnArray
-// }

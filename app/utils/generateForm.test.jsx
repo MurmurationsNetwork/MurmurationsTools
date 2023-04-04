@@ -3,17 +3,19 @@ import React from 'react'
 import { screen, render } from '@testing-library/react'
 
 import GenerateForm from '../components/GenerateForm'
-import { test_schema_1, test_schema_2 } from './test_schemas'
+import { schemaHeader, test_schema_1, test_schema_2 } from './test_schemas'
 
 /**
  * @vitest-environment jsdom
  */
 
-// describe('generateForm tests', () => {
-//   it('Schema with no properties should return empty content', () => {
-//     expect(<GenerateForm schema={schemaHeader} />).toEqual(<></>)
-//   })
-// })
+describe('generateForm tests', () => {
+  it('Schema with no properties should return empty content', () => {
+    const { container } = render(<GenerateForm schema={schemaHeader} />)
+
+    expect(container.innerHTML).toEqual('')
+  })
+})
 
 describe('render form tests', () => {
   it('Should render string and number input fields', () => {
