@@ -1,3 +1,8 @@
+/*
+ * This function is used for generating the initial state of the form using the schema
+ * @param {Object} schema - The schema of the form
+ * @returns {Object} - The initial state of the form
+ */
 export const constructState = schema => {
   if (
     schema?.type === 'string' ||

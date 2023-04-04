@@ -11,6 +11,12 @@ export default function ObjectField({
   arrayPath,
   onChildChange
 }) {
+  /*
+   * This component check the children of the object.
+   * If they are string, number, array, we won't generate the object border.
+   * If they are objects, we will generate the object border.
+   * For other cases, it will render nothing. (This should not happen)
+   */
   return Object.keys(schema?.properties)?.map(property => {
     if (
       schema?.properties[property]?.type === 'string' ||

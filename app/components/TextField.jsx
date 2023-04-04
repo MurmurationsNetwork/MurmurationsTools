@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { parsePath } from '../utils/parsePath'
+import { getCurrentValue } from './utils/getCurrentValue'
+import { generateNewState } from './utils/generateNewState'
 
 export default function TextField({
   schema,
@@ -14,45 +15,22 @@ export default function TextField({
   const [inputValue, setInputValue] = useState(profileData || '')
 
   const handleChange = event => {
+    // If the field is inherited from the parent, we need to update the parent.
+    // Otherwise, we can just update the local state.
     if (arrayData && arrayPath) {
-      const newArray = [...arrayData]
-      let values = newArray
-      const parts = parsePath(arrayPath)
-      for (let i = 0; i < parts.length; i++) {
-        let part = parts[i]
-        const index = parseInt(part)
-        if (!isNaN(index)) {
-          part = index
-        }
-        if (i === parts.length - 1) {
-          values[part] = event.target.value
-        } else {
-          values = values[part]
-        }
-      }
+      const newArray = generateNewState(
+        arrayData,
+        arrayPath,
+        event.target.value
+      )
       onChildChange(newArray)
     } else {
       setInputValue(event.target.value)
     }
   }
 
-  const getValue = (arrayData, arrayPath) => {
-    if (arrayData && arrayPath) {
-      let result = arrayData
-      const parts = parsePath(arrayPath)
-      for (let part of parts) {
-        const index = parseInt(part)
-        if (!isNaN(index)) {
-          part = index
-        }
-        result = result[part]
-      }
-      return result
-    } else {
-      return ''
-    }
-  }
-
+  // If the field is inherited from the parent, we need to get the "value" from the parent.
+  // Otherwise, we can just use the local state.
   return (
     <div>
       <legend className="block text-md font-bold mt-4">
@@ -64,21 +42,43 @@ export default function TextField({
         )}
       </legend>
       <div className="block text-sm my-2">
-        <input
-          className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700"
-          type={schema?.type === 'string' ? 'text' : 'number'}
-          value={arrayData ? getValue(arrayData, arrayPath) : inputValue}
-          name={parentFieldName}
-          aria-label={parentFieldName}
-          min={schema?.minimum}
-          max={schema?.maximum}
-          step={schema?.type === 'number' ? 'any' : null}
-          minLength={schema?.minLength}
-          maxLength={schema?.maxLength}
-          pattern={schema?.pattern}
-          required={isFieldRequired}
-          onChange={event => handleChange(event)}
-        />
+        {schema?.enum ? (
+          <select
+            className="form-select w-full dark:bg-gray-700 mt-2 text-ellipsis"
+            aria-label={parentFieldName}
+            name={parentFieldName}
+            required={isFieldRequired}
+            value={
+              arrayData ? getCurrentValue(arrayData, arrayPath) : inputValue
+            }
+            onChange={event => handleChange(event)}
+          >
+            <option value="" key="0"></option>
+            {schema?.enum?.map((item, index) => (
+              <option value={item} key={item}>
+                {schema?.enumNames ? schema?.enumNames?.[index] : item}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700"
+            type={schema?.type === 'string' ? 'text' : 'number'}
+            value={
+              arrayData ? getCurrentValue(arrayData, arrayPath) : inputValue
+            }
+            name={parentFieldName}
+            aria-label={parentFieldName}
+            min={schema?.minimum}
+            max={schema?.maximum}
+            step={schema?.type === 'number' ? 'any' : null}
+            minLength={schema?.minLength}
+            maxLength={schema?.maxLength}
+            pattern={schema?.pattern}
+            required={isFieldRequired}
+            onChange={event => handleChange(event)}
+          />
+        )}
         <div className="text-xs mt-2">{schema?.description}</div>
       </div>
     </div>

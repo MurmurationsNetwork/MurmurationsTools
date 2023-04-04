@@ -3,8 +3,10 @@ import RecursiveForm from './RecursiveForm'
 import SchemaField from './SchemaField'
 
 export default function GenerateForm({ schema, profileData }) {
+  // The top level of schemas are always objects, if not, return nothing
   if (schema?.properties) {
     return Object.keys(schema?.properties)?.map(property => {
+      // link_schemas is a special case, we want to render it as a hidden input
       if (property === 'linked_schemas') {
         return (
           <div key={property}>
@@ -12,6 +14,7 @@ export default function GenerateForm({ schema, profileData }) {
           </div>
         )
       } else {
+        // if the property is an object with properties, we want to render the border with title and description
         return (
           <div key={property}>
             {schema?.properties[property]?.type === 'object' &&

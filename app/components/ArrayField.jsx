@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import RecursiveForm from './RecursiveForm'
-import { constructState } from '../utils/constructState'
-import { parsePath } from '../utils/parsePath'
+import { constructState } from './utils/constructState'
+import { generateNewState } from './utils/generateNewState'
+import { getCurrentValue } from './utils/getCurrentValue'
 
 export default function ArrayField({
   schema,
@@ -13,25 +14,16 @@ export default function ArrayField({
   parentArrayPath,
   parentOnChildChange
 }) {
+  // if the parent didn't provide profileData, we need to construct the state first
   const [arrayData, setArrayData] = useState(
     profileData ? profileData : [constructState(schema?.items)]
   )
 
   useEffect(() => {
     if (parentArrayData && parentArrayPath) {
-      let currentArray = parentArrayData
-      // parse array
-      const parts = parsePath(parentArrayPath)
-      for (let i = 0; i < parts.length; i++) {
-        let part = parts[i]
-        const index = parseInt(part)
-        if (!isNaN(index)) {
-          part = index
-        }
-        currentArray = currentArray[part]
-      }
+      let currentArray = getCurrentValue(parentArrayData, parentArrayPath)
 
-      // if the current array is different from the parent array, update the state
+      // If the current array is different from the parent array, update the state
       if (currentArray !== arrayData) {
         setArrayData(currentArray)
       }
@@ -52,7 +44,7 @@ export default function ArrayField({
 
   const handleAdd = (event, schema) => {
     event.preventDefault()
-    // use schema to construct the state
+    // use schema to construct the new state
     const defaultState = constructState(schema?.items)
     const values = [...arrayData, defaultState]
     setArrayData(values)
@@ -75,29 +67,25 @@ export default function ArrayField({
     }
   }
 
+  // If the child component changes, it will notify here to update the current array
   const handleChildChange = newArrayData => {
     setArrayData(newArrayData)
   }
 
+  // For the array field that is nested in another array, we need to update the parent array
   const updateParentArray = newChildArray => {
-    const newArray = [...parentArrayData]
-    let values = newArray
-    const parts = parsePath(parentArrayPath)
-    for (let i = 0; i < parts.length; i++) {
-      let part = parts[i]
-      const index = parseInt(part)
-      if (!isNaN(index)) {
-        part = index
-      }
-      if (i === parts.length - 1) {
-        values[part] = newChildArray
-      } else {
-        values = values[part]
-      }
-    }
+    const newArray = generateNewState(
+      parentArrayData,
+      parentArrayPath,
+      newChildArray
+    )
     parentOnChildChange(newArray)
   }
 
+  // If the children type is object, it will render the object border
+  // If the children type is text or number, it will render a list of inputs
+  // todo: if the children type is array, it will render a list of array fields
+  // Otherwise, it will render nothing
   if (schema?.items?.type === 'object') {
     return (
       <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
@@ -142,7 +130,10 @@ export default function ArrayField({
         </button>
       </fieldset>
     )
-  } else {
+  } else if (
+    schema?.items?.type === 'string' ||
+    schema?.items?.type === 'number'
+  ) {
     return (
       <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
         <legend className="block text-md font-bold">
@@ -190,5 +181,7 @@ export default function ArrayField({
         </button>
       </fieldset>
     )
+  } else {
+    return <></>
   }
 }

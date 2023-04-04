@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { parsePath } from '../utils/parsePath'
+import { getCurrentValue } from './utils/getCurrentValue'
+import { generateNewState } from './utils/generateNewState'
 
 export default function MultipleEnumField({
   schema,
@@ -14,6 +15,7 @@ export default function MultipleEnumField({
   const [inputValue, setInputValue] = useState(profileData || [])
 
   const handleChange = event => {
+    // Get the selected values
     const { options } = event.target
     const selectedValues = []
     for (let i = 0; i < options.length; i++) {
@@ -21,45 +23,19 @@ export default function MultipleEnumField({
         selectedValues.push(options[i].value)
       }
     }
+
+    // If the field is inherited from the parent, we need to update the parent.
+    // Otherwise, we can just update the local state.
     if (arrayData && arrayPath) {
-      const newArray = [...arrayData]
-      let values = newArray
-      const parts = parsePath(arrayPath)
-      for (let i = 0; i < parts.length; i++) {
-        let part = parts[i]
-        const index = parseInt(part)
-        if (!isNaN(index)) {
-          part = index
-        }
-        if (i === parts.length - 1) {
-          values[part] = selectedValues
-        } else {
-          values = values[part]
-        }
-      }
+      const newArray = generateNewState(arrayData, arrayPath, selectedValues)
       onChildChange(newArray)
     } else {
       setInputValue(selectedValues)
     }
   }
 
-  const getValue = (arrayData, arrayPath) => {
-    if (arrayData && arrayPath) {
-      let result = arrayData
-      const parts = parsePath(arrayPath)
-      for (let part of parts) {
-        const index = parseInt(part)
-        if (!isNaN(index)) {
-          part = index
-        }
-        result = result[part]
-      }
-      return result
-    } else {
-      return ''
-    }
-  }
-
+  // If the field is inherited from the parent, we need to get the "value" from the parent.
+  // Otherwise, we can just use the local state.
   return (
     <div>
       <legend className="block text-md font-bold mt-4">
@@ -76,7 +52,7 @@ export default function MultipleEnumField({
           aria-label={parentFieldName}
           name={parentFieldName}
           required={isFieldRequired}
-          value={arrayData ? getValue(arrayData, arrayPath) : inputValue}
+          value={arrayData ? getCurrentValue(arrayData, arrayPath) : inputValue}
           onChange={event => handleChange(event)}
           multiple={true}
         >
