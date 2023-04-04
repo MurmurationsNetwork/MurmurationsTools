@@ -14,7 +14,8 @@ export default function GenerateForm({ schema, profileData }) {
       } else {
         return (
           <div key={property}>
-            {schema?.properties[property]?.type === 'object' ? (
+            {schema?.properties[property]?.type === 'object' &&
+            schema?.properties[property]?.properties ? (
               <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
                 <legend className="block text-md font-bold mt-2">
                   {schema?.properties[property]?.title}
