@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Link,
   Links,
@@ -29,6 +30,17 @@ export async function loader({ request }) {
 export default function App() {
   const { url } = useLoaderData()
   const production = !!url?.match(/\/\/tools/)
+  const [online, setOnline] = useState(true)
+
+  useEffect(() => {
+    window.addEventListener('offline', () => {
+      setOnline(false)
+    })
+    window.addEventListener('online', () => {
+      setOnline(true)
+    })
+  }, [])
+
   return (
     <html lang="en">
       <head>
@@ -41,6 +53,11 @@ export default function App() {
         {production ? null : (
           <div className="flex flex-row bg-fuchsia-200 dark:bg-fuchsia-700 py-1 px-2 md:py-2 md:px-4 justify-center">
             T E S T &nbsp; E N V I R O N M E N T
+          </div>
+        )}
+        {online ? null : (
+          <div className="flex flex-row bg-rose-400 dark:bg-rose-700 py-1 px-2 md:py-2 md:px-4 justify-center">
+            O F F L I N E -- Check your network connection
           </div>
         )}
         <div className="container max-w-full mx-auto p-0">
@@ -121,11 +138,11 @@ export function ErrorBoundary({ error }) {
       </head>
       <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal">
         <div className="container mx-auto px-4 h-screen flex justify-center items-center flex-col">
-          <span className="text-5xl mb-8">💥😱</span>
-          <h1 className="text-xl font-bold mb-8">
-            A fatal error has occurred and was logged.
+          <span className="text-5xl md:text-8xl">😱</span>
+          <h1 className="text-3xl font-bold mt-8">
+            A fatal error has occurred and was logged
           </h1>
-          <code className="text-lg">{error.message}</code>
+          <code className="text-sm">{error.message}</code>
         </div>
         <Scripts />
       </body>
