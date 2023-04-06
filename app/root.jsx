@@ -38,7 +38,6 @@ export default function App() {
     })
     window.addEventListener('online', () => {
       setOnline(true)
-      window.location.reload()
     })
   }, [])
 
