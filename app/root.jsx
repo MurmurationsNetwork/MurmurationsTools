@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Link,
   Links,
@@ -29,6 +30,18 @@ export async function loader({ request }) {
 export default function App() {
   const { url } = useLoaderData()
   const production = !!url?.match(/\/\/tools/)
+  const [online, setOnline] = useState(true)
+
+  useEffect(() => {
+    window.addEventListener('offline', () => {
+      setOnline(false)
+    })
+    window.addEventListener('online', () => {
+      setOnline(true)
+      window.location.reload()
+    })
+  }, [])
+
   return (
     <html lang="en">
       <head>
@@ -41,6 +54,11 @@ export default function App() {
         {production ? null : (
           <div className="flex flex-row bg-fuchsia-200 dark:bg-fuchsia-700 py-1 px-2 md:py-2 md:px-4 justify-center">
             T E S T &nbsp; E N V I R O N M E N T
+          </div>
+        )}
+        {online ? null : (
+          <div className="flex flex-row bg-rose-400 dark:bg-rose-700 py-1 px-2 md:py-2 md:px-4 justify-center">
+            O F F L I N E -- Check your network connection
           </div>
         )}
         <div className="container max-w-full mx-auto p-0">
