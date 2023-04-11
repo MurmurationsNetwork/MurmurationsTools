@@ -33,7 +33,7 @@ async function postNode(profileId) {
   }
 }
 
-async function publishIpns(client, emailHash, userCuid) {
+async function publishIpns(client, emailHash) {
   // get the latest profile list
   const user = await mongoGetUser(client, emailHash)
   const profileList = await mongoGetProfiles(client, user.profiles)
@@ -209,6 +209,21 @@ async function getProfiles(emailHash) {
 
 export async function getProfileList(user) {
   try {
+    // if users have IPNS, make sure the IPNS can be connected, because IPNS will be expired after a while
+    if (user?.ipns && user?.ipfs) {
+      const url = process.env.PUBLIC_IPNS_GATEWAY_URL + '/' + user.ipns
+      const path = '/ipfs/' + user.ipfs
+      fetch(url, { timeout: 3000 })
+        .then(res => {
+          if (res.status !== 200) {
+            ipfsPublish(path, user.email_hash + '_' + user.cuid)
+          }
+        })
+        .catch(err => {
+          ipfsPublish(path, user.email_hash + '_' + user.cuid)
+        })
+    }
+
     let mongoPromise = new Promise((resolve, reject) => {
       resolve(getProfiles(user.email_hash))
       reject('reject from mongo')
