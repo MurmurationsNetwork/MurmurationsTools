@@ -77,7 +77,7 @@ export async function action({ request }) {
       }
       return json(response, {
         headers: {
-          'Set-Cookie': await userCookie.serialize(response.newUser)
+          'Set-Cookie': await userCookie.serialize(response.userData)
         }
       })
     case 'modify':
@@ -134,7 +134,7 @@ export async function action({ request }) {
       )
       return json(response, {
         headers: {
-          'Set-Cookie': await userCookie.serialize(response.newUser)
+          'Set-Cookie': await userCookie.serialize(response.userData)
         }
       })
     case 'delete':
@@ -146,7 +146,7 @@ export async function action({ request }) {
       }
       return json(response, {
         headers: {
-          'Set-Cookie': await userCookie.serialize(response.newUser)
+          'Set-Cookie': await userCookie.serialize(response.userData)
         }
       })
 

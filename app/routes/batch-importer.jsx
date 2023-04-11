@@ -24,7 +24,6 @@ import {
 } from '~/utils/batch.server'
 import CaughtError from '~/components/CaughtError'
 
-
 export async function action({ request }) {
   let formData = await request.formData()
   let rawData = {}
