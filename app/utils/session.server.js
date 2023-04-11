@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import { createCookieSessionStorage, redirect } from '@remix-run/node'
 
-import { ipfsKeyGen } from '~/utils/ipfs.server'
+import { ipnsKeyGen } from '~/utils/ipfs.server'
 import {
   mongoConnect,
   mongoCountUser,
@@ -26,7 +26,7 @@ export async function register(email, password) {
       }
     }
     const usersCuid = cuid()
-    const res = await ipfsKeyGen(emailHash + '_' + usersCuid)
+    const res = await ipnsKeyGen(emailHash + '_' + usersCuid)
     if (res?.Type === 'error') {
       return {
         success: false,

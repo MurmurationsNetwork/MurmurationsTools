@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import cuid from 'cuid'
 
 import { fetchDelete, fetchGet, fetchJsonPost } from '~/utils/fetcher'
-import { ipfsPublish, ipfsUpload } from '~/utils/ipfs.server'
+import { ipnsPublish, ipfsUpload } from '~/utils/ipfs.server'
 import {
   mongoConnect,
   mongoDeleteProfile,
@@ -33,7 +33,7 @@ async function postNode(profileId) {
   }
 }
 
-async function publishIpns(client, emailHash) {
+async function publishProfileList(client, emailHash) {
   // get the latest profile list
   const user = await mongoGetUser(client, emailHash)
   const profileList = await mongoGetProfiles(client, user.profiles)
@@ -42,7 +42,7 @@ async function publishIpns(client, emailHash) {
   const ipfsProfile = await ipfsUpload(JSON.stringify(profileList))
   await mongoUpdateUserIpfs(client, emailHash, ipfsProfile.Hash)
   const path = '/ipfs/' + ipfsProfile.Hash
-  ipfsPublish(path, emailHash + '_' + user.cuid)
+  ipnsPublish(path, emailHash + '_' + user.cuid)
 
   return await mongoGetUser(client, emailHash)
 }
@@ -91,7 +91,7 @@ export async function saveProfile(userEmail, profileTitle, profileData) {
     }
     await mongoSaveProfile(client, profile)
     await mongoUpdateUserProfile(client, emailHash, profileId)
-    const newUser = await publishIpns(client, emailHash)
+    const newUser = await publishProfileList(client, emailHash)
 
     return {
       success: true,
@@ -138,7 +138,7 @@ export async function updateProfile(
       node_id: body?.data?.node_id ? body?.data?.node_id : ''
     }
     await mongoUpdateProfile(client, profileId, profile)
-    const newUser = await publishIpns(client, emailHash)
+    const newUser = await publishProfileList(client, emailHash)
 
     return {
       success: true,
@@ -177,7 +177,7 @@ export async function deleteProfile(userEmail, profileId) {
       }
     }
     await mongoDeleteUserProfile(client, emailHash, profileId)
-    const newUser = await publishIpns(client, emailHash)
+    const newUser = await publishProfileList(client, emailHash)
 
     return {
       success: true,
@@ -216,11 +216,11 @@ export async function getProfileList(user) {
       fetch(url, { timeout: 3000 })
         .then(res => {
           if (res.status !== 200) {
-            ipfsPublish(path, user.email_hash + '_' + user.cuid)
+            ipnsPublish(path, user.email_hash + '_' + user.cuid)
           }
         })
         .catch(err => {
-          ipfsPublish(path, user.email_hash + '_' + user.cuid)
+          ipnsPublish(path, user.email_hash + '_' + user.cuid)
         })
     }
 
