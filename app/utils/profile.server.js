@@ -91,12 +91,12 @@ export async function saveProfile(userEmail, profileTitle, profileData) {
     }
     await mongoSaveProfile(client, profile)
     await mongoUpdateUserProfile(client, emailHash, profileId)
-    const newUser = await publishProfileList(client, emailHash)
+    const userData = await publishProfileList(client, emailHash)
 
     return {
       success: true,
       message: 'Profile saved.',
-      newUser: newUser
+      userData: userData
     }
   } catch (err) {
     throw new Response(`saveProfile failed: ${err}`, {
@@ -138,12 +138,12 @@ export async function updateProfile(
       node_id: body?.data?.node_id ? body?.data?.node_id : ''
     }
     await mongoUpdateProfile(client, profileId, profile)
-    const newUser = await publishProfileList(client, emailHash)
+    const userData = await publishProfileList(client, emailHash)
 
     return {
       success: true,
       message: 'Profile updated.',
-      newUser: newUser
+      userData: userData
     }
   } catch (err) {
     throw new Response(`updateProfile failed: ${err}`, {
@@ -177,12 +177,12 @@ export async function deleteProfile(userEmail, profileId) {
       }
     }
     await mongoDeleteUserProfile(client, emailHash, profileId)
-    const newUser = await publishProfileList(client, emailHash)
+    const userData = await publishProfileList(client, emailHash)
 
     return {
       success: true,
       message: 'Profile deleted.',
-      newUser: newUser
+      userData: userData
     }
   } catch (err) {
     throw new Response(`deleteProfile failed: ${err}`, {
