@@ -15,6 +15,7 @@ module.exports = {
   serverMinify: false,
   future: {
     v2_errorBoundary: true,
-    v2_routeConvention: true
+    v2_routeConvention: true,
+    v2_meta: true
   }
 }

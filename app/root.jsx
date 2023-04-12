@@ -21,7 +21,7 @@ export function links() {
 }
 
 export function meta() {
-  return { title: 'Murmuration Tools' }
+  return [{ title: 'Murmuration Tools' }]
 }
 
 export async function loader({ request }) {
