@@ -3,12 +3,13 @@ import { toast, Toaster } from 'react-hot-toast'
 import { json, redirect } from '@remix-run/node'
 import {
   Form,
+  isRouteErrorResponse,
   Link,
   useActionData,
-  useCatch,
   useLoaderData,
-  useSearchParams,
-  useTransition
+  useNavigation,
+  useRouteError,
+  useSearchParams
 } from '@remix-run/react'
 
 import { userCookie } from '~/utils/cookie'
@@ -194,7 +195,7 @@ export async function loader(request) {
 export const unstable_shouldReload = () => true
 
 export default function Index() {
-  const transition = useTransition()
+  const navigation = useNavigation()
   const [searchParams] = useSearchParams()
   const defaultSchema = searchParams.get('schema')
     ? searchParams.get('schema').split(',')
@@ -348,10 +349,10 @@ export default function Index() {
                         value="save"
                         onClick={() => setSubmitType('save')}
                       >
-                        {transition.state === 'submitting' &&
+                        {navigation.state === 'submitting' &&
                         submitType === 'save'
                           ? 'Saving...'
-                          : transition.state === 'loading' &&
+                          : navigation.state === 'loading' &&
                             submitType === 'save'
                           ? 'Saved!'
                           : 'Save to Index'}
@@ -423,9 +424,9 @@ export default function Index() {
               value="select"
               onClick={() => setSubmitType('select')}
             >
-              {transition.state === 'submitting' && submitType === 'select'
+              {navigation.state === 'submitting' && submitType === 'select'
                 ? 'Loading...'
-                : transition.state === 'loading' && submitType === 'select'
+                : navigation.state === 'loading' && submitType === 'select'
                 ? 'Loaded!'
                 : 'Select'}
             </button>
@@ -475,9 +476,9 @@ export default function Index() {
                 value="update"
                 onClick={() => setSubmitType('update')}
               >
-                {transition.state === 'submitting' && submitType === 'update'
+                {navigation.state === 'submitting' && submitType === 'update'
                   ? 'Updating...'
-                  : transition.state === 'loading' && submitType === 'update'
+                  : navigation.state === 'loading' && submitType === 'update'
                   ? 'Updated!'
                   : 'Update Profile'}
               </button>
@@ -502,9 +503,9 @@ export default function Index() {
                 value="submit"
                 onClick={() => setSubmitType('preview')}
               >
-                {transition.state === 'submitting' && submitType === 'preview'
+                {navigation.state === 'submitting' && submitType === 'preview'
                   ? 'Processing...'
-                  : transition.state === 'loading' && submitType === 'preview'
+                  : navigation.state === 'loading' && submitType === 'preview'
                   ? 'Done!'
                   : 'Preview'}
               </button>
@@ -520,7 +521,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
   const [status, setStatus] = useState(null)
   const [timer, setTimer] = useState(1000)
   const [deleteModal, setDeleteModal] = useState(false)
-  const transition = useTransition()
+  const navigation = useNavigation()
 
   useEffect(() => {
     if (status === 'posted') return
@@ -652,9 +653,9 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
                       name="_action"
                       value="delete"
                     >
-                      {transition.state === 'submitting'
+                      {navigation.state === 'submitting'
                         ? 'Processing...'
-                        : transition.state === 'loading'
+                        : navigation.state === 'loading'
                         ? 'Deleted!'
                         : 'Confirm Delete'}
                     </button>
@@ -679,8 +680,11 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
   )
 }
 
-export function CatchBoundary() {
-  const caught = useCatch()
-  console.error(caught)
-  return <CaughtError caught={caught} />
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  // when true, this is what used to go to `CatchBoundary`
+  if (isRouteErrorResponse(error)) {
+    return <CaughtError caught={error} />
+  }
 }
