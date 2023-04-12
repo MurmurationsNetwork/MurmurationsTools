@@ -1,9 +1,15 @@
-import { Form, useActionData, useTransition } from '@remix-run/react'
+import {
+  Form,
+  useActionData,
+  useRouteError,
+  useTransition
+} from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { useState } from 'react'
 import crypto from 'crypto'
 
 import { deleteNode, getNodeStatus, postNode } from '~/utils/index-api'
+import customErrorBoundary from '~/utils/customErrorBoundary'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -213,4 +219,11 @@ export default function Tools() {
       </div>
     </div>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+  console.error(error)
+
+  return customErrorBoundary(error)
 }
