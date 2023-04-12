@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  isRouteErrorResponse,
   Link,
   Links,
   LiveReload,
@@ -7,11 +8,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData
+  useLoaderData,
+  useRouteError
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
 
 import styles from '~/styles/app.css'
+import CaughtError from '~/components/CaughtError'
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }]
@@ -127,8 +130,15 @@ export default function App() {
   )
 }
 
-export function ErrorBoundary({ error }) {
+export function ErrorBoundary() {
+  const error = useRouteError()
   console.error(error)
+
+  // when true, this is what used to go to `CatchBoundary`
+  if (isRouteErrorResponse(error)) {
+    return <CaughtError caught={error} />
+  }
+
   return (
     <html>
       <head>

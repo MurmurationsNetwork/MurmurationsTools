@@ -14,6 +14,7 @@ module.exports = {
   serverPlatform: 'node',
   serverMinify: false,
   future: {
-    v2_errorBoundary: true
+    v2_errorBoundary: true,
+    v2_routeConvention: true
   }
 }
