@@ -7,7 +7,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData
+  useLoaderData,
+  useRouteError
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
 
@@ -18,7 +19,7 @@ export function links() {
 }
 
 export function meta() {
-  return { title: 'Murmuration Tools' }
+  return [{ title: 'Murmuration Tools' }]
 }
 
 export async function loader({ request }) {
@@ -127,22 +128,28 @@ export default function App() {
   )
 }
 
-export function ErrorBoundary({ error }) {
+export function ErrorBoundary() {
+  const error = useRouteError()
   console.error(error)
+
   return (
     <html>
       <head>
-        <title>MPG - Fatal Error</title>
+        <title>Tools - Fatal Error</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Meta />
         <Links />
       </head>
       <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal">
         <div className="container mx-auto px-4 h-screen flex justify-center items-center flex-col">
           <span className="text-5xl md:text-8xl">😱</span>
-          <h1 className="text-3xl font-bold mt-8">
+          <h1 className="text-md md:text-3xl font-bold mt-8 md:mt-16">
             A fatal error has occurred and was logged
           </h1>
-          <code className="text-sm">{error.message}</code>
+          <code className="text-sm md:text-lg mt-4 md:mt-8">
+            {error instanceof Error ? error.message : JSON.stringify(error)}
+          </code>
         </div>
         <Scripts />
       </body>

@@ -4,7 +4,8 @@ import {
   Link,
   useActionData,
   useLoaderData,
-  useTransition
+  useNavigation,
+  useRouteError
 } from '@remix-run/react'
 
 import { fetchGet } from '~/utils/fetcher'
@@ -12,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { loadSchema } from '~/utils/schema'
 import { loadCountries } from '~/utils/countries'
 import { timestampToDatetime } from '~/utils/datetime'
+import HandleError from '~/components/HandleError'
 
 function getSearchUrl(params, removePage) {
   let searchParams = ''
@@ -144,7 +146,7 @@ export async function loader({ request }) {
 export default function GetNodes() {
   const loaderData = useLoaderData()
   const actionData = useActionData()
-  const transition = useTransition()
+  const navigation = useNavigation()
   let schema = loaderData?.schemas
   let countryList = loaderData?.countries
   let searchParams = loaderData?.params
@@ -358,9 +360,9 @@ export default function GetNodes() {
               className="w-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold rounded py-1"
               type="submit"
             >
-              {transition.state === 'submitting'
+              {navigation.state === 'submitting'
                 ? 'Searching...'
-                : transition.state === 'loading'
+                : navigation.state === 'loading'
                 ? 'Loading Data...'
                 : 'Search'}
             </button>
@@ -677,4 +679,11 @@ function Pagination({ links, searchParams }) {
       </ul>
     </nav>
   )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+  console.error(error)
+
+  return HandleError(error)
 }

@@ -4,10 +4,10 @@ import {
   Form,
   Link,
   useActionData,
-  useCatch,
   useLoaderData,
-  useSearchParams,
-  useTransition
+  useNavigation,
+  useRouteError,
+  useSearchParams
 } from '@remix-run/react'
 
 import { userCookie } from '~/utils/cookie'
@@ -22,7 +22,7 @@ import {
   importBatch,
   validateBatch
 } from '~/utils/batch.server'
-import CaughtError from '~/components/CaughtError'
+import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -159,7 +159,7 @@ export async function loader(request) {
 }
 
 export default function Batch() {
-  const transition = useTransition()
+  const navigation = useNavigation()
 
   const [searchParams] = useSearchParams()
   const defaultSchema = searchParams.get('schema')
@@ -372,9 +372,9 @@ export default function Batch() {
                   value="edit"
                   onClick={() => setSubmitType('edit')}
                 >
-                  {transition.state === 'submitting' && submitType === 'edit'
+                  {navigation.state === 'submitting' && submitType === 'edit'
                     ? 'Processing...'
-                    : transition.state === 'loading' && submitType === 'edit'
+                    : navigation.state === 'loading' && submitType === 'edit'
                     ? 'Done!'
                     : 'Modify'}
                 </button>
@@ -386,9 +386,9 @@ export default function Batch() {
                   value="import"
                   onClick={() => setSubmitType('import')}
                 >
-                  {transition.state === 'submitting' && submitType === 'import'
+                  {navigation.state === 'submitting' && submitType === 'import'
                     ? 'Processing...'
-                    : transition.state === 'loading' && submitType === 'import'
+                    : navigation.state === 'loading' && submitType === 'import'
                     ? 'Done!'
                     : 'Import'}
                 </button>
@@ -403,7 +403,7 @@ export default function Batch() {
 
 function BatchItem({ batch }) {
   const [deleteModal, setDeleteModal] = useState(false)
-  const transition = useTransition()
+  const navigation = useNavigation()
 
   return (
     <>
@@ -473,9 +473,9 @@ function BatchItem({ batch }) {
                       name="_action"
                       value="delete"
                     >
-                      {transition.state === 'submitting'
+                      {navigation.state === 'submitting'
                         ? 'Processing...'
-                        : transition.state === 'loading'
+                        : navigation.state === 'loading'
                         ? 'Deleted!'
                         : 'Confirm Delete'}
                     </button>
@@ -500,8 +500,9 @@ function BatchItem({ batch }) {
   )
 }
 
-export function CatchBoundary() {
-  const caught = useCatch()
-  console.error(caught)
-  return <CaughtError caught={caught} />
+export function ErrorBoundary() {
+  const error = useRouteError()
+  console.error(error)
+
+  return HandleError(error)
 }

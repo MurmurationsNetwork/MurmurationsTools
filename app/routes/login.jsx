@@ -4,9 +4,9 @@ import {
   Form,
   Link,
   useActionData,
-  useCatch,
-  useSearchParams,
-  useTransition
+  useNavigation,
+  useRouteError,
+  useSearchParams
 } from '@remix-run/react'
 
 import {
@@ -15,7 +15,7 @@ import {
   login,
   register
 } from '~/utils/session.server'
-import CaughtError from '~/components/CaughtError'
+import HandleError from '~/components/HandleError'
 
 function validateEmail(email) {
   if (typeof email !== 'string' || email.length < 6) {
@@ -110,7 +110,7 @@ export const action = async ({ request }) => {
 export default function Login() {
   const actionData = useActionData()
   const [searchParams] = useSearchParams()
-  const transition = useTransition()
+  const navigation = useNavigation()
   const [submitType, setSubmitType] = useState('login')
 
   return (
@@ -168,7 +168,7 @@ export default function Login() {
               }
               placeholder="Enter your email"
             />
-            {actionData?.fieldErrors?.email && transition.state === 'idle' ? (
+            {actionData?.fieldErrors?.email && navigation.state === 'idle' ? (
               <p
                 className="form-validation-error text-red-600 dark:text-red-400 text-sm"
                 role="alert"
@@ -200,7 +200,7 @@ export default function Login() {
               placeholder="Enter your password"
             />
             {actionData?.fieldErrors?.password &&
-            transition.state === 'idle' ? (
+            navigation.state === 'idle' ? (
               <p
                 className="form-validation-error text-red-600 dark:text-red-400 text-sm"
                 role="alert"
@@ -211,7 +211,7 @@ export default function Login() {
             ) : null}
           </div>
           <div id="form-error-message" className="mb-2">
-            {actionData?.formError && transition.state === 'idle' ? (
+            {actionData?.formError && navigation.state === 'idle' ? (
               <p
                 className="form-validation-error text-red-600 dark:text-red-400 text-sm"
                 role="alert"
@@ -225,11 +225,11 @@ export default function Login() {
               className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 rounded-full mt-2"
               type="submit"
             >
-              {transition.state === 'submitting'
+              {navigation.state === 'submitting'
                 ? submitType === 'login'
                   ? 'Logging In...'
                   : 'Registering...'
-                : transition.state === 'loading'
+                : navigation.state === 'loading'
                 ? submitType === 'login'
                   ? 'Logged In!'
                   : submitType === 'home'
@@ -255,8 +255,9 @@ export default function Login() {
   )
 }
 
-export function CatchBoundary() {
-  const caught = useCatch()
-  console.error(caught)
-  return <CaughtError caught={caught} />
+export function ErrorBoundary() {
+  const error = useRouteError()
+  console.error(error)
+
+  return HandleError(error)
 }
