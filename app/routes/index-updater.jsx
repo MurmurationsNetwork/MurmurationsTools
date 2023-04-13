@@ -2,7 +2,7 @@ import {
   Form,
   useActionData,
   useRouteError,
-  useTransition
+  useNavigation
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
 import { useState } from 'react'
@@ -78,7 +78,7 @@ export async function action({ request }) {
 }
 
 export default function Tools() {
-  let transition = useTransition()
+  let navigation = useNavigation()
   let data = useActionData()
   let [submitType, setSubmitType] = useState('')
   return (
@@ -112,7 +112,7 @@ export default function Tools() {
             value="post"
             onClick={() => setSubmitType('post')}
           >
-            {transition.state === 'submitting' && submitType === 'post'
+            {navigation.state === 'submitting' && submitType === 'post'
               ? 'Posting...'
               : 'Post Profile'}
           </button>
@@ -155,7 +155,7 @@ export default function Tools() {
             value="check"
             onClick={() => setSubmitType('check')}
           >
-            {transition.state === 'submitting' && submitType === 'check'
+            {navigation.state === 'submitting' && submitType === 'check'
               ? 'Checking...'
               : 'Check Status'}
           </button>
@@ -199,7 +199,7 @@ export default function Tools() {
             value="delete"
             onClick={() => setSubmitType('delete')}
           >
-            {transition.state === 'submitting' && submitType === 'delete'
+            {navigation.state === 'submitting' && submitType === 'delete'
               ? 'Deleting...'
               : 'Delete Profile'}
           </button>
