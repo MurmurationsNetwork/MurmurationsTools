@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import { loadSchema } from '~/utils/schema'
 import { loadCountries } from '~/utils/countries'
 import { timestampToDatetime } from '~/utils/datetime'
-import customErrorBoundary from '~/utils/customErrorBoundary'
+import HandleError from '~/components/HandleError'
 
 function getSearchUrl(params, removePage) {
   let searchParams = ''
@@ -685,5 +685,5 @@ export function ErrorBoundary() {
   const error = useRouteError()
   console.error(error)
 
-  return customErrorBoundary(error)
+  return HandleError(error)
 }

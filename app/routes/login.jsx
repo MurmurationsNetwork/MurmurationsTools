@@ -15,7 +15,7 @@ import {
   login,
   register
 } from '~/utils/session.server'
-import customErrorBoundary from '~/utils/customErrorBoundary'
+import HandleError from '~/components/HandleError'
 
 function validateEmail(email) {
   if (typeof email !== 'string' || email.length < 6) {
@@ -259,5 +259,5 @@ export function ErrorBoundary() {
   const error = useRouteError()
   console.error(error)
 
-  return customErrorBoundary(error)
+  return HandleError(error)
 }

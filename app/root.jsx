@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  isRouteErrorResponse,
   Link,
   Links,
   LiveReload,
@@ -13,7 +14,6 @@ import {
 import { json } from '@remix-run/node'
 
 import styles from '~/styles/app.css'
-import customErrorBoundary from '~/utils/customErrorBoundary'
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }]
@@ -133,5 +133,43 @@ export function ErrorBoundary() {
   const error = useRouteError()
   console.error(error)
 
-  return customErrorBoundary(error)
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div className="container mx-auto px-4 h-screen flex items-center flex-col">
+        <span className="text-5xl md:text-8xl mt-8 md:mt-16">🤬</span>
+        <h1 className="text-3xl font-bold mt-8">{error.status} Error</h1>
+        {error.statusText ? (
+          <h2 className="text-lg">{error.statusText}</h2>
+        ) : null}
+        <code className="text-sm">{error.data}</code>
+      </div>
+    )
+  } else {
+    return (
+      <html>
+        <head>
+          <title>Tools - Fatal Error</title>
+          <meta charSet="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <Meta />
+          <Links />
+        </head>
+        <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal">
+          <div className="container mx-auto px-4 h-screen flex justify-center items-center flex-col">
+            <span className="text-5xl md:text-8xl">😱</span>
+            <h1 className="text-md md:text-3xl font-bold mt-8 md:mt-16">
+              A fatal error has occurred and was logged
+            </h1>
+            <code className="text-sm md:text-lg mt-4 md:mt-8">
+              {error instanceof Error ? error.message : error}
+            </code>
+          </div>
+          <Scripts />
+        </body>
+      </html>
+    )
+  }
 }

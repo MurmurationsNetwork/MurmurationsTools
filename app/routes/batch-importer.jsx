@@ -6,6 +6,7 @@ import {
   useActionData,
   useLoaderData,
   useNavigation,
+  useRouteError,
   useSearchParams
 } from '@remix-run/react'
 
@@ -21,7 +22,7 @@ import {
   importBatch,
   validateBatch
 } from '~/utils/batch.server'
-import customErrorBoundary from '~/utils/customErrorBoundary'
+import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -500,5 +501,8 @@ function BatchItem({ batch }) {
 }
 
 export function ErrorBoundary() {
-  customErrorBoundary()
+  const error = useRouteError()
+  console.error(error)
+
+  return HandleError(error)
 }

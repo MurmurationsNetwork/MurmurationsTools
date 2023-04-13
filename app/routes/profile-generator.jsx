@@ -25,7 +25,7 @@ import {
 import { requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
 import GenerateForm from '~/components/GenerateForm'
-import customErrorBoundary from '~/utils/customErrorBoundary'
+import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -683,5 +683,5 @@ export function ErrorBoundary() {
   const error = useRouteError()
   console.error(error)
 
-  return customErrorBoundary(error)
+  return HandleError(error)
 }

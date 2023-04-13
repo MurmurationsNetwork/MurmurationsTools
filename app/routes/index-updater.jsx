@@ -9,7 +9,7 @@ import { useState } from 'react'
 import crypto from 'crypto'
 
 import { deleteNode, getNodeStatus, postNode } from '~/utils/index-api'
-import customErrorBoundary from '~/utils/customErrorBoundary'
+import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
   let formData = await request.formData()
@@ -225,5 +225,5 @@ export function ErrorBoundary() {
   const error = useRouteError()
   console.error(error)
 
-  return customErrorBoundary(error)
+  return HandleError(error)
 }
