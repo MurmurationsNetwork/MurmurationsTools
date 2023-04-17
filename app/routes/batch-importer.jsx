@@ -106,7 +106,8 @@ export async function action({ request }) {
       }
       batches = await getBatches(user?.cuid)
       return json({
-        batches: batches?.data
+        batches: batches?.data,
+        requestAction: 'edit'
       })
     case 'delete':
       // get user id
@@ -122,7 +123,8 @@ export async function action({ request }) {
       }
       batches = await getBatches(user?.cuid)
       return json({
-        batches: batches?.data
+        batches: batches?.data,
+        requestAction: 'delete'
       })
   }
 }
@@ -176,7 +178,6 @@ export default function Batch() {
   let [batchId, setBatchId] = useState('')
   let [batches, setBatches] = useState(loaderData.batches || [])
   let [errors, setErrors] = useState([])
-  const [submitType, setSubmitType] = useState('')
 
   useEffect(() => {
     if (data?.$schema) {
@@ -201,7 +202,13 @@ export default function Batch() {
       setBatchTitle('')
       setBatchId('')
       setErrors([])
-      toast.success('Batch processed successfully')
+      if (data.requestAction === 'delete') {
+        toast.success('Batch deleted successfully')
+      } else if (data.requestAction === 'edit') {
+        toast.success('Batch modified successfully')
+      } else {
+        toast.success('Batch imported successfully')
+      }
     }
     if (data?.errors) {
       // errors needs to be string array
@@ -290,7 +297,11 @@ export default function Batch() {
                 <div className="md:mt-4">
                   <h1 className="hidden md:contents md:text-2xl">My Batches</h1>
                   {batches.map(batch => (
-                    <BatchItem batch={batch} key={batch?.batch_id} />
+                    <BatchItem
+                      batch={batch}
+                      navigation={navigation}
+                      key={batch?.batch_id}
+                    />
                   ))}
                 </div>
               ) : null}
@@ -323,8 +334,15 @@ export default function Batch() {
               type="submit"
               name="_action"
               value="select"
+              disabled={navigation.state !== 'idle'}
             >
-              Select
+              {navigation.state === 'submitting' &&
+              navigation.formData?.get('_action') === 'select'
+                ? 'Loading...'
+                : navigation.state === 'loading' &&
+                  navigation.formData?.get('_action') === 'select'
+                ? 'Loaded!'
+                : 'Select'}
             </button>
           </Form>
           {schema ? (
@@ -366,29 +384,33 @@ export default function Batch() {
               </div>
               {batchTitle ? (
                 <button
-                  className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                  className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
                   type="submit"
                   name="_action"
                   value="edit"
-                  onClick={() => setSubmitType('edit')}
+                  disabled={navigation.state !== 'idle'}
                 >
-                  {navigation.state === 'submitting' && submitType === 'edit'
+                  {navigation.state === 'submitting' &&
+                  navigation.formData?.get('_action') === 'edit'
                     ? 'Processing...'
-                    : navigation.state === 'loading' && submitType === 'edit'
+                    : navigation.state === 'loading' &&
+                      navigation.formData?.get('_action') === 'edit'
                     ? 'Done!'
                     : 'Modify'}
                 </button>
               ) : (
                 <button
-                  className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                  className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
                   type="submit"
                   name="_action"
                   value="import"
-                  onClick={() => setSubmitType('import')}
+                  disabled={navigation.state !== 'idle'}
                 >
-                  {navigation.state === 'submitting' && submitType === 'import'
+                  {navigation.state === 'submitting' &&
+                  navigation.formData?.get('_action') === 'import'
                     ? 'Processing...'
-                    : navigation.state === 'loading' && submitType === 'import'
+                    : navigation.state === 'loading' &&
+                      navigation.formData?.get('_action') === 'import'
                     ? 'Done!'
                     : 'Import'}
                 </button>
@@ -401,9 +423,8 @@ export default function Batch() {
   )
 }
 
-function BatchItem({ batch }) {
+function BatchItem({ batch, navigation }) {
   const [deleteModal, setDeleteModal] = useState(false)
-  const navigation = useNavigation()
 
   return (
     <>
@@ -430,21 +451,39 @@ function BatchItem({ batch }) {
                 defaultValue={batch?.schemas}
               />
               <button
-                className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
+                className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 enabled:hover:scale-110 font-bold py-2 px-4 mt-4"
                 type="submit"
                 name="_action"
                 value="modify"
+                disabled={
+                  navigation.state !== 'idle' &&
+                  navigation.formData?.get('batch_id') === batch?.batch_id
+                }
               >
-                Modify
+                {(navigation.state === 'submitting' ||
+                  navigation.state === 'loading') &&
+                navigation.formData?.get('_action') === 'modify' &&
+                navigation.formData?.get('batch_id') === batch?.batch_id
+                  ? 'Loading...'
+                  : 'Modify'}
               </button>
             </Form>
             <div className="flex-none pl-16 md:pl-32">
               <button
-                className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4"
+                className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 disabled:opacity-75 enabled:hover:scale-110 font-bold py-2 px-4 mt-4"
                 type="button"
+                disabled={
+                  navigation.state !== 'idle' &&
+                  navigation.formData?.get('batch_id') === batch?.batch_id
+                }
                 onClick={() => setDeleteModal(true)}
               >
-                Delete
+                {(navigation.state === 'submitting' ||
+                  navigation.state === 'loading') &&
+                navigation.formData?.get('_action') === 'delete' &&
+                navigation.formData?.get('batch_id') === batch?.batch_id
+                  ? 'Deleting...'
+                  : 'Delete'}
               </button>
             </div>
           </div>
@@ -461,23 +500,19 @@ function BatchItem({ batch }) {
                   </p>
                 </div>
                 <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 dark:border-gray-700 rounded-b">
-                  <Form method="post">
+                  <Form method="post" onSubmit={() => setDeleteModal(false)}>
                     <input
                       type="hidden"
                       name="batch_id"
                       defaultValue={batch?.batch_id}
                     />
                     <button
-                      className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
+                      className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 enabled:hover:scale-110 font-bold py-2 px-4 mt-4"
                       type="submit"
                       name="_action"
                       value="delete"
                     >
-                      {navigation.state === 'submitting'
-                        ? 'Processing...'
-                        : navigation.state === 'loading'
-                        ? 'Deleted!'
-                        : 'Confirm Delete'}
+                      Confirm Delete
                     </button>
                   </Form>
                   <div className="flex-none pl-4 md:pl-8">

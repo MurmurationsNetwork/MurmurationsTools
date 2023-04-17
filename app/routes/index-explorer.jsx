@@ -64,18 +64,21 @@ function getSearchUrl(params, removePage) {
 
 export async function action({ request }) {
   let formData = await request.formData()
-  let values = Object.fromEntries(formData)
-  if (values?.schema === '') {
-    return json({
-      message: 'The schema is required',
-      success: false
-    })
+  let { _action, ...values } = Object.fromEntries(formData)
+  if (_action === 'search') {
+    if (values?.schema === '') {
+      return json({
+        message: 'The schema is required',
+        success: false
+      })
+    }
+    if (values?.last_updated) {
+      values.last_updated = new Date(values.last_updated).valueOf() / 1000
+    }
+    let searchParams = getSearchUrl(values, false)
+    return redirect(`/index-explorer?${searchParams}`)
   }
-  if (values?.last_updated) {
-    values.last_updated = new Date(values.last_updated).valueOf() / 1000
-  }
-  let searchParams = getSearchUrl(values, false)
-  return redirect(`/index-explorer?${searchParams}`)
+  return null
 }
 
 export async function loader({ request }) {
@@ -357,12 +360,20 @@ export default function GetNodes() {
               <label htmlFor="tags_exact">exact matches only</label>
             </div>
             <button
-              className="w-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold rounded py-1"
+              className="w-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold rounded py-1"
               type="submit"
+              name="_action"
+              value="search"
+              disabled={
+                navigation.state !== 'idle' &&
+                navigation.formData?.get('_action') === 'search'
+              }
             >
-              {navigation.state === 'submitting'
+              {navigation.state === 'submitting' &&
+              navigation.formData?.get('_action') === 'search'
                 ? 'Searching...'
-                : navigation.state === 'loading'
+                : navigation.state === 'loading' &&
+                  navigation.formData?.get('_action') === 'search'
                 ? 'Loading Data...'
                 : 'Search'}
             </button>
