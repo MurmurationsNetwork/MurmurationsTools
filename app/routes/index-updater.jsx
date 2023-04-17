@@ -233,7 +233,5 @@ export default function Tools() {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
-
   return HandleError(error)
 }

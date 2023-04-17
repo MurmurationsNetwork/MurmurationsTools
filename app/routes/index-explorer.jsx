@@ -694,7 +694,5 @@ function Pagination({ links, searchParams }) {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
-
   return HandleError(error)
 }

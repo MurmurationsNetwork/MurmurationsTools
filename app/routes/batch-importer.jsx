@@ -537,7 +537,5 @@ function BatchItem({ batch, navigation }) {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
-
   return HandleError(error)
 }
