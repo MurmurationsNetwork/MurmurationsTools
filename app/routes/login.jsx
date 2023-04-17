@@ -222,21 +222,20 @@ export default function Login() {
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 rounded-full mt-2"
+              className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 disabled:opacity-75 font-bold py-2 px-4 rounded-full mt-2"
               type="submit"
+              disabled={navigation.state !== 'idle'}
             >
-              {navigation.state === 'submitting'
-                ? submitType === 'login'
+              {submitType === 'login'
+                ? navigation.state === 'submitting' ||
+                  (navigation.state === 'loading' &&
+                    navigation.formData?.get('loginType') === 'login')
                   ? 'Logging In...'
-                  : 'Registering...'
-                : navigation.state === 'loading'
-                ? submitType === 'login'
-                  ? 'Logged In!'
-                  : submitType === 'home'
-                  ? 'Loading...'
-                  : 'Registered!'
-                : submitType === 'login'
-                ? 'Login'
+                  : 'Login'
+                : navigation.state === 'submitting' ||
+                  (navigation.state === 'loading' &&
+                    navigation.formData?.get('loginType') === 'register')
+                ? 'Registering...'
                 : 'Register'}
             </button>
           </div>
@@ -245,9 +244,7 @@ export default function Login() {
       <div className="links text-center">
         <ul>
           <li>
-            <Link to="/" onClick={() => setSubmitType('home')}>
-              Home
-            </Link>
+            <Link to="/">Home</Link>
           </li>
         </ul>
       </div>
@@ -257,7 +254,5 @@ export default function Login() {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
-
   return HandleError(error)
 }

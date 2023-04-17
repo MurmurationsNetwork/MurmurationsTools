@@ -210,7 +210,6 @@ export default function Index() {
   let [profileTitle, setProfileTitle] = useState('')
   let [instance, setInstance] = useState('')
   let [errors, setErrors] = useState([])
-  const [submitType, setSubmitType] = useState('')
   useEffect(() => {
     if (data?.$schema) {
       setSchema(data)
@@ -342,17 +341,17 @@ export default function Index() {
                         />
                       </label>
                       <button
-                        className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                        className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
                         type="submit"
                         name="_action"
                         value="save"
-                        onClick={() => setSubmitType('save')}
+                        disabled={navigation.state !== 'idle'}
                       >
                         {navigation.state === 'submitting' &&
-                        submitType === 'save'
+                        navigation.formData?.get('_action') === 'save'
                           ? 'Saving...'
                           : navigation.state === 'loading' &&
-                            submitType === 'save'
+                            navigation.formData?.get('_action') === 'save'
                           ? 'Saved!'
                           : 'Save to Index'}
                       </button>
@@ -377,7 +376,7 @@ export default function Index() {
                   </ul>
                 </div>
               ) : null}
-              {user?.profiles && submitType !== 'preview' ? (
+              {user?.profiles ? (
                 <div className="md:mt-4">
                   <h1 className="hidden md:contents md:text-2xl">
                     My Profiles
@@ -387,6 +386,7 @@ export default function Index() {
                       profile={user.profiles[index]}
                       ipfsGatewayUrl={ipfsGatewayUrl}
                       profilePostUrl={profilePostUrl}
+                      navigation={navigation}
                       key={index}
                     />
                   ))}
@@ -417,15 +417,17 @@ export default function Index() {
               ))}
             </select>
             <button
-              className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4 hover:scale-110"
+              className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 mt-4 hover:scale-110"
               type="submit"
               name="_action"
               value="select"
-              onClick={() => setSubmitType('select')}
+              disabled={navigation.state !== 'idle'}
             >
-              {navigation.state === 'submitting' && submitType === 'select'
+              {navigation.state === 'submitting' &&
+              navigation.formData?.get('_action') === 'select'
                 ? 'Loading...'
-                : navigation.state === 'loading' && submitType === 'select'
+                : navigation.state === 'loading' &&
+                  navigation.formData?.get('_action') === 'select'
                 ? 'Loaded!'
                 : 'Select'}
             </button>
@@ -469,15 +471,17 @@ export default function Index() {
               />
               <GenerateForm schema={schema} profileData={profileData} />
               <button
-                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
                 type="submit"
                 name="_action"
                 value="update"
-                onClick={() => setSubmitType('update')}
+                disabled={navigation.state !== 'idle'}
               >
-                {navigation.state === 'submitting' && submitType === 'update'
+                {navigation.state === 'submitting' &&
+                navigation.formData?.get('_action') === 'update'
                   ? 'Updating...'
-                  : navigation.state === 'loading' && submitType === 'update'
+                  : navigation.state === 'loading' &&
+                    navigation.formData?.get('_action') === 'update'
                   ? 'Updated!'
                   : 'Update Profile'}
               </button>
@@ -496,15 +500,17 @@ export default function Index() {
               </h3>
               <GenerateForm schema={schema} />
               <button
-                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full mt-4"
+                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
                 type="submit"
                 name="_action"
                 value="submit"
-                onClick={() => setSubmitType('preview')}
+                disabled={navigation.state !== 'idle'}
               >
-                {navigation.state === 'submitting' && submitType === 'preview'
+                {navigation.state === 'submitting' &&
+                navigation.formData?.get('_action') === 'submit'
                   ? 'Processing...'
-                  : navigation.state === 'loading' && submitType === 'preview'
+                  : navigation.state === 'loading' &&
+                    navigation.formData?.get('_action') === 'submit'
                   ? 'Done!'
                   : 'Preview'}
               </button>
@@ -516,11 +522,10 @@ export default function Index() {
   )
 }
 
-function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
+function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
   const [status, setStatus] = useState(null)
   const [timer, setTimer] = useState(1000)
   const [deleteModal, setDeleteModal] = useState(false)
-  const navigation = useNavigation()
 
   useEffect(() => {
     if (status === 'posted') return
@@ -601,7 +606,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
             Schema List:{' '}
             {profile?.linked_schemas ? profile?.linked_schemas.join(', ') : ''}
           </p>
-          <div className="flex flex-row">
+          <div className="flex flex-row justify-between">
             <Form method="post" className="flex-none">
               <input
                 type="hidden"
@@ -609,23 +614,39 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
                 defaultValue={profile?.cuid}
               />
               <button
-                className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
+                className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 enabled:hover:scale-110 font-bold py-2 px-4 mt-4"
                 type="submit"
                 name="_action"
                 value="modify"
+                disabled={
+                  navigation.state !== 'idle' &&
+                  navigation.formData?.get('profile_id') === profile?.cuid
+                }
               >
-                Modify
+                {(navigation.state === 'submitting' ||
+                  navigation.state === 'loading') &&
+                navigation.formData?.get('_action') === 'modify' &&
+                navigation.formData?.get('profile_id') === profile?.cuid
+                  ? 'Loading...'
+                  : 'Modify'}
               </button>
             </Form>
-            <div className="flex-none pl-16 md:pl-32">
-              <button
-                className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4"
-                type="button"
-                onClick={() => setDeleteModal(true)}
-              >
-                Delete
-              </button>
-            </div>
+            <button
+              className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 mt-4"
+              type="button"
+              disabled={
+                navigation.state !== 'idle' &&
+                navigation.formData?.get('profile_id') === profile?.cuid
+              }
+              onClick={() => setDeleteModal(true)}
+            >
+              {(navigation.state === 'submitting' ||
+                navigation.state === 'loading') &&
+              navigation.formData?.get('_action') === 'delete' &&
+              navigation.formData?.get('profile_id') === profile?.cuid
+                ? 'Deleting...'
+                : 'Delete'}
+            </button>
           </div>
         </div>
       </div>
@@ -640,7 +661,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
                   </p>
                 </div>
                 <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 dark:border-gray-700 rounded-b">
-                  <Form method="post">
+                  <Form method="post" onSubmit={() => setDeleteModal(false)}>
                     <input
                       type="hidden"
                       name="profile_id"
@@ -652,11 +673,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
                       name="_action"
                       value="delete"
                     >
-                      {navigation.state === 'submitting'
-                        ? 'Processing...'
-                        : navigation.state === 'loading'
-                        ? 'Deleted!'
-                        : 'Confirm Delete'}
+                      Confirm Delete
                     </button>
                   </Form>
                   <div className="flex-none pl-4 md:pl-8">
@@ -681,7 +698,5 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl }) {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
-
   return HandleError(error)
 }

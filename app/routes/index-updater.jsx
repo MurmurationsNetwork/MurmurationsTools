@@ -5,7 +5,6 @@ import {
   useNavigation
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
-import { useState } from 'react'
 import crypto from 'crypto'
 
 import { deleteNode, getNodeStatus, postNode } from '~/utils/index-api'
@@ -80,7 +79,6 @@ export async function action({ request }) {
 export default function Tools() {
   let navigation = useNavigation()
   let data = useActionData()
-  let [submitType, setSubmitType] = useState('')
   return (
     <div>
       <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-12 md:h-20 mb-2 md:mb-4">
@@ -106,13 +104,17 @@ export default function Tools() {
             />
           </label>
           <button
-            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
+            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
             type="submit"
             name="_action"
             value="post"
-            onClick={() => setSubmitType('post')}
+            disabled={
+              navigation.state !== 'idle' &&
+              navigation.formData?.get('_action') === 'post'
+            }
           >
-            {navigation.state === 'submitting' && submitType === 'post'
+            {navigation.state === 'submitting' &&
+            navigation.formData?.get('_action') === 'post'
               ? 'Posting...'
               : 'Post Profile'}
           </button>
@@ -149,13 +151,17 @@ export default function Tools() {
             />
           </label>
           <button
-            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
+            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
             type="submit"
             name="_action"
             value="check"
-            onClick={() => setSubmitType('check')}
+            disabled={
+              navigation.state !== 'idle' &&
+              navigation.formData?.get('_action') === 'check'
+            }
           >
-            {navigation.state === 'submitting' && submitType === 'check'
+            {navigation.state === 'submitting' &&
+            navigation.formData?.get('_action') === 'check'
               ? 'Checking...'
               : 'Check Status'}
           </button>
@@ -193,13 +199,17 @@ export default function Tools() {
             />
           </label>
           <button
-            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
+            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
             type="submit"
             name="_action"
             value="delete"
-            onClick={() => setSubmitType('delete')}
+            disabled={
+              navigation.state !== 'idle' &&
+              navigation.formData?.get('_action') === 'delete'
+            }
           >
-            {navigation.state === 'submitting' && submitType === 'delete'
+            {navigation.state === 'submitting' &&
+            navigation.formData?.get('_action') === 'delete'
               ? 'Deleting...'
               : 'Delete Profile'}
           </button>
@@ -223,7 +233,5 @@ export default function Tools() {
 
 export function ErrorBoundary() {
   const error = useRouteError()
-  console.error(error)
-
   return HandleError(error)
 }
