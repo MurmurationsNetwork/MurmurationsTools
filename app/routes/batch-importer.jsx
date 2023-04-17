@@ -330,7 +330,7 @@ export default function Batch() {
               ))}
             </select>
             <button
-              className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4 hover:scale-110"
+              className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 mt-4 hover:scale-110"
               type="submit"
               name="_action"
               value="select"

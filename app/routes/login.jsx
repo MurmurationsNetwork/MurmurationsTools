@@ -222,8 +222,9 @@ export default function Login() {
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 rounded-full mt-2"
+              className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 rounded-full mt-2 disabled:opacity-75"
               type="submit"
+              disabled={navigation.state !== 'idle'}
             >
               {submitType === 'login'
                 ? navigation.state === 'submitting' ||
