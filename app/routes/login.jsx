@@ -114,15 +114,15 @@ export default function Login() {
   const [submitType, setSubmitType] = useState('login')
 
   return (
-    <div className="flex flex-col h-screen justify-center items-center">
-      <div className="top-0 mx-auto w-full md:w-96 bg-yellow-500 dark:bg-purple-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col dark:text-gray-100">
+    <div className="flex h-screen flex-col items-center justify-center">
+      <div className="top-0 mx-auto mb-4 flex w-full flex-col rounded bg-yellow-500 px-8 pb-8 pt-6 shadow-md dark:bg-purple-800 dark:text-gray-100 md:w-96">
         <Form method="post">
           <input
             type="hidden"
             name="redirectTo"
             value={searchParams.get('redirectTo') ?? undefined}
           />
-          <fieldset className="text-center my-3">
+          <fieldset className="my-3 text-center">
             <label className="mr-3">
               <input
                 type="radio"
@@ -151,13 +151,13 @@ export default function Login() {
           </fieldset>
           <div className="mb-4">
             <label
-              className="block text-gray-800 dark:text-gray-100 text-sm font-bold mb-2"
+              className="mb-2 block text-sm font-bold text-gray-800 dark:text-gray-100"
               htmlFor="email"
             >
               Email
             </label>
             <input
-              className="shadow appearance-none border rounded w-full p-2 mb-4 text-gray-900 dark:text-gray-100 dark:bg-gray-600"
+              className="mb-4 w-full appearance-none rounded border p-2 text-gray-900 shadow dark:bg-gray-600 dark:text-gray-100"
               type="email"
               id="email-input"
               name="email"
@@ -170,7 +170,7 @@ export default function Login() {
             />
             {actionData?.fieldErrors?.email && navigation.state === 'idle' ? (
               <p
-                className="form-validation-error text-red-600 dark:text-red-400 text-sm"
+                className="form-validation-error text-sm text-red-600 dark:text-red-400"
                 role="alert"
                 id="email-error"
               >
@@ -180,13 +180,13 @@ export default function Login() {
           </div>
           <div className="mb-2">
             <label
-              className="block text-gray-800 dark:text-gray-100 text-sm font-bold mb-2"
+              className="mb-2 block text-sm font-bold text-gray-800 dark:text-gray-100"
               htmlFor="password"
             >
               Password
             </label>
             <input
-              className="shadow appearance-none border rounded w-full p-2 mb-4 text-gray-800 dark:text-gray-100 dark:bg-gray-600"
+              className="mb-4 w-full appearance-none rounded border p-2 text-gray-800 shadow dark:bg-gray-600 dark:text-gray-100"
               type="password"
               id="password-input"
               name="password"
@@ -202,7 +202,7 @@ export default function Login() {
             {actionData?.fieldErrors?.password &&
             navigation.state === 'idle' ? (
               <p
-                className="form-validation-error text-red-600 dark:text-red-400 text-sm"
+                className="form-validation-error text-sm text-red-600 dark:text-red-400"
                 role="alert"
                 id="password-error"
               >
@@ -213,7 +213,7 @@ export default function Login() {
           <div id="form-error-message" className="mb-2">
             {actionData?.formError && navigation.state === 'idle' ? (
               <p
-                className="form-validation-error text-red-600 dark:text-red-400 text-sm"
+                className="form-validation-error text-sm text-red-600 dark:text-red-400"
                 role="alert"
               >
                 {actionData.formError}
@@ -222,7 +222,7 @@ export default function Login() {
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 disabled:opacity-75 font-bold py-2 px-4 rounded-full mt-2"
+              className="mt-2 rounded-full bg-red-500 px-4 py-2 font-bold text-white hover:scale-110 hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
               type="submit"
               disabled={navigation.state !== 'idle'}
             >

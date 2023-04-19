@@ -88,8 +88,8 @@ export default function ArrayField({
   // Otherwise, it will render nothing
   if (schema?.items?.type === 'object') {
     return (
-      <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
-        <legend className="block text-md font-bold">
+      <fieldset className="my-4 border-4 border-dotted border-slate-300 p-4">
+        <legend className="text-md block font-bold">
           {schema?.title}
           {requiredProperties?.includes(parentFieldName) ? (
             <span className="text-red-500 dark:text-red-400"> *</span>
@@ -97,7 +97,7 @@ export default function ArrayField({
             <></>
           )}
         </legend>
-        <div className="block text-sm mb-4">{schema?.description}</div>
+        <div className="mb-4 block text-sm">{schema?.description}</div>
         {arrayData.map((value, index) => (
           <div key={parentFieldName + '[' + index + ']'}>
             <RecursiveForm
@@ -115,7 +115,7 @@ export default function ArrayField({
             ) : (
               <button
                 onClick={event => handleRemove(event, index)}
-                className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 my-4"
+                className="my-4 rounded-full bg-yellow-500 px-4 py-2 font-bold text-white hover:bg-yellow-400 dark:bg-green-200 dark:text-gray-800 dark:hover:bg-green-100"
               >
                 Remove
               </button>
@@ -124,7 +124,7 @@ export default function ArrayField({
         ))}
         <button
           onClick={event => handleAdd(event, schema)}
-          className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 my-4"
+          className="my-4 rounded-full bg-red-500 px-4 py-2 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
         >
           Add
         </button>
@@ -135,8 +135,8 @@ export default function ArrayField({
     schema?.items?.type === 'number'
   ) {
     return (
-      <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
-        <legend className="block text-md font-bold">
+      <fieldset className="my-4 border-4 border-dotted border-slate-300 p-4">
+        <legend className="text-md block font-bold">
           {schema?.title}
           {requiredProperties?.includes(parentFieldName) ? (
             <span className="text-red-500 dark:text-red-400"> *</span>
@@ -144,16 +144,16 @@ export default function ArrayField({
             <></>
           )}
         </legend>
-        <div className="block text-sm mb-4">{schema?.description}</div>
+        <div className="mb-4 block text-sm">{schema?.description}</div>
         {arrayData.map((value, index) => (
-          <div key={index} className="flex justify-around items-center">
+          <div key={index} className="flex items-center justify-around">
             <input
               type={schema?.items?.type === 'number' ? 'number' : 'text'}
               value={value}
               name={parentFieldName + '[' + index + ']'}
               aria-label={parentFieldName + '[' + index + ']'}
               onChange={event => handleChange(event, index)}
-              className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700 mr-2"
+              className="form-input mr-2 w-full dark:bg-gray-700 focus:dark:bg-gray-500"
               required={isFieldRequired}
               min={schema?.minimum}
               max={schema?.maximum}
@@ -166,7 +166,7 @@ export default function ArrayField({
             ) : (
               <button
                 onClick={event => handleRemove(event, index)}
-                className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 my-4"
+                className="my-4 rounded-full bg-yellow-500 px-4 py-2 font-bold text-white hover:bg-yellow-400 dark:bg-green-200 dark:text-gray-800 dark:hover:bg-green-100"
               >
                 Remove
               </button>
@@ -175,7 +175,7 @@ export default function ArrayField({
         ))}
         <button
           onClick={event => handleAdd(event, schema)}
-          className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 my-4"
+          className="my-4 rounded-full bg-red-500 px-4 py-2 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
         >
           Add
         </button>

@@ -38,7 +38,7 @@ export default function MultipleEnumField({
   // Otherwise, we can just use the local state.
   return (
     <div>
-      <legend className="block text-md font-bold mt-4">
+      <legend className="text-md mt-4 block font-bold">
         {schema?.title}:
         {requiredProperties?.includes(parentFieldName) ? (
           <span className="text-red-500 dark:text-red-400"> *</span>
@@ -46,9 +46,9 @@ export default function MultipleEnumField({
           <></>
         )}
       </legend>
-      <div className="block text-sm my-2">
+      <div className="my-2 block text-sm">
         <select
-          className="form-select w-full dark:bg-gray-700 mt-2 text-ellipsis"
+          className="form-select mt-2 w-full text-ellipsis dark:bg-gray-700"
           aria-label={parentFieldName}
           name={parentFieldName}
           required={isFieldRequired}
@@ -64,7 +64,7 @@ export default function MultipleEnumField({
             </option>
           ))}
         </select>
-        <div className="text-xs mt-2">{schema?.description}</div>
+        <div className="mt-2 text-xs">{schema?.description}</div>
       </div>
     </div>
   )

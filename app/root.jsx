@@ -50,23 +50,23 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal text-md md:text-xl">
+      <body className="text-md bg-white leading-normal text-black dark:bg-gray-900 dark:text-gray-50 md:text-xl">
         {production ? null : (
-          <div className="flex flex-row bg-fuchsia-200 dark:bg-fuchsia-700 py-1 px-2 md:py-2 md:px-4 justify-center">
+          <div className="flex flex-row justify-center bg-fuchsia-200 px-2 py-1 dark:bg-fuchsia-700 md:px-4 md:py-2">
             T E S T &nbsp; E N V I R O N M E N T
           </div>
         )}
         {online ? null : (
-          <div className="flex flex-row bg-rose-400 dark:bg-rose-700 py-1 px-2 md:py-2 md:px-4 justify-center">
+          <div className="flex flex-row justify-center bg-rose-400 px-2 py-1 dark:bg-rose-700 md:px-4 md:py-2">
             O F F L I N E -- Check your network connection
           </div>
         )}
-        <div className="container max-w-full mx-auto p-0">
-          <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-8 md:h-12 mb-0">
+        <div className="container mx-auto max-w-full p-0">
+          <div className="mb-0 flex h-8 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:h-12 md:px-4 md:py-2">
             <div className="hidden md:contents md:text-xl">
               Murmurations Tools
             </div>
-            <div className="flex flex-row justify-end items-center">
+            <div className="flex flex-row items-center justify-end">
               <Link to="/profile-generator">
                 <div className="text-md md:hidden">Profiles</div>
                 <div className="hidden md:contents md:text-xl">
@@ -141,13 +141,13 @@ export function ErrorBoundary() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-white dark:bg-gray-900 text-black dark:text-gray-50 leading-normal">
-        <div className="container mx-auto px-4 h-screen flex justify-center items-center flex-col">
+      <body className="bg-white leading-normal text-black dark:bg-gray-900 dark:text-gray-50">
+        <div className="container mx-auto flex h-screen flex-col items-center justify-center px-4">
           <span className="text-5xl md:text-8xl">😱</span>
-          <h1 className="text-md md:text-3xl font-bold mt-8 md:mt-16">
+          <h1 className="text-md mt-8 font-bold md:mt-16 md:text-3xl">
             A fatal error has occurred and was logged
           </h1>
-          <code className="text-sm md:text-lg mt-4 md:mt-8">
+          <code className="mt-4 text-sm md:mt-8 md:text-lg">
             {error instanceof Error ? error.message : JSON.stringify(error)}
           </code>
         </div>

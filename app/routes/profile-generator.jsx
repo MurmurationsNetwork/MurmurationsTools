@@ -257,14 +257,14 @@ export default function Index() {
   }, [data])
   return (
     <div>
-      <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-12 md:h-20 mb-2 md:mb-4">
+      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:mb-4 md:h-20 md:px-4 md:py-2">
         <h1 className="text-xl md:contents md:text-3xl">Profile Generator</h1>
         {user ? (
           <div>
             <form action="/logout" method="post">
               <button
                 type="submit"
-                className="inline-block rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-0 px-4 hover:scale-110 mx-0 my-2 md:my-8 h-6 md:h-8"
+                className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:my-8 md:h-8"
               >
                 Logout
               </button>
@@ -274,15 +274,15 @@ export default function Index() {
           <div>
             <Link
               to="/login"
-              className="inline-block rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 font-bold py-0 px-4 hover:scale-110 mx-0 my-2 md:my-8 h-6 md:h-8"
+              className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:my-8 md:h-8"
             >
               Login
             </Link>
           </div>
         )}
       </div>
-      <div className="flex flex-col md:flex-row box-border">
-        <div className="basis-full md:basis-1/2 inset-0 md:overflow-y-auto md:h-screen md:sticky md:top-0">
+      <div className="box-border flex flex-col md:flex-row">
+        <div className="inset-0 basis-full md:sticky md:top-0 md:h-screen md:basis-1/2 md:overflow-y-auto">
           <div className="px-2 md:px-4">
             {user?.source ? <span>Data source: {user.source}</span> : null}
             {user || schema ? null : (
@@ -311,10 +311,10 @@ export default function Index() {
               />
               {instance && !errors[0] ? (
                 <>
-                  <p className="md:text-xl mb-2 md:mb-4">
+                  <p className="mb-2 md:mb-4 md:text-xl">
                     Your profile preview has been generated:
                   </p>
-                  <pre className="bg-slate-200 dark:bg-slate-800 py-2 px-4 overflow-x-auto">
+                  <pre className="overflow-x-auto bg-slate-200 px-4 py-2 dark:bg-slate-800">
                     {JSON.stringify(instance, null, 2)}
                   </pre>
                   {user && (
@@ -325,7 +325,7 @@ export default function Index() {
                         defaultValue={JSON.stringify(instance)}
                       />
                       <label>
-                        <div className="font-bold mt-4">
+                        <div className="mt-4 font-bold">
                           Profile Title
                           <span className="text-red-500 dark:text-red-400">
                             *
@@ -333,7 +333,7 @@ export default function Index() {
                           :
                         </div>
                         <input
-                          className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700 mt-2"
+                          className="form-input mt-2 w-full dark:bg-gray-700 focus:dark:bg-gray-500"
                           type="text"
                           name="profile_title"
                           required="required"
@@ -341,7 +341,7 @@ export default function Index() {
                         />
                       </label>
                       <button
-                        className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
+                        className="mt-4 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
                         type="submit"
                         name="_action"
                         value="save"
@@ -395,10 +395,10 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="basis-full md:basis-1/2 mx-2 py-4 px-2 md:px-4">
+        <div className="mx-2 basis-full px-2 py-4 md:basis-1/2 md:px-4">
           <Form className="mb-2" method="post">
             <select
-              className="bg-white dark:bg-gray-700 block w-full md:w-96 border-gray-400 border-2 py-2 px-4"
+              className="block w-full border-2 border-gray-400 bg-white px-4 py-2 dark:bg-gray-700 md:w-96"
               id="schema"
               name="schema"
               multiple={true}
@@ -408,7 +408,7 @@ export default function Index() {
             >
               {schemas.map(schema => (
                 <option
-                  className="text-sm mb-1 border-gray-50 py-0 px-2"
+                  className="mb-1 border-gray-50 px-2 py-0 text-sm"
                   value={schema.name}
                   key={schema.name}
                 >
@@ -417,7 +417,7 @@ export default function Index() {
               ))}
             </select>
             <button
-              className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 mt-4 hover:scale-110"
+              className="mt-4 rounded-full bg-red-500 px-4 py-2 font-bold text-white hover:scale-110 hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
               type="submit"
               name="_action"
               value="select"
@@ -445,12 +445,12 @@ export default function Index() {
                 </ol>
               </h3>
               <label>
-                <div className="font-bold mt-4">
+                <div className="mt-4 font-bold">
                   Profile Title
                   <span className="text-red-500 dark:text-red-400">*</span>:
                 </div>
                 <input
-                  className="form-input w-full focus:dark:bg-gray-500 dark:bg-gray-700 mt-2"
+                  className="form-input mt-2 w-full dark:bg-gray-700 focus:dark:bg-gray-500"
                   type="text"
                   name="profile_title"
                   required="required"
@@ -471,7 +471,7 @@ export default function Index() {
               />
               <GenerateForm schema={schema} profileData={profileData} />
               <button
-                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
+                className="mt-4 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
                 type="submit"
                 name="_action"
                 value="update"
@@ -500,7 +500,7 @@ export default function Index() {
               </h3>
               <GenerateForm schema={schema} />
               <button
-                className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full mt-4"
+                className="mt-4 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
                 type="submit"
                 name="_action"
                 value="submit"
@@ -558,14 +558,14 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
 
   return (
     <>
-      <div className="w-full md:w-96 rounded-lg overflow-hidden bg-gray-50 dark:bg-purple-800 my-2 md:my-4">
+      <div className="my-2 w-full overflow-hidden rounded-lg bg-gray-50 dark:bg-purple-800 md:my-4 md:w-96">
         <div className="px-6 py-4">
-          <div className="text-lg mb-2">
+          <div className="mb-2 text-lg">
             Title:{' '}
             <Link
               to={{ pathname: `/profiles/${profile?.cuid}` }}
               target="_blank"
-              className="no-underline hover:underline text-yellow-600 dark:text-green-300"
+              className="text-yellow-600 no-underline hover:underline dark:text-green-300"
             >
               {profile?.title}
             </Link>
@@ -577,7 +577,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
                   href={`${ipfsGatewayUrl}/${profile.ipfs[0]}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="no-underline hover:underline text-yellow-600 dark:text-green-300"
+                  className="text-yellow-600 no-underline hover:underline dark:text-green-300"
                 >
                   {profile.ipfs[0].substring(0, 6) +
                     '...' +
@@ -614,7 +614,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
                 defaultValue={profile?.cuid}
               />
               <button
-                className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 enabled:hover:scale-110 font-bold py-2 px-4 mt-4"
+                className="mt-4 rounded-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 enabled:hover:scale-110 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
                 type="submit"
                 name="_action"
                 value="modify"
@@ -632,7 +632,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
               </button>
             </Form>
             <button
-              className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 mt-4"
+              className="mt-4 rounded-full bg-yellow-500 px-4 py-2 font-bold text-white hover:bg-yellow-400 disabled:opacity-75 dark:bg-green-200 dark:text-gray-800 dark:hover:bg-green-100"
               type="button"
               disabled={
                 navigation.state !== 'idle' &&
@@ -652,15 +652,15 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
       </div>
       {deleteModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-xs md:max-w-md">
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white dark:bg-gray-900 text-black dark:text-gray-50 outline-none focus:outline-none">
-                <div className="relative p-6 flex-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+            <div className="relative mx-auto my-6 w-auto max-w-xs md:max-w-md">
+              <div className="relative flex w-full flex-col rounded-lg border-0 bg-white text-black shadow-lg outline-none focus:outline-none dark:bg-gray-900 dark:text-gray-50">
+                <div className="relative flex-auto p-6">
                   <p className="my-4 text-lg leading-relaxed">
                     Are you sure you want to delete this profile?
                   </p>
                 </div>
-                <div className="flex items-center justify-center p-6 border-t border-solid border-slate-200 dark:border-gray-700 rounded-b">
+                <div className="flex items-center justify-center rounded-b border-t border-solid border-slate-200 p-6 dark:border-gray-700">
                   <Form method="post" onSubmit={() => setDeleteModal(false)}>
                     <input
                       type="hidden"
@@ -668,7 +668,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
                       defaultValue={profile?.cuid}
                     />
                     <button
-                      className="rounded-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 hover:scale-110 font-bold py-2 px-4 mt-4"
+                      className="mt-4 rounded-full bg-red-500 px-4 py-2 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
                       type="submit"
                       name="_action"
                       value="delete"
@@ -678,7 +678,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
                   </Form>
                   <div className="flex-none pl-4 md:pl-8">
                     <button
-                      className="rounded-full bg-yellow-500 dark:bg-green-200 hover:bg-yellow-400 dark:hover:bg-green-100 text-white dark:text-gray-800 font-bold py-2 px-4 mt-4"
+                      className="mt-4 rounded-full bg-yellow-500 px-4 py-2 font-bold text-white hover:bg-yellow-400 dark:bg-green-200 dark:text-gray-800 dark:hover:bg-green-100"
                       type="button"
                       onClick={() => setDeleteModal(false)}
                     >
@@ -689,7 +689,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
               </div>
             </div>
           </div>
-          <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
+          <div className="fixed inset-0 z-40 bg-black opacity-75"></div>
         </>
       ) : null}
     </>

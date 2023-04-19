@@ -200,12 +200,12 @@ export default function GetNodes() {
 
   return (
     <div>
-      <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-12 md:h-20 mb-2 md:mb-4">
+      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:mb-4 md:h-20 md:px-4 md:py-2">
         <h1 className="text-xl md:contents md:text-3xl">Index Explorer</h1>
       </div>
-      <div className="max-w-6xl py-2 mx-auto">
-        <div className="sm:flex sm:items-center mb-4">
-          <div className="sm:flex-auto text-gray-900 dark:text-gray-50">
+      <div className="mx-auto max-w-6xl py-2">
+        <div className="mb-4 sm:flex sm:items-center">
+          <div className="text-gray-900 dark:text-gray-50 sm:flex-auto">
             <p>
               For a description of the input fields below, please{' '}
               <a
@@ -221,9 +221,9 @@ export default function GetNodes() {
           </div>
         </div>
         <Form method="post" className="mb-2">
-          <div className="flex flex-row flex-wrap items-center gap-2 bg-gray-50 dark:bg-gray-600 p-6">
+          <div className="flex flex-row flex-wrap items-center gap-2 bg-gray-50 p-6 dark:bg-gray-600">
             <select
-              className="flex-auto dark:bg-gray-700 rounded"
+              className="flex-auto rounded dark:bg-gray-700"
               name="schema"
               value={currentSchema}
               onChange={e => setCurrentSchema(e.target.value)}
@@ -232,7 +232,7 @@ export default function GetNodes() {
               <option value="all">All schemas</option>
               {schemas?.map(schema => (
                 <option
-                  className="text-sm mb-1 border-gray-50 py-0 px-2"
+                  className="mb-1 border-gray-50 px-2 py-0 text-sm"
                   value={schema.name}
                   key={schema.name}
                 >
@@ -241,21 +241,21 @@ export default function GetNodes() {
               ))}
             </select>
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="tag search"
               type="text"
               name="tags"
               defaultValue={searchParams?.tags}
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="primary_url search"
               type="text"
               name="primary_url"
               defaultValue={searchParams?.primary_url}
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="last_updated search"
               type="datetime-local"
               name="last_updated"
@@ -266,7 +266,7 @@ export default function GetNodes() {
               }
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="lat search"
               type="number"
               step="any"
@@ -274,7 +274,7 @@ export default function GetNodes() {
               defaultValue={searchParams?.lat}
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="lon search"
               type="number"
               step="any"
@@ -282,28 +282,28 @@ export default function GetNodes() {
               defaultValue={searchParams?.lon}
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="range search"
               type="text"
               name="range"
               defaultValue={searchParams?.range}
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="locality search"
               type="text"
               name="locality"
               defaultValue={searchParams?.locality}
             />
             <input
-              className="flex-auto p-2 dark:bg-gray-700 rounded"
+              className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="region search"
               type="text"
               name="region"
               defaultValue={searchParams?.region}
             />
             <select
-              className="flex-auto dark:bg-gray-700 col-span-2 rounded"
+              className="col-span-2 flex-auto rounded dark:bg-gray-700"
               name="country"
               defaultValue={searchParams?.country}
             >
@@ -311,7 +311,7 @@ export default function GetNodes() {
               {countries &&
                 countries.map(country => (
                   <option
-                    className="text-sm mb-1 border-gray-50 py-0 px-2"
+                    className="mb-1 border-gray-50 px-2 py-0 text-sm"
                     value={country.name}
                     key={country.name}
                   >
@@ -320,7 +320,7 @@ export default function GetNodes() {
                 ))}
             </select>
             <select
-              className="flex-auto dark:bg-gray-700 col-span-2 rounded"
+              className="col-span-2 flex-auto rounded dark:bg-gray-700"
               name="status"
               defaultValue={searchParams?.status}
             >
@@ -329,7 +329,7 @@ export default function GetNodes() {
               <option value="deleted">deleted</option>
             </select>
             <select
-              className="flex-auto dark:bg-gray-700 col-span-2 rounded"
+              className="col-span-2 flex-auto rounded dark:bg-gray-700"
               name="page_size"
               defaultValue={searchParams?.page_size}
             >
@@ -360,7 +360,7 @@ export default function GetNodes() {
               <label htmlFor="tags_exact">exact matches only</label>
             </div>
             <button
-              className="w-full bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold rounded py-1"
+              className="w-full rounded bg-red-500 py-1 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
               type="submit"
               name="_action"
               value="search"
@@ -380,7 +380,7 @@ export default function GetNodes() {
           </div>
         </Form>
         <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto text-gray-900 dark:text-gray-50">
+          <div className="text-gray-900 dark:text-gray-50 sm:flex-auto">
             <p className="text-sm">
               When searching for tags, select <em>all tags</em> so only nodes
               with all of the tags entered are shown. Select{' '}
@@ -389,9 +389,9 @@ export default function GetNodes() {
             </p>
           </div>
         </div>
-        <div className="flex flex-col mt-2 md:mt-4">
+        <div className="mt-2 flex flex-col md:mt-4">
           {meta?.number_of_results ? (
-            <div className="flex-auto mb-2">
+            <div className="mb-2 flex-auto">
               Result Count: {page > 1 ? (page - 1) * pageSize + 1 : 1}-
               {page * pageSize > meta.number_of_results
                 ? meta.number_of_results
@@ -401,9 +401,9 @@ export default function GetNodes() {
           ) : (
             ''
           )}
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 text-center">
+          <div className="-mx-4 -my-2 overflow-x-auto text-center sm:-mx-6 lg:-mx-8">
             {error ? (
-              <div className="text-red-500 font-bold">Error: {error}</div>
+              <div className="font-bold text-red-500">Error: {error}</div>
             ) : nodes?.data && Object.keys(nodes.data).length !== 0 ? (
               <div>
                 <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -432,42 +432,42 @@ export default function GetNodes() {
                           <SortableColumn>Tags</SortableColumn>
                         </tr>
                       </thead>
-                      <tbody className="bg-gray-50 dark:bg-gray-600 divide-y divide-gray-200">
+                      <tbody className="divide-y divide-gray-200 bg-gray-50 dark:bg-gray-600">
                         {sortedNodes?.map(node => (
                           <tr key={node.profile_url}>
-                            <td className="p-1 md:p-2 text-sm text-gray-900 dark:text-gray-50 whitespace-nowrap">
+                            <td className="whitespace-nowrap p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <a
                                 href={`https://${node.primary_url}`}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="no-underline hover:underline text-yellow-600 dark:text-green-300"
+                                className="text-yellow-600 no-underline hover:underline dark:text-green-300"
                               >
                                 {node.primary_url?.length > 30
                                   ? `${node.primary_url?.substr(0, 30)}...`
                                   : node.primary_url}
                               </a>
                             </td>
-                            <td className="p-1 md:p-2 text-sm text-gray-900 dark:text-gray-50 whitespace-nowrap">
+                            <td className="whitespace-nowrap p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <a
                                 href={`${node.profile_url}`}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="no-underline hover:underline text-yellow-600 dark:text-green-300"
+                                className="text-yellow-600 no-underline hover:underline dark:text-green-300"
                               >
                                 {node.profile_url?.length > 65
                                   ? `${node.profile_url?.substr(0, 65)}...`
                                   : node.profile_url}
                               </a>
                             </td>
-                            <td className="p-1 md:p-2 text-sm text-gray-900 dark:text-gray-50 whitespace-nowrap">
+                            <td className="whitespace-nowrap p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               {timestampToDatetime(node.last_updated)}
                             </td>
-                            <td className="p-1 md:p-2 text-sm text-gray-900 dark:text-gray-50">
+                            <td className="p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <div className="flex flex-wrap">
                                 {node.tags?.map(tag => (
                                   <div
                                     key={tag}
-                                    className="bg-red-200 dark:bg-purple-400 px-1 md:px-2 md:py-1 m-1 rounded-lg"
+                                    className="m-1 rounded-lg bg-red-200 px-1 dark:bg-purple-400 md:px-2 md:py-1"
                                   >
                                     {tag}
                                   </div>
@@ -512,19 +512,19 @@ function SortableColumn({ prop, children, searchParams }) {
   }
 
   return (
-    <th scope="col" className="p-1 md:p-2 text-left text-sm text-gray-900">
+    <th scope="col" className="p-1 text-left text-sm text-gray-900 md:p-2">
       {prop ? (
         <Link
           to={`/index-explorer?${searchQueries}`}
-          className="inline-flex font-semibold group"
+          className="group inline-flex font-semibold"
         >
           <span className="text-gray-900 dark:text-gray-50">{children}</span>
           <span
             className={`${
               sortProp === prop
-                ? 'text-gray-900 bg-gray-200 group-hover:bg-gray-300'
+                ? 'bg-gray-200 text-gray-900 group-hover:bg-gray-300'
                 : 'invisible text-gray-400 group-hover:visible'
-            } flex-none ml-2 rounded`}
+            } ml-2 flex-none rounded`}
           >
             {desc ? '▼' : '▲'}
           </span>
@@ -575,7 +575,7 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['prev']}`}
-              className="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="ml-0 rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Previous
             </Link>
@@ -587,7 +587,7 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['first']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['first']}
             </Link>
@@ -599,14 +599,14 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['second']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['first'] + 1}
             </Link>
           </li>
         ) : pages['prev'] - pages['first'] > 1 ? (
           <li key={pages['previous'] - pages['first']}>
-            <label className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <label className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
               ...
             </label>
           </li>
@@ -617,7 +617,7 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['prev']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['prev']}
             </Link>
@@ -628,7 +628,7 @@ function Pagination({ links, searchParams }) {
         <li>
           <Link
             to={`/index-explorer?${links['self']}`}
-            className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
             {pages['self']}
           </Link>
@@ -637,7 +637,7 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['next']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['next']}
             </Link>
@@ -649,14 +649,14 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['penultimate']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['next'] + 1}
             </Link>
           </li>
         ) : pages['last'] - pages['next'] > 1 ? (
           <li key={pages['last'] - pages['next']}>
-            <label className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <label className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
               ...
             </label>
           </li>
@@ -667,7 +667,7 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['last']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               {pages['last']}
             </Link>
@@ -679,7 +679,7 @@ function Pagination({ links, searchParams }) {
           <li>
             <Link
               to={`/index-explorer?${links['next']}`}
-              className="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              className="rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               Next
             </Link>

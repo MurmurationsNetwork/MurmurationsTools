@@ -81,22 +81,22 @@ export default function Tools() {
   let data = useActionData()
   return (
     <div>
-      <div className="flex flex-row justify-between items-center bg-gray-50 dark:bg-gray-800 py-1 px-2 md:py-2 md:px-4 h-12 md:h-20 mb-2 md:mb-4">
+      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:mb-4 md:h-20 md:px-4 md:py-2">
         <h1 className="text-xl md:contents md:text-3xl">Index Updater</h1>
       </div>
       <div className="mx-1 md:mx-4">
         <Form method="post">
           <label>
-            <h2 className="font-bold text-lg md:text-2xl mb-2 md:mb-4">
+            <h2 className="mb-2 text-lg font-bold md:mb-4 md:text-2xl">
               Add/Update Profile in Index
             </h2>
-            <p className="text-sm mb-2 md:mb-4">
+            <p className="mb-2 text-sm md:mb-4">
               Post your profile to your website then add your profile, and
               always update the Index every time you change it to enable data
               aggregators to learn about your recent changes.
             </p>
             <input
-              className="form-input w-full md:w-1/2 dark:bg-gray-700 md:mr-2"
+              className="form-input w-full dark:bg-gray-700 md:mr-2 md:w-1/2"
               type="text"
               name="profile_url"
               required="required"
@@ -104,7 +104,7 @@ export default function Tools() {
             />
           </label>
           <button
-            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
+            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:mt-0 md:w-1/3"
             type="submit"
             name="_action"
             value="post"
@@ -121,29 +121,29 @@ export default function Tools() {
         </Form>
         <div className="flex flex-auto">
           {data?.postResponse ? (
-            <div className="bg-green-100 dark:bg-green-700 p-2 my-2 md:p-4 md:my-4 overflow-auto text-sm rounded-xl">
+            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm dark:bg-green-700 md:my-4 md:p-4">
               <pre>{JSON.stringify(data.postResponse, null, 2)}</pre>
             </div>
           ) : null}
           {data?.postErrors ? (
-            <div className="bg-red-200 dark:bg-red-700 p-2 my-2 md:p-4 md:my-4 overflow-auto text-sm rounded-xl">
+            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm dark:bg-red-700 md:my-4 md:p-4">
               <pre>{JSON.stringify(data.postErrors, null, 2)}</pre>
             </div>
           ) : null}
         </div>
       </div>
-      <div className="mx-1 md:mx-4 mt-4 md:mt-8">
+      <div className="mx-1 mt-4 md:mx-4 md:mt-8">
         <Form method="post">
           <label>
-            <h2 className="font-bold text-lg md:text-2xl mb-2 md:mb-4">
+            <h2 className="mb-2 text-lg font-bold md:mb-4 md:text-2xl">
               Check Profile Status in Index
             </h2>
-            <p className="text-sm mb-2 md:mb-4">
+            <p className="mb-2 text-sm md:mb-4">
               Get status and other information about your profile from the
               Index.
             </p>
             <input
-              className="form-input w-full md:w-1/2 dark:bg-gray-700 md:mr-2"
+              className="form-input w-full dark:bg-gray-700 md:mr-2 md:w-1/2"
               type="text"
               name="profile_url"
               required="required"
@@ -151,7 +151,7 @@ export default function Tools() {
             />
           </label>
           <button
-            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
+            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:mt-0 md:w-1/3"
             type="submit"
             name="_action"
             value="check"
@@ -168,30 +168,30 @@ export default function Tools() {
         </Form>
         <div className="flex flex-auto">
           {data?.checkResponse ? (
-            <div className="bg-green-100 dark:bg-green-700 p-2 my-2 md:p-4 md:my-4 overflow-auto text-sm rounded-xl">
+            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm dark:bg-green-700 md:my-4 md:p-4">
               <pre>{JSON.stringify(data.checkResponse, null, 2)}</pre>
             </div>
           ) : null}
           {data?.checkErrors ? (
-            <div className="bg-red-200 dark:bg-red-700 p-2 my-2 md:p-4 md:my-4 overflow-auto text-sm rounded-xl">
+            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm dark:bg-red-700 md:my-4 md:p-4">
               <pre>{JSON.stringify(data.checkErrors, null, 2)}</pre>
             </div>
           ) : null}
         </div>
       </div>
-      <div className="mx-1 md:mx-4 mt-4 md:mt-8">
+      <div className="mx-1 mt-4 md:mx-4 md:mt-8">
         <Form method="post">
           <label>
-            <h2 className="font-bold text-lg md:text-2xl mb-2 md:mb-4">
+            <h2 className="mb-2 text-lg font-bold md:mb-4 md:text-2xl">
               Delete Profile from Index
             </h2>
-            <p className="text-sm mb-2 md:mb-4">
+            <p className="mb-2 text-sm md:mb-4">
               Remove your profile from your website first (it should return a{' '}
               <code>404 Not Found</code> status code) and then submit it here to
               delete it from the Index.
             </p>
             <input
-              className="form-input w-full md:w-1/2 dark:bg-gray-700 md:mr-2"
+              className="form-input w-full dark:bg-gray-700 md:mr-2 md:w-1/2"
               type="text"
               name="profile_url"
               required="required"
@@ -199,7 +199,7 @@ export default function Tools() {
             />
           </label>
           <button
-            className="bg-red-500 dark:bg-purple-200 hover:bg-red-400 dark:hover:bg-purple-100 text-white dark:text-gray-800 disabled:opacity-75 font-bold py-2 px-4 w-full md:w-1/3 mt-2 md:mt-0"
+            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:mt-0 md:w-1/3"
             type="submit"
             name="_action"
             value="delete"
@@ -216,12 +216,12 @@ export default function Tools() {
         </Form>
         <div className="flex flex-auto">
           {data?.deleteResponse ? (
-            <div className="bg-green-100 dark:bg-green-700 p-2 my-2 md:p-4 md:my-4 overflow-auto text-sm rounded-xl">
+            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm dark:bg-green-700 md:my-4 md:p-4">
               <pre>{JSON.stringify(data.deleteResponse, null, 2)}</pre>
             </div>
           ) : null}
           {data?.deleteErrors ? (
-            <div className="bg-red-200 dark:bg-red-700 p-2 my-2 md:p-4 md:my-4 overflow-auto text-sm rounded-xl">
+            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm dark:bg-red-700 md:my-4 md:p-4">
               <pre>{JSON.stringify(data.deleteErrors, null, 2)}</pre>
             </div>
           ) : null}

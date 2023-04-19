@@ -44,8 +44,8 @@ export default function ObjectField({
     } else if (schema?.properties[property]?.properties) {
       return (
         <div key={parentFieldName + '.' + property}>
-          <fieldset className="border-dotted border-4 border-slate-300 p-4 my-4">
-            <legend className="block text-md font-bold mt-2">
+          <fieldset className="my-4 border-4 border-dotted border-slate-300 p-4">
+            <legend className="text-md mt-2 block font-bold">
               {schema?.properties[property]?.title}
               {requiredProperties?.includes(property) ? (
                 <span className="text-red-500 dark:text-red-400"> *</span>
