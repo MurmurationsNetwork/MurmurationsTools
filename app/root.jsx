@@ -116,9 +116,9 @@ export default function App() {
           <Outlet />
           <ScrollRestoration />
           <script
-            data-goatcounter="https://tools-murm.goatcounter.com/count"
+            data-goatcounter="https://tools.murmurations.network/count"
             async
-            src="//gc.zgo.at/count.js"
+            src="//stats.murmurations.network/count.js"
           ></script>
           <Scripts />
           {process.env.NODE_ENV === 'development' && <LiveReload />}
