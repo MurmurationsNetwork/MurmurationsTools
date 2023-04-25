@@ -115,6 +115,14 @@ export default function App() {
           </div>
           <Outlet />
           <ScrollRestoration />
+          <script>
+            window.goatcounter =
+            {{
+              path: function (p) {
+                return location.host + p
+              }
+            }}
+          </script>
           <script
             data-goatcounter="https://tools.murmurations.network/count"
             async
