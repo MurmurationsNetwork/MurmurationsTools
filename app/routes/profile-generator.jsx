@@ -275,6 +275,7 @@ export default function Index() {
             <Link
               to="/login"
               className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:my-8 md:h-8"
+              reloadDocument
             >
               Login
             </Link>
@@ -295,6 +296,13 @@ export default function Index() {
                     target="_blank"
                     rel="noreferrer"
                     href="https://docs.murmurations.network/guides/create-a-profile.html#_1-hosted-by-our-profile-generator"
+                    onClick={e =>
+                      window.goatcounter.count({
+                        path: p => p + '?docs',
+                        title: 'MPG docs',
+                        event: true
+                      })
+                    }
                   >
                     See our documentation for details
                   </a>
@@ -562,13 +570,23 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
         <div className="px-6 py-4">
           <div className="mb-2 text-lg">
             Title:{' '}
-            <Link
-              to={{ pathname: `/profiles/${profile?.cuid}` }}
-              target="_blank"
-              className="text-yellow-600 no-underline hover:underline dark:text-green-300"
+            <button
+              onClick={e =>
+                window.goatcounter.count({
+                  path: p => p + '?db-link',
+                  title: 'DB link',
+                  event: true
+                })
+              }
             >
-              {profile?.title}
-            </Link>
+              <Link
+                to={{ pathname: `/profiles/${profile?.cuid}` }}
+                target="_blank"
+                className="text-yellow-600 no-underline hover:underline dark:text-green-300"
+              >
+                {profile?.title}
+              </Link>
+            </button>
             <br />
             {profile?.ipfs[0] ? (
               <>
@@ -578,6 +596,13 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
                   target="_blank"
                   rel="noreferrer"
                   className="text-yellow-600 no-underline hover:underline dark:text-green-300"
+                  onClick={e =>
+                    window.goatcounter.count({
+                      path: p => p + '?ipfs-link',
+                      title: 'IPFS link',
+                      event: true
+                    })
+                  }
                 >
                   {profile.ipfs[0].substring(0, 6) +
                     '...' +

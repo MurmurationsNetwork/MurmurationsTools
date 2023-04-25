@@ -213,6 +213,13 @@ export default function GetNodes() {
                 target="_blank"
                 rel="noreferrer"
                 href="https://docs.murmurations.network/guides/view-the-data.html#search-the-index"
+                onClick={e =>
+                  window.goatcounter.count({
+                    path: p => p + '?docs',
+                    title: 'IE docs',
+                    event: true
+                  })
+                }
               >
                 see our documentation
               </a>
@@ -368,6 +375,13 @@ export default function GetNodes() {
                 navigation.state !== 'idle' &&
                 navigation.formData?.get('_action') === 'search'
               }
+              onClick={e =>
+                window.goatcounter.count({
+                  path: p => p + '?search',
+                  title: 'IE search',
+                  event: true
+                })
+              }
             >
               {navigation.state === 'submitting' &&
               navigation.formData?.get('_action') === 'search'
@@ -517,6 +531,7 @@ function SortableColumn({ prop, children, searchParams }) {
         <Link
           to={`/index-explorer?${searchQueries}`}
           className="group inline-flex font-semibold"
+          reloadDocument
         >
           <span className="text-gray-900 dark:text-gray-50">{children}</span>
           <span
@@ -576,6 +591,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['prev']}`}
               className="ml-0 rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               Previous
             </Link>
@@ -588,6 +604,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['first']}`}
               className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               {pages['first']}
             </Link>
@@ -600,6 +617,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['second']}`}
               className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               {pages['first'] + 1}
             </Link>
@@ -618,6 +636,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['prev']}`}
               className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               {pages['prev']}
             </Link>
@@ -629,6 +648,7 @@ function Pagination({ links, searchParams }) {
           <Link
             to={`/index-explorer?${links['self']}`}
             className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            reloadDocument
           >
             {pages['self']}
           </Link>
@@ -638,6 +658,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['next']}`}
               className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               {pages['next']}
             </Link>
@@ -650,6 +671,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['penultimate']}`}
               className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               {pages['next'] + 1}
             </Link>
@@ -668,6 +690,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['last']}`}
               className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               {pages['last']}
             </Link>
@@ -680,6 +703,7 @@ function Pagination({ links, searchParams }) {
             <Link
               to={`/index-explorer?${links['next']}`}
               className="rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              reloadDocument
             >
               Next
             </Link>

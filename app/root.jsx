@@ -67,14 +67,14 @@ export default function App() {
               Murmurations Tools
             </div>
             <div className="flex flex-row items-center justify-end">
-              <Link to="/profile-generator">
+              <Link to="/profile-generator" reloadDocument>
                 <div className="text-md md:hidden">Profiles</div>
                 <div className="hidden md:contents md:text-xl">
                   Profile Generator
                 </div>
               </Link>
               <div className="pl-6 md:pl-16">
-                <Link to="/batch-importer">
+                <Link to="/batch-importer" reloadDocument>
                   <div className="text-md md:hidden">Batch</div>
                   <div className="hidden md:contents md:text-xl">
                     Batch Importer
@@ -82,7 +82,7 @@ export default function App() {
                 </Link>
               </div>
               <div className="pl-6 md:pl-16">
-                <Link to="/index-explorer">
+                <Link to="/index-explorer" reloadDocument>
                   <div className="text-md md:hidden">Explore</div>
                   <div className="hidden md:contents md:text-xl">
                     Index Explorer
@@ -90,7 +90,7 @@ export default function App() {
                 </Link>
               </div>
               <div className="pl-6 md:pl-16">
-                <Link to="/index-updater">
+                <Link to="/index-updater" reloadDocument>
                   <div className="text-md md:hidden">Update</div>
                   <div className="hidden md:contents md:text-xl">
                     Index Updater
@@ -105,6 +105,13 @@ export default function App() {
                     production
                       ? 'https://map.murmurations.network'
                       : 'https://test-map.murmurations.network'
+                  }
+                  onClick={e =>
+                    window.goatcounter.count({
+                      path: p => p + '?map',
+                      title: 'Tools -> Map',
+                      event: true
+                    })
                   }
                 >
                   <div className="text-md md:hidden">Map</div>

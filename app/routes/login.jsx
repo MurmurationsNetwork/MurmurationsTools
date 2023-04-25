@@ -244,7 +244,9 @@ export default function Login() {
       <div className="links text-center">
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" reloadDocument>
+              Home
+            </Link>
           </li>
         </ul>
       </div>

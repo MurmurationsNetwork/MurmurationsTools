@@ -244,6 +244,7 @@ export default function Batch() {
             <Link
               to="/login"
               className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:my-8 md:h-8"
+              reloadDocument
             >
               Login
             </Link>
@@ -263,6 +264,13 @@ export default function Batch() {
                     target="_blank"
                     rel="noreferrer"
                     href="https://docs.murmurations.network/guides/import-networks.html#spreadsheet"
+                    onClick={e =>
+                      window.goatcounter.count({
+                        path: p => p + '?docs',
+                        title: 'Batch docs',
+                        event: true
+                      })
+                    }
                   >
                     See our documentation for details
                   </a>
