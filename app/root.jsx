@@ -114,8 +114,7 @@ export default function App() {
                     })
                   }
                 >
-                  <div className="text-md md:hidden">Map</div>
-                  <div className="hidden md:contents md:text-xl">Map</div>
+                  <div className="text-base md:text-xl">Map</div>
                 </a>
               </div>
             </div>
@@ -123,7 +122,11 @@ export default function App() {
           <Outlet />
           <ScrollRestoration />
           <script
-            data-goatcounter="https://stats.murmurations.network/count"
+            data-goatcounter={
+              production
+                ? 'https://stats-tools.murmurations.network/count'
+                : 'https://test-stats-tools.murmurations.network/count'
+            }
             async
             src="//stats.murmurations.network/count.js"
           ></script>
