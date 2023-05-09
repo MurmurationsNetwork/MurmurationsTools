@@ -31,8 +31,23 @@ export async function action({ request }) {
   let formData = await request.formData()
   let rawData = {}
   for (let key of formData.keys()) {
-    rawData[key] = formData.getAll(key)
-    rawData[key].length === 1 && (rawData[key] = rawData[key][0])
+    const values = formData.getAll(key)
+
+    // Deal with multiple values submitted as an array
+    if (key.endsWith('[]')) {
+      const keyWithoutBrackets = key.slice(0, -2)
+
+      if (values.length === 1) {
+        rawData[keyWithoutBrackets] = []
+        rawData[keyWithoutBrackets].push(...values)
+      } else {
+        rawData[keyWithoutBrackets] = values
+      }
+
+      delete rawData[key]
+    } else {
+      rawData[key] = values.length > 1 ? values : values[0]
+    }
   }
   let { _action, ...data } = rawData
   let schema,

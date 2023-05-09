@@ -50,7 +50,7 @@ export default function MultipleEnumField({
         <select
           className="form-select mt-2 w-full text-ellipsis dark:bg-gray-700"
           aria-label={parentFieldName}
-          name={parentFieldName}
+          name={parentFieldName + '[]'}
           required={isFieldRequired}
           value={arrayData ? getCurrentValue(arrayData, arrayPath) : inputValue}
           onChange={event => handleChange(event)}
