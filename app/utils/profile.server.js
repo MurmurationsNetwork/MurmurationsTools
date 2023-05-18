@@ -19,8 +19,8 @@ import {
 } from '~/utils/mongo.server'
 
 async function postNode(profileId) {
-  const postUrl = process.env.PUBLIC_PROFILE_POST_URL + '/nodes'
-  const profileUrl = process.env.PUBLIC_PROFILE_SOURCE_URL + '/' + profileId
+  const postUrl = process.env.PUBLIC_INDEX_URL + '/v2/nodes'
+  const profileUrl = process.env.PUBLIC_PROFILE_URL + '/profiles/' + profileId
   const res = await fetchJsonPost(postUrl, {
     profile_url: profileUrl
   })
@@ -48,7 +48,7 @@ async function publishProfileList(client, emailHash) {
 }
 
 async function deleteNode(nodeId) {
-  const url = process.env.PUBLIC_PROFILE_POST_URL + '/nodes/' + nodeId
+  const url = process.env.PUBLIC_INDEX_URL + '/v2/nodes/' + nodeId
   try {
     return await fetchDelete(url)
   } catch (err) {

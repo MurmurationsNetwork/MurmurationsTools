@@ -1,5 +1,5 @@
 export async function postNode(url) {
-  return fetch(process.env.PUBLIC_PROFILE_POST_URL + '/nodes-sync', {
+  return fetch(process.env.PUBLIC_INDEX_URL + '/v2/nodes-sync', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: `{"profile_url": "${url}"}`
@@ -9,14 +9,14 @@ export async function postNode(url) {
 }
 
 export async function getNodeStatus(node_id) {
-  return fetch(`${process.env.PUBLIC_PROFILE_POST_URL}/nodes/${node_id}`)
+  return fetch(`${process.env.PUBLIC_INDEX_URL}/v2/nodes/${node_id}`)
     .then(res => res.json())
     .then(body => body)
     .catch(err => err)
 }
 
 export async function deleteNode(node_id) {
-  return fetch(`${process.env.PUBLIC_PROFILE_POST_URL}/nodes/${node_id}`, {
+  return fetch(`${process.env.PUBLIC_INDEX_URL}/v2/nodes/${node_id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' }
   })

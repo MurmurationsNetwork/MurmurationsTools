@@ -7,7 +7,8 @@ import {
 
 export async function getBatches(userId) {
   const url =
-    process.env.PUBLIC_DATA_PROXY_URL + '/batch/user?user_id=' + userId
+    process.env.PUBLIC_DATA_PROXY_URL + '/v1/batch/user?user_id=' + userId
+  console.log(url)
   const response = await fetchGet(url)
   try {
     return await response.json()
@@ -19,7 +20,7 @@ export async function getBatches(userId) {
 }
 
 export async function validateBatch(file, schemas) {
-  const validateUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/validate'
+  const validateUrl = process.env.PUBLIC_DATA_PROXY_URL + '/v1/batch/validate'
   let formData = new FormData()
   formData.append('file', file)
   formData.append('schemas', '[' + schemas + ']')
@@ -33,7 +34,7 @@ export async function validateBatch(file, schemas) {
 }
 
 export async function importBatch(file, schemas, title, userId) {
-  const importUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  const importUrl = process.env.PUBLIC_DATA_PROXY_URL + '/v1/batch/import'
   let formData = new FormData()
   formData.append('file', file)
   formData.append('schemas', '[' + schemas + ']')
@@ -49,7 +50,7 @@ export async function importBatch(file, schemas, title, userId) {
 }
 
 export async function editBatch(file, title, userId, batchId) {
-  const editUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  const editUrl = process.env.PUBLIC_DATA_PROXY_URL + '/v1/batch/import'
   let formData = new FormData()
   formData.append('file', file)
   formData.append('title', title)
@@ -65,7 +66,7 @@ export async function editBatch(file, title, userId, batchId) {
 }
 
 export async function deleteBatch(batchId, userId) {
-  const deleteUrl = process.env.PUBLIC_DATA_PROXY_URL + '/batch/import'
+  const deleteUrl = process.env.PUBLIC_DATA_PROXY_URL + '/v1/batch/import'
   let formData = new FormData()
   formData.append('batch_id', batchId)
   formData.append('user_id', userId)

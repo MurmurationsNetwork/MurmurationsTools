@@ -64,7 +64,7 @@ export async function action({ request }) {
       schema = await parseRef(data.linked_schemas)
       profile = generateInstance(schema, data)
       response = await fetchJsonPost(
-        process.env.PUBLIC_PROFILE_VALIDATION_URL,
+        process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile
       )
       body = await response.json()
@@ -117,7 +117,7 @@ export async function action({ request }) {
         data
       profile = generateInstance(schema, instanceData)
       response = await fetchJsonPost(
-        process.env.PUBLIC_PROFILE_VALIDATION_URL,
+        process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile
       )
       body = await response.json()
@@ -178,7 +178,7 @@ export async function loader(request) {
     ? cookieHeader.indexOf('murmurations_session=')
     : -1
   const ipfsGatewayUrl = process.env.PUBLIC_IPFS_GATEWAY_URL
-  const profilePostUrl = process.env.PUBLIC_PROFILE_POST_URL
+  const profilePostUrl = process.env.PUBLIC_INDEX_URL + '/v2'
   let userWithProfile
   // If user is not login or logout, return empty user
   if (loginSession === -1 || cookieHeader.includes('murmurations_session=;')) {
