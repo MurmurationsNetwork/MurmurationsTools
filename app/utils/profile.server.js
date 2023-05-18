@@ -20,7 +20,7 @@ import {
 
 async function postNode(profileId) {
   const postUrl = process.env.PUBLIC_INDEX_URL + '/v2/nodes'
-  const profileUrl = process.env.PUBLIC_PROFILE_URL + '/profiles/' + profileId
+  const profileUrl = process.env.PUBLIC_TOOLS_URL + '/profiles/' + profileId
   const res = await fetchJsonPost(postUrl, {
     profile_url: profileUrl
   })
