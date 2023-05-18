@@ -1,7 +1,7 @@
 import { fetchGet } from '~/utils/fetcher'
 
 export async function loadSchema() {
-  let response = await fetchGet(process.env.PUBLIC_LIBRARY_URL)
+  let response = await fetchGet(process.env.PUBLIC_LIBRARY_URL + '/v2/schemas')
   if (!response.ok) {
     throw new Response('Schema list loading error', {
       status: response.status

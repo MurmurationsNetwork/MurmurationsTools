@@ -113,7 +113,7 @@ export async function loader({ request }) {
       searchParams = searchParams.replace('schema=all', '')
     }
     let response = await fetchGet(
-      `${process.env.PUBLIC_PROFILE_POST_URL}/nodes?${searchParams}`
+      `${process.env.PUBLIC_INDEX_URL}/v2/nodes?${searchParams}`
     )
 
     const nodes = await response.json()
