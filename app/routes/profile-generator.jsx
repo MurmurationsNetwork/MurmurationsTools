@@ -178,7 +178,7 @@ export async function loader(request) {
     ? cookieHeader.indexOf('murmurations_session=')
     : -1
   const ipfsGatewayUrl = process.env.PUBLIC_IPFS_GATEWAY_URL
-  const profilePostUrl = process.env.PUBLIC_INDEX_URL + '/v2'
+  const profilePostUrl = process.env.PUBLIC_INDEX_URL + '/v2/nodes'
   let userWithProfile
   // If user is not login or logout, return empty user
   if (loginSession === -1 || cookieHeader.includes('murmurations_session=;')) {
@@ -561,7 +561,7 @@ function ProfileItem({ ipfsGatewayUrl, profile, profilePostUrl, navigation }) {
       return
     }
     const interval = setTimeout(() => {
-      let url = profilePostUrl + '/nodes/' + profile.node_id
+      let url = profilePostUrl + '/' + profile.node_id
       fetchGet(url)
         .then(res => {
           return res.json()
