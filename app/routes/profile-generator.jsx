@@ -13,8 +13,8 @@ import {
 
 import { userCookie } from '~/utils/cookie'
 import { fetchGet, fetchJsonPost } from '~/utils/fetcher'
-import generateInstance from '~/utils/generateInstance'
-import parseRef from '~/utils/parseRef'
+import generateInstanceServer from '~/utils/generateInstance.server'
+import parseRefServer from '~/utils/parseRef.server'
 import {
   deleteProfile,
   getProfile,
@@ -61,8 +61,8 @@ export async function action({ request }) {
     profileIpfsHash
   switch (_action) {
     case 'submit':
-      schema = await parseRef(data.linked_schemas)
-      profile = generateInstance(schema, data)
+      schema = await parseRefServer(data.linked_schemas)
+      profile = generateInstanceServer(schema, data)
       response = await fetchJsonPost(
         process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile
@@ -81,7 +81,7 @@ export async function action({ request }) {
       }
       return json(profile, { status: 200 })
     case 'select':
-      return await parseRef(data.schema)
+      return await parseRefServer(data.schema)
     case 'save':
       userEmail = await requireUserEmail(request, '/')
       profileData = formData.get('instance')
@@ -98,7 +98,7 @@ export async function action({ request }) {
     case 'modify':
       profileId = formData.get('profile_id')
       profileData = await getProfile(profileId)
-      schema = await parseRef(profileData.linked_schemas)
+      schema = await parseRefServer(profileData.linked_schemas)
       return json({
         schema: schema,
         profileData: JSON.parse(profileData.profile),
@@ -111,11 +111,11 @@ export async function action({ request }) {
       profileId = formData.get('profile_id')
       profileTitle = formData.get('profile_title')
       profileIpfsHash = formData.get('profile_ipfs_hash')
-      schema = await parseRef(data.linked_schemas)
+      schema = await parseRefServer(data.linked_schemas)
       // delete profile_id, profile_title from data
       let { profile_id, profile_title, profile_ipfs_hash, ...instanceData } =
         data
-      profile = generateInstance(schema, instanceData)
+      profile = generateInstanceServer(schema, instanceData)
       response = await fetchJsonPost(
         process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile

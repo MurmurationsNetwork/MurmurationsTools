@@ -1,4 +1,4 @@
-import generateInstance from './generateInstance'
+import generateInstanceServer from './generateInstance.server'
 import {
   test_schema_1,
   test_schema_2,
@@ -19,7 +19,7 @@ describe('generateInstance tests', () => {
       name: 'The Dude',
       geolocation: { lat: 34.05, lon: -118.24 }
     }
-    let received = generateInstance(test_schema_1, formData)
+    let received = generateInstanceServer(test_schema_1, formData)
     expect(received).toEqual(expected)
   })
 
@@ -42,7 +42,7 @@ describe('generateInstance tests', () => {
       ],
       country: 'AF'
     }
-    let received = generateInstance(test_schema_2, formData)
+    let received = generateInstanceServer(test_schema_2, formData)
     expect(received).toEqual(expected)
   })
 
@@ -69,7 +69,7 @@ describe('generateInstance tests', () => {
         }
       }
     }
-    let received = generateInstance(test_schema_3, formData)
+    let received = generateInstanceServer(test_schema_3, formData)
     expect(received).toEqual(expected)
   })
 
@@ -84,7 +84,7 @@ describe('generateInstance tests', () => {
       single_choice: 'zero',
       multi_choice: ['zero', 'one']
     }
-    let received = generateInstance(test_schema_4, formData)
+    let received = generateInstanceServer(test_schema_4, formData)
     expect(received).toEqual(expected)
   })
 
@@ -101,7 +101,7 @@ describe('generateInstance tests', () => {
         multi_choice: ['zero', 'one']
       }
     }
-    let received = generateInstance(test_schema_4, formData)
+    let received = generateInstanceServer(test_schema_4, formData)
     expect(received).toEqual(expected)
   })
 })
