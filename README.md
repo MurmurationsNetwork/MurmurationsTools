@@ -6,6 +6,9 @@ _This project is licensed under the terms of the GNU General Public License v3.0
 
 ```sh
 npm install
+# Install @murmurations packages locally
+npm link @murmurations/jsrfg @murmurations/jsig
+# Install the hooks for husky
 npm run prepare
 # Don't forget to set your environment variables in the .env file!
 npm run dev
