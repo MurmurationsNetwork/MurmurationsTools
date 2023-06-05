@@ -24,7 +24,7 @@ import {
 } from '~/utils/profile.server'
 import { requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
-import GenerateForm from '~/components/GenerateForm'
+import { GenerateForm } from '@murmurations/jsrfg'
 import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
