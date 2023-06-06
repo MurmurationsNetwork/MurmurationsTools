@@ -1,6 +1,6 @@
 import { parseSchemas } from '@murmurations/jsig'
 
-export default async function parseRefServer(schemaName) {
+export default async function parseRef(schemaName) {
   const url = `${process.env.PUBLIC_LIBRARY_URL}/v2/schemas`
   try {
     if (typeof schemaName === 'string') {

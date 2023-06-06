@@ -1,5 +1,5 @@
 import { generateSchemaInstance } from '@murmurations/jsig'
 
-export default function generateInstanceServer(schema, data) {
+export default function generateInstance(schema, data) {
   return generateSchemaInstance(schema, data)
 }
