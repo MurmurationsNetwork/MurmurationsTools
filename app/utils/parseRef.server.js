@@ -4,7 +4,11 @@ export default async function parseRef(schemaName) {
   const url = `${process.env.PUBLIC_LIBRARY_URL}/v2/schemas`
   try {
     if (typeof schemaName === 'string') {
-      schemaName = [schemaName]
+      if (schemaName.indexOf(',') > -1) {
+        schemaName = schemaName.split(',')
+      } else {
+        schemaName = [schemaName]
+      }
     }
     return await parseSchemas(url, schemaName)
   } catch (err) {
