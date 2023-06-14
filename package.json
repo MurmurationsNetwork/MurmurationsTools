@@ -33,6 +33,8 @@
     ]
   },
   "dependencies": {
+    "@murmurations/jsig": "^1.0.0-pre.2",
+    "@murmurations/jsrfg": "^1.0.0-pre.0",
     "@remix-run/node": "^1.15.0",
     "@remix-run/react": "^1.15.0",
     "@remix-run/vercel": "^1.15.0",
