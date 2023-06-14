@@ -62,7 +62,7 @@ export async function action({ request }) {
   switch (_action) {
     case 'submit':
       schema = await parseRef(data.linked_schemas)
-      profile = generateInstance(schema, data)
+      profile = await generateInstance(schema, data)
       response = await fetchJsonPost(
         process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile
