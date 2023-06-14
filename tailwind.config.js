@@ -1,6 +1,9 @@
 module.exports = {
   important: true,
-  content: ['./app/**/*.{ts,tsx,jsx,js}'],
+  content: [
+    './app/**/*.{ts,tsx,jsx,js}',
+    './node_modules/@murmurations/jsrfg/**/*.{vue,js,ts,jsx,tsx}'
+  ],
   theme: {
     extend: {
       colors: {

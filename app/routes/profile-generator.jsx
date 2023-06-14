@@ -13,8 +13,8 @@ import {
 
 import { userCookie } from '~/utils/cookie'
 import { fetchGet, fetchJsonPost } from '~/utils/fetcher'
-import generateInstance from '~/utils/generateInstance'
-import parseRef from '~/utils/parseRef'
+import generateInstance from '~/utils/generateInstance.server'
+import parseRef from '~/utils/parseRef.server'
 import {
   deleteProfile,
   getProfile,
@@ -24,7 +24,7 @@ import {
 } from '~/utils/profile.server'
 import { requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
-import GenerateForm from '~/components/GenerateForm'
+import { GenerateForm } from '@murmurations/jsrfg'
 import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
@@ -62,7 +62,7 @@ export async function action({ request }) {
   switch (_action) {
     case 'submit':
       schema = await parseRef(data.linked_schemas)
-      profile = generateInstance(schema, data)
+      profile = await generateInstance(schema, data)
       response = await fetchJsonPost(
         process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile

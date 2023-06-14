@@ -11,7 +11,7 @@ import {
 } from '@remix-run/react'
 
 import { userCookie } from '~/utils/cookie'
-import parseRef from '~/utils/parseRef'
+import parseRef from '~/utils/parseRef.server'
 import { getUser, requireUserEmail, retrieveUser } from '~/utils/session.server'
 import { loadSchema } from '~/utils/schema'
 import { toast, Toaster } from 'react-hot-toast'
