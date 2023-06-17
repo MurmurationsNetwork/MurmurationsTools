@@ -115,7 +115,7 @@ export async function action({ request }) {
       // delete profile_id, profile_title from data
       let { profile_id, profile_title, profile_ipfs_hash, ...instanceData } =
         data
-      profile = generateInstance(schema, instanceData)
+      profile = await generateInstance(schema, instanceData)
       response = await fetchJsonPost(
         process.env.PUBLIC_INDEX_URL + '/v2/validate',
         profile
