@@ -20,3 +20,15 @@ Open up <http://localhost:3000> and you should be ready to go!
 ## Try it out
 
 <https://test-tools.murmurations.network>
+
+## Vercel test preview deployment
+
+After merging to main and pulling in the changes locally:
+
+```sh
+git checkout main
+git rebase test
+git checkout test
+git merge main
+git push
+```
