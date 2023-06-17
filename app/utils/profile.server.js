@@ -129,16 +129,17 @@ export async function updateProfile(
     if (ipfsData.Hash !== profileIpfsHash) {
       await mongoUpdateIpfs(client, profileId, ipfsData.Hash)
     }
-    const body = await postNode(profileId)
     const profileObj = JSON.parse(profileData)
     const profile = {
       linked_schemas: profileObj.linked_schemas,
       profile: profileData,
-      title: profileTitle,
-      node_id: body?.data?.node_id ? body?.data?.node_id : ''
+      title: profileTitle
     }
     await mongoUpdateProfile(client, profileId, profile)
     const userData = await publishProfileList(client, emailHash)
+
+    // update the node after the profile is updated
+    await postNode(profileId)
 
     return {
       success: true,
