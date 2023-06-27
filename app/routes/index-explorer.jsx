@@ -20,6 +20,9 @@ function getSearchUrl(params, removePage) {
   if (params?.schema) {
     searchParams += 'schema=' + params.schema
   }
+  if (params?.name) {
+    searchParams += '&name=' + params.name
+  }
   if (params?.tags) {
     searchParams += '&tags=' + params.tags
   }
@@ -247,6 +250,13 @@ export default function GetNodes() {
                 </option>
               ))}
             </select>
+            <input
+              className="flex-auto rounded p-2 dark:bg-gray-700"
+              placeholder="name search"
+              type="text"
+              name="name"
+              defaultValue={searchParams?.name}
+            />
             <input
               className="flex-auto rounded p-2 dark:bg-gray-700"
               placeholder="tag search"
