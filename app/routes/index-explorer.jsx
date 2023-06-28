@@ -442,6 +442,12 @@ export default function GetNodes() {
                             Primary URL
                           </SortableColumn>
                           <SortableColumn
+                            prop="name"
+                            searchParams={searchParams}
+                          >
+                            Name
+                          </SortableColumn>
+                          <SortableColumn
                             prop="profile_url"
                             searchParams={searchParams}
                           >
@@ -454,16 +460,6 @@ export default function GetNodes() {
                             Last Updated
                           </SortableColumn>
                           <SortableColumn>Tags</SortableColumn>
-                          {searchParams?.name ? (
-                            <SortableColumn
-                              prop="name"
-                              searchParams={searchParams}
-                            >
-                              Name
-                            </SortableColumn>
-                          ) : (
-                            ''
-                          )}
                           {searchParams?.locality ? (
                             <SortableColumn
                               prop="locality"
@@ -512,6 +508,9 @@ export default function GetNodes() {
                               </a>
                             </td>
                             <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                              {node.name}
+                            </td>
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <a
                                 href={`${node.profile_url}`}
                                 target="_blank"
@@ -538,13 +537,6 @@ export default function GetNodes() {
                                 ))}
                               </div>
                             </td>
-                            {searchParams?.name ? (
-                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
-                                {node.name}
-                              </td>
-                            ) : (
-                              ''
-                            )}
                             {searchParams?.locality ? (
                               <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                                 {node.locality}
