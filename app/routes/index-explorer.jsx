@@ -454,12 +454,52 @@ export default function GetNodes() {
                             Last Updated
                           </SortableColumn>
                           <SortableColumn>Tags</SortableColumn>
+                          {searchParams?.name ? (
+                            <SortableColumn
+                              prop="name"
+                              searchParams={searchParams}
+                            >
+                              Name
+                            </SortableColumn>
+                          ) : (
+                            ''
+                          )}
+                          {searchParams?.locality ? (
+                            <SortableColumn
+                              prop="locality"
+                              searchParams={searchParams}
+                            >
+                              Locality
+                            </SortableColumn>
+                          ) : (
+                            ''
+                          )}
+                          {searchParams?.region ? (
+                            <SortableColumn
+                              prop="region"
+                              searchParams={searchParams}
+                            >
+                              Region
+                            </SortableColumn>
+                          ) : (
+                            ''
+                          )}
+                          {searchParams?.country ? (
+                            <SortableColumn
+                              prop="country"
+                              searchParams={searchParams}
+                            >
+                              Country
+                            </SortableColumn>
+                          ) : (
+                            ''
+                          )}
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 bg-gray-50 dark:bg-gray-600">
                         {sortedNodes?.map(node => (
                           <tr key={node.profile_url}>
-                            <td className="whitespace-nowrap p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <a
                                 href={`https://${node.primary_url}`}
                                 target="_blank"
@@ -467,11 +507,11 @@ export default function GetNodes() {
                                 className="text-yellow-600 no-underline hover:underline dark:text-green-300"
                               >
                                 {node.primary_url?.length > 30
-                                  ? `${node.primary_url?.substr(0, 30)}...`
+                                  ? `${node.primary_url?.substring(0, 5)}...`
                                   : node.primary_url}
                               </a>
                             </td>
-                            <td className="whitespace-nowrap p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="w-auto whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <a
                                 href={`${node.profile_url}`}
                                 target="_blank"
@@ -479,11 +519,11 @@ export default function GetNodes() {
                                 className="text-yellow-600 no-underline hover:underline dark:text-green-300"
                               >
                                 {node.profile_url?.length > 65
-                                  ? `${node.profile_url?.substr(0, 65)}...`
+                                  ? `${node.profile_url?.substring(0, 65)}...`
                                   : node.profile_url}
                               </a>
                             </td>
-                            <td className="whitespace-nowrap p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               {timestampToDatetime(node.last_updated)}
                             </td>
                             <td className="p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
@@ -498,6 +538,34 @@ export default function GetNodes() {
                                 ))}
                               </div>
                             </td>
+                            {searchParams?.name ? (
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                                {node.name}
+                              </td>
+                            ) : (
+                              ''
+                            )}
+                            {searchParams?.locality ? (
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                                {node.locality}
+                              </td>
+                            ) : (
+                              ''
+                            )}
+                            {searchParams?.region ? (
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                                {node.region}
+                              </td>
+                            ) : (
+                              ''
+                            )}
+                            {searchParams?.country ? (
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                                {node.country}
+                              </td>
+                            ) : (
+                              ''
+                            )}
                           </tr>
                         ))}
                       </tbody>
