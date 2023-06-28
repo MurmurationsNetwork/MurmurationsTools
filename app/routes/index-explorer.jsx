@@ -511,7 +511,7 @@ export default function GetNodes() {
                                   : node.primary_url}
                               </a>
                             </td>
-                            <td className="w-auto whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
                               <a
                                 href={`${node.profile_url}`}
                                 target="_blank"
