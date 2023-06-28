@@ -161,6 +161,9 @@ export default function GetNodes() {
   let [currentSchema, setCurrentSchema] = useState(
     searchParams?.schema ? searchParams.schema : ''
   )
+  let [currentCountry, setCurrentCountry] = useState(
+    searchParams?.country ? searchParams.country : ''
+  )
   let [error, setError] = useState(null)
   useEffect(() => {
     if (schema) {
@@ -322,7 +325,8 @@ export default function GetNodes() {
             <select
               className="col-span-2 flex-auto rounded dark:bg-gray-700"
               name="country"
-              defaultValue={searchParams?.country}
+              value={currentCountry}
+              onChange={e => setCurrentCountry(e.target.value)}
             >
               <option value="">Select a Country</option>
               {countries &&
