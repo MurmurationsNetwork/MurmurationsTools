@@ -507,7 +507,7 @@ export default function GetNodes() {
                                 className="text-yellow-600 no-underline hover:underline dark:text-green-300"
                               >
                                 {node.primary_url?.length > 30
-                                  ? `${node.primary_url?.substring(0, 5)}...`
+                                  ? `${node.primary_url?.substring(0, 30)}...`
                                   : node.primary_url}
                               </a>
                             </td>
