@@ -1,11 +1,12 @@
 /.idea
-node_modules
+.DS_Store
 
 .cache
 .env
 .vercel
 .output
 
+/node_modules
 /build/
 /public/build
 /api/index.js
