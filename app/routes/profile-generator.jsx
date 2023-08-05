@@ -29,27 +29,13 @@ import HandleError from '~/components/HandleError'
 
 export async function action({ request }) {
   let formData = await request.formData()
-  let rawData = {}
+  let data = {}
   for (let key of formData.keys()) {
-    const values = formData.getAll(key)
-
-    // Deal with multiple values submitted as an array
-    if (key.endsWith('[]')) {
-      const keyWithoutBrackets = key.slice(0, -2)
-
-      if (values.length === 1) {
-        rawData[keyWithoutBrackets] = []
-        rawData[keyWithoutBrackets].push(...values)
-      } else {
-        rawData[keyWithoutBrackets] = values
-      }
-
-      delete rawData[key]
-    } else {
-      rawData[key] = values.length > 1 ? values : values[0]
+    if (key !== '_action') {
+      data[key] = formData.getAll(key)
     }
   }
-  let { _action, ...data } = rawData
+  const _action = formData.get('_action')
   let schema,
     profileId,
     profileTitle,
@@ -61,7 +47,7 @@ export async function action({ request }) {
     profileIpfsHash
   switch (_action) {
     case 'submit':
-      schema = await parseRef(data.linked_schemas)
+      schema = await parseRef(data.linked_schemas[0])
       profile = await generateInstance(schema, data)
       response = await fetchJsonPost(
         process.env.PUBLIC_INDEX_URL + '/v2/validate',
