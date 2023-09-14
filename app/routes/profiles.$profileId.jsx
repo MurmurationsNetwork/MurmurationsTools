@@ -13,5 +13,11 @@ export const loader = async ({ params }) => {
       { status: 404 }
     )
   }
-  return JSON.parse(profile.profile)
+  return json(JSON.parse(profile.profile), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET'
+    }
+  })
 }
