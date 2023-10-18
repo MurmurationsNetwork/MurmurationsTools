@@ -30,8 +30,8 @@
     ]
   },
   "dependencies": {
-    "@murmurations/jsig": "^1.0.2",
-    "@murmurations/jsrfg": "^1.0.0",
+    "@murmurations/jsig": "^1.0.3-pre.1",
+    "@murmurations/jsrfg": "^1.0.1-pre.0",
     "@remix-run/react": "^2.1.0",
     "@vercel/node": "^3.0.7",
     "bcryptjs": "^2.4.3",
