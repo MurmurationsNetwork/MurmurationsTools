@@ -141,6 +141,9 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError()
+  if (process.env.NODE_ENV === 'production') {
+    error.stack = undefined
+  }
 
   return (
     <html>
@@ -156,7 +159,7 @@ export function ErrorBoundary() {
           <div className="container mx-auto flex h-screen flex-col items-center justify-center px-4">
             <h1 className="mb-8 text-xl font-bold">Page Not Found</h1>
             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-              <a href="/">Return to Home</a>
+              <Link to="/">Return to Home</Link>
             </button>
           </div>
         ) : (
