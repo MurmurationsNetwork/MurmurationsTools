@@ -348,9 +348,9 @@ export default function Batch() {
               navigation.formData?.get('_action') === 'select'
                 ? 'Loading...'
                 : navigation.state === 'loading' &&
-                  navigation.formData?.get('_action') === 'select'
-                ? 'Loaded!'
-                : 'Select'}
+                    navigation.formData?.get('_action') === 'select'
+                  ? 'Loaded!'
+                  : 'Select'}
             </button>
           </Form>
           {schema ? (
@@ -402,9 +402,9 @@ export default function Batch() {
                   navigation.formData?.get('_action') === 'edit'
                     ? 'Processing...'
                     : navigation.state === 'loading' &&
-                      navigation.formData?.get('_action') === 'edit'
-                    ? 'Done!'
-                    : 'Modify'}
+                        navigation.formData?.get('_action') === 'edit'
+                      ? 'Done!'
+                      : 'Modify'}
                 </button>
               ) : (
                 <button
@@ -418,9 +418,9 @@ export default function Batch() {
                   navigation.formData?.get('_action') === 'import'
                     ? 'Processing...'
                     : navigation.state === 'loading' &&
-                      navigation.formData?.get('_action') === 'import'
-                    ? 'Done!'
-                    : 'Import'}
+                        navigation.formData?.get('_action') === 'import'
+                      ? 'Done!'
+                      : 'Import'}
                 </button>
               )}
             </Form>
