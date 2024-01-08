@@ -401,9 +401,9 @@ export default function GetNodes() {
               navigation.formData?.get('_action') === 'search'
                 ? 'Searching...'
                 : navigation.state === 'loading' &&
-                  navigation.formData?.get('_action') === 'search'
-                ? 'Loading Data...'
-                : 'Search'}
+                    navigation.formData?.get('_action') === 'search'
+                  ? 'Loading Data...'
+                  : 'Search'}
             </button>
           </div>
         </Form>

@@ -233,10 +233,10 @@ export default function Login() {
                   ? 'Logging In...'
                   : 'Login'
                 : navigation.state === 'submitting' ||
-                  (navigation.state === 'loading' &&
-                    navigation.formData?.get('loginType') === 'register')
-                ? 'Registering...'
-                : 'Register'}
+                    (navigation.state === 'loading' &&
+                      navigation.formData?.get('loginType') === 'register')
+                  ? 'Registering...'
+                  : 'Register'}
             </button>
           </div>
         </Form>

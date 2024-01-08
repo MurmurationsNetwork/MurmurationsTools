@@ -360,9 +360,9 @@ export default function Index() {
                         navigation.formData?.get('_action') === 'save'
                           ? 'Saving...'
                           : navigation.state === 'loading' &&
-                            navigation.formData?.get('_action') === 'save'
-                          ? 'Saved!'
-                          : 'Save to Index'}
+                              navigation.formData?.get('_action') === 'save'
+                            ? 'Saved!'
+                            : 'Save to Index'}
                       </button>
                     </Form>
                   )}
@@ -436,9 +436,9 @@ export default function Index() {
               navigation.formData?.get('_action') === 'select'
                 ? 'Loading...'
                 : navigation.state === 'loading' &&
-                  navigation.formData?.get('_action') === 'select'
-                ? 'Loaded!'
-                : 'Select'}
+                    navigation.formData?.get('_action') === 'select'
+                  ? 'Loaded!'
+                  : 'Select'}
             </button>
           </Form>
           {schema && profileData ? (
@@ -490,9 +490,9 @@ export default function Index() {
                 navigation.formData?.get('_action') === 'update'
                   ? 'Updating...'
                   : navigation.state === 'loading' &&
-                    navigation.formData?.get('_action') === 'update'
-                  ? 'Updated!'
-                  : 'Update Profile'}
+                      navigation.formData?.get('_action') === 'update'
+                    ? 'Updated!'
+                    : 'Update Profile'}
               </button>
             </Form>
           ) : schema ? (
@@ -519,9 +519,9 @@ export default function Index() {
                 navigation.formData?.get('_action') === 'submit'
                   ? 'Processing...'
                   : navigation.state === 'loading' &&
-                    navigation.formData?.get('_action') === 'submit'
-                  ? 'Done!'
-                  : 'Preview'}
+                      navigation.formData?.get('_action') === 'submit'
+                    ? 'Done!'
+                    : 'Preview'}
               </button>
             </Form>
           ) : null}
