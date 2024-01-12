@@ -14,6 +14,7 @@ import { loadSchema } from '~/utils/schema'
 import { loadCountries } from '~/utils/countries'
 import { timestampToDatetime } from '~/utils/datetime'
 import HandleError from '~/components/HandleError'
+import Pagination from '~/components/Pagination'
 
 function getSearchUrl(params, removePage) {
   let searchParams = ''
@@ -569,7 +570,11 @@ export default function GetNodes() {
                   </div>
                 </div>
                 <div className="my-4 text-center">
-                  <Pagination links={links} searchParams={searchParams} />
+                  <Pagination
+                    links={links}
+                    meta={meta}
+                    searchParams={searchParams}
+                  />
                 </div>
               </div>
             ) : (
@@ -622,171 +627,6 @@ function SortableColumn({ prop, children, searchParams }) {
         <span className="text-gray-900 dark:text-gray-50">{children}</span>
       )}
     </th>
-  )
-}
-
-function Pagination({ links, searchParams }) {
-  // schema needs to be replaced if selecting all, the parameters after "?" need to be kept.
-  let schema = searchParams.schema === 'all' ? 'schema=all' : ''
-  let pages = {
-    first: 0,
-    prev: 0,
-    self: 0,
-    next: 0,
-    last: 0
-  }
-  Object.keys(links).forEach(key => {
-    if (links[key]) {
-      if (searchParams.schema === 'all' && !links[key].includes('schema=all')) {
-        links[key] = schema + links[key].substring(links[key].indexOf('?') + 1)
-      } else {
-        links[key] = links[key].substring(links[key].indexOf('?') + 1)
-      }
-      pages[key] = parseInt(links[key].match(/page=(\d+)/i)[1])
-    }
-  })
-
-  // second page and the penultimate page needs to deal with it separately.
-  if (pages['self'] === 4) {
-    links['second'] = links['first'].replace('page=1', 'page=2')
-  }
-  if (pages['last'] - pages['self'] === 3) {
-    links['penultimate'] = links['last'].replace(
-      'page=' + pages['last'],
-      'page=' + (pages['last'] - 1)
-    )
-  }
-
-  return (
-    <nav>
-      <ul className="inline-flex -space-x-px">
-        {links['prev'] ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['prev']}`}
-              className="ml-0 rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              Previous
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-        {links['first'] ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['first']}`}
-              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              {pages['first']}
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-        {pages['self'] === 4 ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['second']}`}
-              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              {pages['first'] + 1}
-            </Link>
-          </li>
-        ) : pages['prev'] - pages['first'] > 1 ? (
-          <li key={pages['previous'] - pages['first']}>
-            <label className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-              ...
-            </label>
-          </li>
-        ) : (
-          ''
-        )}
-        {links['prev'] ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['prev']}`}
-              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              {pages['prev']}
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-        <li>
-          <Link
-            to={`/index-explorer?${links['self']}`}
-            className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            reloadDocument
-          >
-            {pages['self']}
-          </Link>
-        </li>
-        {links['next'] ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['next']}`}
-              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              {pages['next']}
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-        {pages['last'] - pages['self'] === 3 ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['penultimate']}`}
-              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              {pages['next'] + 1}
-            </Link>
-          </li>
-        ) : pages['last'] - pages['next'] > 1 ? (
-          <li key={pages['last'] - pages['next']}>
-            <label className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-              ...
-            </label>
-          </li>
-        ) : (
-          ''
-        )}
-        {links['last'] ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['last']}`}
-              className="border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              {pages['last']}
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-        {links['next'] ? (
-          <li>
-            <Link
-              to={`/index-explorer?${links['next']}`}
-              className="rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              reloadDocument
-            >
-              Next
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-      </ul>
-    </nav>
   )
 }
 
