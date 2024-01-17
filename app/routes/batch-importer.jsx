@@ -263,7 +263,7 @@ export default function Batch() {
                     className="text-red-500 dark:text-purple-200"
                     target="_blank"
                     rel="noreferrer"
-                    href="https://docs.murmurations.network/guides/import-networks.html#spreadsheet"
+                    href="https://docs.murmurations.network/guides/import-networks.html#spreadsheet-import"
                     onClick={e =>
                       window.goatcounter.count({
                         path: p => p + '?docs',

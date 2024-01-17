@@ -296,7 +296,7 @@ export default function Index() {
                     className="text-red-500 dark:text-purple-200"
                     target="_blank"
                     rel="noreferrer"
-                    href="https://docs.murmurations.network/guides/create-a-profile.html#_1-hosted-by-our-profile-generator"
+                    href="https://docs.murmurations.network/guides/create-a-profile.html#_2-hosted-by-our-profile-generator"
                     onClick={e =>
                       window.goatcounter.count({
                         path: p => p + '?docs',
