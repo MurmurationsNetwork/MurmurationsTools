@@ -29,7 +29,7 @@ If you want to enable the IPFS functionality within our application. This can be
     };
     ```
 
-2. Save and Restart/Redeploy
+2. Save and Restart/Redeploy.
 
 Note: To disable IPFS, set ipfsEnabled back to false and restart/redeploy the application.
 
