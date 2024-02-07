@@ -25,11 +25,11 @@
     ]
   },
   "dependencies": {
-    "@murmurations/jsig": "^1.0.5",
-    "@murmurations/jsrfg": "^1.0.3",
-    "@remix-run/node": "^2.4.0",
-    "@remix-run/react": "^2.4.0",
-    "@remix-run/serve": "^2.4.0",
+    "@murmurations/jsig": "^1.0.6-pre.0",
+    "@murmurations/jsrfg": "^1.0.4-pre.0",
+    "@remix-run/node": "^2.6.0",
+    "@remix-run/react": "^2.6.0",
+    "@remix-run/serve": "^2.6.0",
     "bcryptjs": "^2.4.3",
     "cuid": "^2.1.8",
     "mongodb": "^6.3.0",
@@ -38,16 +38,16 @@
     "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.4.0",
-    "@remix-run/eslint-config": "^2.4.0",
+    "@remix-run/dev": "^2.6.0",
+    "@remix-run/eslint-config": "^2.6.0",
     "@tailwindcss/forms": "^0.5.7",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
-    "prettier": "^3.1.1",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.3.6"
+    "tailwindcss": "^3.4.1"
   },
   "engines": {
     "node": ">=14"
