@@ -225,7 +225,7 @@ export default function Batch() {
 
   return (
     <div>
-      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:mb-4 md:h-20 md:px-4 md:py-2">
+      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 md:mb-4 md:h-20 md:px-4 md:py-2 dark:bg-gray-800">
         <h1 className="text-xl md:hidden">Batch Import</h1>
         <h1 className="hidden md:contents md:text-3xl">Batch Importer</h1>
         {user ? (
@@ -233,7 +233,7 @@ export default function Batch() {
             <form action="/logout" method="post">
               <button
                 type="submit"
-                className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:my-8 md:h-8"
+                className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 md:my-8 md:h-8 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
               >
                 Logout
               </button>
@@ -243,7 +243,7 @@ export default function Batch() {
           <div>
             <Link
               to="/login"
-              className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:my-8 md:h-8"
+              className="mx-0 my-2 inline-block h-6 rounded-full bg-red-500 px-4 py-0 font-bold text-white hover:scale-110 hover:bg-red-400 md:my-8 md:h-8 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
               reloadDocument
             >
               Login
@@ -319,7 +319,7 @@ export default function Batch() {
         <div className="mx-2 basis-full px-2 py-4 md:basis-1/2 md:px-4">
           <Form className="mb-2" method="post">
             <select
-              className="block w-full border-2 border-gray-400 bg-white px-4 py-2 dark:bg-gray-700 md:w-96"
+              className="block w-full border-2 border-gray-400 bg-white px-4 py-2 md:w-96 dark:bg-gray-700"
               id="schema"
               name="schema"
               multiple={true}
@@ -436,7 +436,7 @@ function BatchItem({ batch, navigation }) {
 
   return (
     <>
-      <div className="my-2 w-full overflow-hidden rounded-lg bg-gray-50 dark:bg-purple-800 md:my-4 md:w-96">
+      <div className="my-2 w-full overflow-hidden rounded-lg bg-gray-50 md:my-4 md:w-96 dark:bg-purple-800">
         <div className="px-6 py-4">
           <div className="mb-2 text-lg">
             Title: {batch?.title}

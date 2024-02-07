@@ -17,6 +17,22 @@ npm run dev
 
 Open up <http://localhost:3000> and you should be ready to go!
 
+## Enabling IPFS
+
+If you want to enable the IPFS functionality within our application. This can be done by adjusting a configuration in the `app/utils/setting.js` file:
+
+1. Modify the IPFS setting as the following.
+
+    ```javascript
+    export const settings = {
+        ipfsEnabled: true
+    };
+    ```
+
+2. Save and Restart/Redeploy
+
+Note: To disable IPFS, set ipfsEnabled back to false and restart/redeploy the application.
+
 ## Try it out
 
 <https://test-tools.murmurations.network>

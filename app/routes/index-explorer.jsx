@@ -207,12 +207,12 @@ export default function GetNodes() {
 
   return (
     <div>
-      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:mb-4 md:h-20 md:px-4 md:py-2">
+      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 md:mb-4 md:h-20 md:px-4 md:py-2 dark:bg-gray-800">
         <h1 className="text-xl md:contents md:text-3xl">Index Explorer</h1>
       </div>
       <div className="mx-auto max-w-6xl py-2">
         <div className="mb-4 sm:flex sm:items-center">
-          <div className="text-gray-900 dark:text-gray-50 sm:flex-auto">
+          <div className="text-gray-900 sm:flex-auto dark:text-gray-50">
             <p>
               For a description of the input fields below, please{' '}
               <a
@@ -409,7 +409,7 @@ export default function GetNodes() {
           </div>
         </Form>
         <div className="sm:flex sm:items-center">
-          <div className="text-gray-900 dark:text-gray-50 sm:flex-auto">
+          <div className="text-gray-900 sm:flex-auto dark:text-gray-50">
             <p className="text-sm">
               When searching for tags, select <em>all tags</em> so only nodes
               with all of the tags entered are shown. Select{' '}
@@ -500,7 +500,7 @@ export default function GetNodes() {
                       <tbody className="divide-y divide-gray-200 bg-gray-50 dark:bg-gray-600">
                         {sortedNodes?.map(node => (
                           <tr key={node.profile_url}>
-                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                               <a
                                 href={`https://${node.primary_url}`}
                                 target="_blank"
@@ -512,10 +512,10 @@ export default function GetNodes() {
                                   : node.primary_url}
                               </a>
                             </td>
-                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                               {node.name}
                             </td>
-                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                               <a
                                 href={`${node.profile_url}`}
                                 target="_blank"
@@ -527,15 +527,15 @@ export default function GetNodes() {
                                   : node.profile_url}
                               </a>
                             </td>
-                            <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                               {timestampToDatetime(node.last_updated)}
                             </td>
-                            <td className="p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                            <td className="p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                               <div className="flex flex-wrap">
                                 {node.tags?.map(tag => (
                                   <div
                                     key={tag}
-                                    className="m-1 rounded-lg bg-red-200 px-1 dark:bg-purple-400 md:px-2 md:py-1"
+                                    className="m-1 rounded-lg bg-red-200 px-1 md:px-2 md:py-1 dark:bg-purple-400"
                                   >
                                     {tag}
                                   </div>
@@ -543,21 +543,21 @@ export default function GetNodes() {
                               </div>
                             </td>
                             {searchParams?.locality ? (
-                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                                 {node.locality}
                               </td>
                             ) : (
                               ''
                             )}
                             {searchParams?.region ? (
-                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                                 {node.region}
                               </td>
                             ) : (
                               ''
                             )}
                             {searchParams?.country ? (
-                              <td className="whitespace-normal p-1 text-sm text-gray-900 dark:text-gray-50 md:p-2">
+                              <td className="whitespace-normal p-1 text-sm text-gray-900 md:p-2 dark:text-gray-50">
                                 {node.country}
                               </td>
                             ) : (

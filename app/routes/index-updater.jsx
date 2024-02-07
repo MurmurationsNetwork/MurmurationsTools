@@ -81,7 +81,7 @@ export default function Tools() {
   let data = useActionData()
   return (
     <div>
-      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:mb-4 md:h-20 md:px-4 md:py-2">
+      <div className="mb-2 flex h-12 flex-row items-center justify-between bg-gray-50 px-2 py-1 md:mb-4 md:h-20 md:px-4 md:py-2 dark:bg-gray-800">
         <h1 className="text-xl md:contents md:text-3xl">Index Updater</h1>
       </div>
       <div className="mx-1 md:mx-4">
@@ -96,7 +96,7 @@ export default function Tools() {
               aggregators to learn about your recent changes.
             </p>
             <input
-              className="form-input w-full dark:bg-gray-700 md:mr-2 md:w-1/2"
+              className="form-input w-full md:mr-2 md:w-1/2 dark:bg-gray-700"
               type="text"
               name="profile_url"
               required="required"
@@ -104,7 +104,7 @@ export default function Tools() {
             />
           </label>
           <button
-            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:mt-0 md:w-1/3"
+            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 md:mt-0 md:w-1/3 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
             type="submit"
             name="_action"
             value="post"
@@ -121,12 +121,12 @@ export default function Tools() {
         </Form>
         <div className="flex flex-auto">
           {data?.postResponse ? (
-            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm dark:bg-green-700 md:my-4 md:p-4">
+            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm md:my-4 md:p-4 dark:bg-green-700">
               <pre>{JSON.stringify(data.postResponse, null, 2)}</pre>
             </div>
           ) : null}
           {data?.postErrors ? (
-            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm dark:bg-red-700 md:my-4 md:p-4">
+            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm md:my-4 md:p-4 dark:bg-red-700">
               <pre>{JSON.stringify(data.postErrors, null, 2)}</pre>
             </div>
           ) : null}
@@ -143,7 +143,7 @@ export default function Tools() {
               Index.
             </p>
             <input
-              className="form-input w-full dark:bg-gray-700 md:mr-2 md:w-1/2"
+              className="form-input w-full md:mr-2 md:w-1/2 dark:bg-gray-700"
               type="text"
               name="profile_url"
               required="required"
@@ -151,7 +151,7 @@ export default function Tools() {
             />
           </label>
           <button
-            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:mt-0 md:w-1/3"
+            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 md:mt-0 md:w-1/3 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
             type="submit"
             name="_action"
             value="check"
@@ -168,12 +168,12 @@ export default function Tools() {
         </Form>
         <div className="flex flex-auto">
           {data?.checkResponse ? (
-            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm dark:bg-green-700 md:my-4 md:p-4">
+            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm md:my-4 md:p-4 dark:bg-green-700">
               <pre>{JSON.stringify(data.checkResponse, null, 2)}</pre>
             </div>
           ) : null}
           {data?.checkErrors ? (
-            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm dark:bg-red-700 md:my-4 md:p-4">
+            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm md:my-4 md:p-4 dark:bg-red-700">
               <pre>{JSON.stringify(data.checkErrors, null, 2)}</pre>
             </div>
           ) : null}
@@ -191,7 +191,7 @@ export default function Tools() {
               delete it from the Index.
             </p>
             <input
-              className="form-input w-full dark:bg-gray-700 md:mr-2 md:w-1/2"
+              className="form-input w-full md:mr-2 md:w-1/2 dark:bg-gray-700"
               type="text"
               name="profile_url"
               required="required"
@@ -199,7 +199,7 @@ export default function Tools() {
             />
           </label>
           <button
-            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100 md:mt-0 md:w-1/3"
+            className="mt-2 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 md:mt-0 md:w-1/3 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
             type="submit"
             name="_action"
             value="delete"
@@ -216,12 +216,12 @@ export default function Tools() {
         </Form>
         <div className="flex flex-auto">
           {data?.deleteResponse ? (
-            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm dark:bg-green-700 md:my-4 md:p-4">
+            <div className="my-2 overflow-auto rounded-xl bg-green-100 p-2 text-sm md:my-4 md:p-4 dark:bg-green-700">
               <pre>{JSON.stringify(data.deleteResponse, null, 2)}</pre>
             </div>
           ) : null}
           {data?.deleteErrors ? (
-            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm dark:bg-red-700 md:my-4 md:p-4">
+            <div className="my-2 overflow-auto rounded-xl bg-red-200 p-2 text-sm md:my-4 md:p-4 dark:bg-red-700">
               <pre>{JSON.stringify(data.deleteErrors, null, 2)}</pre>
             </div>
           ) : null}
