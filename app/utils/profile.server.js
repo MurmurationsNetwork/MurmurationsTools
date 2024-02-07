@@ -17,6 +17,9 @@ import {
   mongoUpdateUserIpfs,
   mongoUpdateUserProfile
 } from '~/utils/mongo.server'
+import { settings } from '~/utils/setting'
+
+const ipfsEnabled = settings.ipfsEnabled
 
 async function postNode(profileId) {
   const postUrl = process.env.PUBLIC_INDEX_URL + '/v2/nodes'
@@ -39,10 +42,12 @@ async function publishProfileList(client, emailHash) {
   const profileList = await mongoGetProfiles(client, user.profiles)
 
   // upload to IPFS and update to IPNS
-  const ipfsProfile = await ipfsUpload(JSON.stringify(profileList))
-  await mongoUpdateUserIpfs(client, emailHash, ipfsProfile.Hash)
-  const path = '/ipfs/' + ipfsProfile.Hash
-  ipnsPublish(path, emailHash + '_' + user.cuid)
+  if (ipfsEnabled) {
+    const ipfsProfile = await ipfsUpload(JSON.stringify(profileList))
+    await mongoUpdateUserIpfs(client, emailHash, ipfsProfile.Hash)
+    const path = '/ipfs/' + ipfsProfile.Hash
+    ipnsPublish(path, emailHash + '_' + user.cuid)
+  }
 
   return await mongoGetUser(client, emailHash)
 }
@@ -78,16 +83,21 @@ export async function saveProfile(userEmail, profileTitle, profileData) {
   const client = await mongoConnect()
   const profileObj = JSON.parse(profileData)
   try {
-    const ipfsData = await ipfsUpload(profileData)
+    let ipfsData
+    if (ipfsEnabled) {
+      ipfsData = await ipfsUpload(profileData)
+    }
     const body = await postNode(profileId)
     const profile = {
       cuid: profileId,
-      ipfs: [ipfsData.Hash],
       last_updated: Date.now(),
       linked_schemas: profileObj.linked_schemas,
       profile: profileData,
       title: profileTitle,
       node_id: body?.data?.node_id ? body?.data?.node_id : ''
+    }
+    if (ipfsEnabled) {
+      profile.ipfs = [ipfsData.Hash]
     }
     await mongoSaveProfile(client, profile)
     await mongoUpdateUserProfile(client, emailHash, profileId)
@@ -125,9 +135,11 @@ export async function updateProfile(
       }
     }
 
-    const ipfsData = await ipfsUpload(profileData)
-    if (ipfsData.Hash !== profileIpfsHash) {
-      await mongoUpdateIpfs(client, profileId, ipfsData.Hash)
+    if (ipfsEnabled) {
+      const ipfsData = await ipfsUpload(profileData)
+      if (ipfsData.Hash !== profileIpfsHash) {
+        await mongoUpdateIpfs(client, profileId, ipfsData.Hash)
+      }
     }
     const profileObj = JSON.parse(profileData)
     const profile = {
@@ -211,7 +223,7 @@ async function getProfiles(emailHash) {
 export async function getProfileList(user) {
   try {
     // if users have IPNS, make sure the IPNS can be connected, because IPNS will be expired after a while
-    if (user?.ipns && user?.ipfs) {
+    if (ipfsEnabled && user?.ipns && user?.ipfs) {
       const url = process.env.PUBLIC_IPNS_GATEWAY_URL + '/' + user.ipns
       const path = '/ipfs/' + user.ipfs
       fetch(url, { timeout: 3000 })
@@ -231,7 +243,7 @@ export async function getProfileList(user) {
     })
 
     let promise
-    if (user?.ipns || user?.ipfs) {
+    if (ipfsEnabled && (user?.ipns || user?.ipfs)) {
       let url
       if (user?.ipfs) {
         url = process.env.PUBLIC_IPFS_GATEWAY_URL + '/' + user.ipfs
