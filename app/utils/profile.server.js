@@ -17,7 +17,7 @@ import {
   mongoUpdateUserIpfs,
   mongoUpdateUserProfile
 } from '~/utils/mongo.server'
-import { settings } from '~/utils/setting'
+import { settings } from '~/utils/settings'
 
 const ipfsEnabled = settings.ipfsEnabled
 
