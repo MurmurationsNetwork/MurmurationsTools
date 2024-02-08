@@ -288,7 +288,9 @@ export default function Index() {
       <div className="box-border flex flex-col md:flex-row">
         <div className="inset-0 basis-full md:sticky md:top-0 md:h-screen md:basis-1/2 md:overflow-y-auto">
           <div className="px-2 md:px-4">
-            {user?.source ? <span>Data source: {user.source}</span> : null}
+            {ipfsEnable && user?.source ? (
+              <span>Data source: {user.source}</span>
+            ) : null}
             {user || schema ? null : (
               <div>
                 <p>Login first if you want to save your profile here.</p>
