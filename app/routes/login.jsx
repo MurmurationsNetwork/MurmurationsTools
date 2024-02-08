@@ -115,7 +115,7 @@ export default function Login() {
 
   return (
     <div className="flex h-screen flex-col items-center justify-center">
-      <div className="top-0 mx-auto mb-4 flex w-full flex-col rounded bg-yellow-500 px-8 pb-8 pt-6 shadow-md dark:bg-purple-800 dark:text-gray-100 md:w-96">
+      <div className="top-0 mx-auto mb-4 flex w-full flex-col rounded bg-yellow-500 px-8 pb-8 pt-6 shadow-md md:w-96 dark:bg-purple-800 dark:text-gray-100">
         <Form method="post">
           <input
             type="hidden"

@@ -51,19 +51,19 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="text-md bg-white leading-normal text-black dark:bg-gray-900 dark:text-gray-50 md:text-xl">
+      <body className="text-md bg-white leading-normal text-black md:text-xl dark:bg-gray-900 dark:text-gray-50">
         {production ? null : (
-          <div className="flex flex-row justify-center bg-fuchsia-200 px-2 py-1 dark:bg-fuchsia-700 md:px-4 md:py-2">
+          <div className="flex flex-row justify-center bg-fuchsia-200 px-2 py-1 md:px-4 md:py-2 dark:bg-fuchsia-700">
             T E S T &nbsp; E N V I R O N M E N T
           </div>
         )}
         {online ? null : (
-          <div className="flex flex-row justify-center bg-rose-400 px-2 py-1 dark:bg-rose-700 md:px-4 md:py-2">
+          <div className="flex flex-row justify-center bg-rose-400 px-2 py-1 md:px-4 md:py-2 dark:bg-rose-700">
             O F F L I N E -- Check your network connection
           </div>
         )}
         <div className="container mx-auto max-w-full p-0">
-          <div className="mb-0 flex h-8 flex-row items-center justify-between bg-gray-50 px-2 py-1 dark:bg-gray-800 md:h-12 md:px-4 md:py-2">
+          <div className="mb-0 flex h-8 flex-row items-center justify-between bg-gray-50 px-2 py-1 md:h-12 md:px-4 md:py-2 dark:bg-gray-800">
             <div className="hidden md:contents md:text-xl">
               Murmurations Tools
             </div>

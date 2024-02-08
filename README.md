@@ -1,6 +1,6 @@
 # Murmurations Tools
 
-> This project is licensed under the terms of the GNU General Public License v3.0
+> _This project is licensed under the terms of the GNU General Public License v3.0_
 
 ## Development
 
@@ -17,18 +17,20 @@ npm run dev
 
 Open up <http://localhost:3000> and you should be ready to go!
 
+## Enabling IPFS
+
+Profiles created in Tools can also be saved to IPFS as well as to your Mongo database. You will need access to an IPFS server and will have to set the credentials in your environment variables file.
+
+You can enable IPFS functionality by changing the configuration in the `app/utils/settings.js` file:
+
+```javascript
+export const settings = {
+    ipfsEnabled: true
+};
+```
+
+Then save the file and restart/redeploy the app. To disable IPFS, set `ipfsEnabled` back to false and restart/redeploy again.
+
 ## Try it out
 
 <https://test-tools.murmurations.network>
-
-## Vercel test preview deployment
-
-After merging to main and pulling in the changes locally:
-
-```sh
-git checkout main
-git rebase test
-git checkout test
-git merge main
-git push
-```
