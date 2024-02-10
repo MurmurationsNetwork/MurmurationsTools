@@ -1,3 +1,4 @@
+import cuid from 'cuid'
 import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import { createCookieSessionStorage, redirect } from '@remix-run/node'
@@ -11,7 +12,9 @@ import {
   mongoSaveUser,
   mongoUpdateUserLogin
 } from '~/utils/mongo.server'
-import cuid from 'cuid'
+import { settings } from '~/utils/settings'
+
+const ipfsEnabled = settings.ipfsEnabled
 
 export async function register(email, password) {
   const emailHash = crypto.createHash('sha256').update(email).digest('hex')
@@ -26,20 +29,24 @@ export async function register(email, password) {
       }
     }
     const usersCuid = cuid()
-    const res = await ipnsKeyGen(emailHash + '_' + usersCuid)
-    if (res?.Type === 'error') {
-      return {
-        success: false,
-        error: res?.Message
-      }
-    }
     const data = {
       email_hash: emailHash,
       last_login: Date.now(),
       password: passwordHash,
       profiles: [],
-      ipns: res?.Id,
       cuid: usersCuid
+    }
+    if (ipfsEnabled) {
+      const res = await ipnsKeyGen(emailHash + '_' + usersCuid)
+      if (res?.Type === 'error') {
+        return {
+          success: false,
+          error: res?.Message
+        }
+      }
+      if (res?.Id) {
+        data.ipns = res.Id
+      }
     }
     await mongoSaveUser(client, data)
     return { success: true, userEmail: email }
