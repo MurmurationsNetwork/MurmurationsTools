@@ -52,9 +52,28 @@ export default function App() {
         <Links />
       </head>
       <body className="text-md bg-white leading-normal text-black md:text-xl dark:bg-gray-900 dark:text-gray-50">
-        {production ? null : (
+        {production ? (
           <div className="flex flex-row justify-center bg-fuchsia-200 px-2 py-1 md:px-4 md:py-2 dark:bg-fuchsia-700">
-            T E S T &nbsp; E N V I R O N M E N T
+            Want to try things out first? Take it for a spin in the&nbsp;
+            <a
+              className="text-red-500 dark:text-purple-200"
+              rel="noreferrer"
+              href="https://test-tools.murmurations.network"
+            >
+              test environment
+            </a>
+            .
+          </div>
+        ) : (
+          <div className="flex flex-row justify-center bg-fuchsia-200 px-2 py-1 md:px-4 md:py-2 dark:bg-fuchsia-700">
+            T E S T &nbsp; E N V I R O N M E N T --&nbsp;
+            <a
+              className="text-red-500 dark:text-purple-200"
+              rel="noreferrer"
+              href="https://tools.murmurations.network"
+            >
+              click here for the production environment
+            </a>
           </div>
         )}
         {online ? null : (
