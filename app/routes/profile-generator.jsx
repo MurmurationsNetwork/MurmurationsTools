@@ -86,13 +86,22 @@ export async function action({ request }) {
       profileId = formData.get('profile_id')
       profileData = await getProfile(profileId)
       schema = await parseRef(profileData.linked_schemas)
-      return json({
-        schema: schema,
-        profileData: JSON.parse(profileData.profile),
-        profileId: profileId,
-        profileTitle: profileData.title,
-        profileIpfsHash: profileData.ipfs[0]
-      })
+      if (ipfsEnable) {
+        return json({
+          schema: schema,
+          profileData: JSON.parse(profileData.profile),
+          profileId: profileId,
+          profileTitle: profileData.title,
+          profileIpfsHash: profileData.ipfs[0]
+        })
+      } else {
+        return json({
+          schema: schema,
+          profileData: JSON.parse(profileData.profile),
+          profileId: profileId,
+          profileTitle: profileData.title
+        })
+      }
     case 'update':
       userEmail = await requireUserEmail(request, '/')
       profileId = formData.get('profile_id')
@@ -477,11 +486,13 @@ export default function Index() {
                 name="profile_id"
                 defaultValue={data.profileId}
               />
-              <input
-                type="hidden"
-                name="profile_ipfs_hash"
-                defaultValue={data?.profileIpfsHash}
-              />
+              {ipfsEnable ? (
+                <input
+                  type="hidden"
+                  name="profile_ipfs_hash"
+                  defaultValue={data?.profileIpfsHash}
+                />
+              ) : null}
               <GenerateForm schema={schema} profileData={profileData} />
               <button
                 className="mt-4 w-full bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-400 disabled:opacity-75 dark:bg-purple-200 dark:text-gray-800 dark:hover:bg-purple-100"
