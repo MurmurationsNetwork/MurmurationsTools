@@ -86,13 +86,22 @@ export async function action({ request }) {
       profileId = formData.get('profile_id')
       profileData = await getProfile(profileId)
       schema = await parseRef(profileData.linked_schemas)
-      return json({
-        schema: schema,
-        profileData: JSON.parse(profileData.profile),
-        profileId: profileId,
-        profileTitle: profileData.title,
-        profileIpfsHash: profileData?.ipfs[0]
-      })
+      if (ipfsEnable) {
+        return json({
+          schema: schema,
+          profileData: JSON.parse(profileData.profile),
+          profileId: profileId,
+          profileTitle: profileData.title,
+          profileIpfsHash: profileData.ipfs[0]
+        })
+      } else {
+        return json({
+          schema: schema,
+          profileData: JSON.parse(profileData.profile),
+          profileId: profileId,
+          profileTitle: profileData.title
+        })
+      }
     case 'update':
       userEmail = await requireUserEmail(request, '/')
       profileId = formData.get('profile_id')
