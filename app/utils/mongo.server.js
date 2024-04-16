@@ -1,13 +1,9 @@
 const { MongoClient } = require('mongodb')
 
-const url =
-  'mongodb://' +
-  process.env.PRIVATE_DIGITALOCEAN_MONGO_USER +
-  ':' +
-  process.env.PRIVATE_DIGITALOCEAN_MONGO_PASS +
-  '@' +
-  process.env.PRIVATE_DIGITALOCEAN_MONGO_HOST
-
+const username = encodeURIComponent(process.env.PRIVATE_MONGO_USER)
+const password = encodeURIComponent(process.env.PRIVATE_MONGO_PASS)
+const host = process.env.PRIVATE_MONGO_HOST
+const url = `mongodb://${username}:${password}@${host}?tls=true`
 const db = 'mpgdata'
 
 export async function mongoConnect() {
