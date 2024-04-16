@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb')
 
 const url =
-  'mongodb+srv://' +
+  'mongodb://' +
   process.env.PRIVATE_DIGITALOCEAN_MONGO_USER +
   ':' +
   process.env.PRIVATE_DIGITALOCEAN_MONGO_PASS +
