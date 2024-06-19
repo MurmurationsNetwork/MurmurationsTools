@@ -15,6 +15,7 @@ import { loadCountries } from '~/utils/countries'
 import { timestampToDatetime } from '~/utils/datetime'
 import HandleError from '~/components/HandleError'
 import Pagination from '~/components/Pagination'
+import { getNodes } from '~/utils/index-api'
 
 function getSearchUrl(params, removePage) {
   let searchParams = ''
@@ -86,68 +87,53 @@ export async function action({ request }) {
 }
 
 export async function loader({ request }) {
-  try {
-    const schemas = await loadSchema()
-    const countries = await loadCountries()
+  const schemas = await loadSchema()
+  const countries = await loadCountries()
 
-    const url = new URL(request.url)
-    let params = {}
-    for (let param of url.searchParams.entries()) {
-      params[param[0]] = param[1]
-    }
+  const url = new URL(request.url)
+  let params = {}
+  for (let param of url.searchParams.entries()) {
+    params[param[0]] = param[1]
+  }
 
-    if (Object.keys(params).length === 0) {
-      return json({
-        schemas: schemas,
-        countries: countries
-      })
-    }
+  if (Object.keys(params).length === 0) {
+    return json({
+      schemas: schemas,
+      countries: countries
+    })
+  }
 
-    if (!params?.schema) {
-      return json({
-        schemas: schemas,
-        countries: countries,
-        message: 'The schema is required',
-        success: false
-      })
-    }
-
-    let searchParams = getSearchUrl(params, false)
-    if (params.schema === 'all') {
-      searchParams = searchParams.replace('schema=all', '')
-    }
-    let response = await fetchGet(
-      `${process.env.PUBLIC_INDEX_URL}/v2/nodes?${searchParams}`
-    )
-
-    const nodes = await response.json()
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        return json({
-          schemas: schemas,
-          countries: countries,
-          params: params,
-          message: nodes.errors?.[0].detail,
-          success: false
-        })
-      }
-
-      return new Response('Schema list loading error', {
-        status: response.status
-      })
-    }
-
+  if (!params?.schema) {
     return json({
       schemas: schemas,
       countries: countries,
-      nodes: nodes,
-      params: params
+      message: 'The schema is required',
+      success: false
     })
-  } catch (error) {
-    console.error(error)
-    return null
   }
+
+  let searchParams = getSearchUrl(params, false)
+  if (params.schema === 'all') {
+    searchParams = searchParams.replace('schema=all', '')
+  }
+  const nodes = await getNodes(searchParams)
+
+  if (nodes.status === 400) {
+    return json({
+      schemas: schemas,
+      countries: countries,
+      params: params,
+      message: nodes?.data?.errors?.[0].detail,
+      success: false
+    })
+  }
+
+  return json({
+    schemas: schemas,
+    countries: countries,
+    nodes: nodes?.data,
+    params: params
+  })
 }
 
 export default function GetNodes() {
