@@ -13,11 +13,7 @@ import {
 } from '@remix-run/react'
 import { json } from '@remix-run/node'
 
-import styles from '~/styles/app.css'
-
-export function links() {
-  return [{ rel: 'stylesheet', href: styles }]
-}
+import './styles/app.css'
 
 export function meta() {
   return [{ title: 'Murmuration Tools' }]

@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb')
+import { MongoClient } from 'mongodb'
 
 const username = encodeURIComponent(process.env.PRIVATE_MONGO_USER)
 const password = encodeURIComponent(process.env.PRIVATE_MONGO_PASS)
