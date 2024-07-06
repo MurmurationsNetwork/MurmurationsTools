@@ -1,3 +1,5 @@
+import type { Config } from "tailwindcss";
+
 module.exports = {
   important: true,
   content: [
@@ -74,4 +76,4 @@ module.exports = {
     }
   },
   plugins: [require('@tailwindcss/forms')]
-}
+} satisfies Config;
