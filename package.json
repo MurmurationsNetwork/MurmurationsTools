@@ -26,8 +26,8 @@
     ]
   },
   "dependencies": {
-    "@murmurations/jsig": "^1.0.8-pre.4",
-    "@murmurations/jsrfg": "^1.0.6-pre.5",
+    "@murmurations/jsig": "^1.0.8",
+    "@murmurations/jsrfg": "^1.0.6",
     "@remix-run/node": "^2.10.2",
     "@remix-run/react": "^2.10.2",
     "@remix-run/serve": "^2.10.2",
