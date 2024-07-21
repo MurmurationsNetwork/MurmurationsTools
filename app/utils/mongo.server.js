@@ -3,7 +3,9 @@ import { MongoClient } from 'mongodb'
 const username = encodeURIComponent(process.env.PRIVATE_MONGO_USER)
 const password = encodeURIComponent(process.env.PRIVATE_MONGO_PASS)
 const host = process.env.PRIVATE_MONGO_HOST
-const url = `mongodb://${username}:${password}@${host}?tls=true`
+const url = host.includes('localhost')
+  ? `mongodb://${username}:${password}@${host}`
+  : `mongodb://${username}:${password}@${host}?tls=true`
 const db = 'mpgdata'
 
 export async function mongoConnect() {
