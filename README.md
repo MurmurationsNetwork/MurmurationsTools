@@ -21,8 +21,14 @@
    PUBLIC_INDEX_URL_LOCAL=http://index.murmurations.developers
    ```
 
-3. Execute `make dev`.
-4. Open <http://tools.murmurations.developers> in your browser.
+3. Modify `/etc/hosts` to point tools.murmurations.developers to 127.0.0.1.
+
+   ```bash
+   127.0.0.1       tools.murmurations.developers
+   ```
+
+4. Execute `make dev`.
+5. Open <http://tools.murmurations.developers> in your browser.
 
 ## Development
 
