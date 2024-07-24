@@ -6,9 +6,6 @@ import {installGlobals} from "@remix-run/node";
 installGlobals();
 
 export default defineConfig({
-  server: {
-    port: 3000,
-  },
   ssr: {
     noExternal: [
       "@murmurations/jsig",

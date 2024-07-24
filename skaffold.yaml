@@ -1,0 +1,28 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+
+# Build configuration settings.
+build:
+  local:
+    # Indicates local build without pushing to a remote registry.
+    push: false
+  artifacts:
+    # List of Docker artifacts to be built.
+    - image: murmurations/tools
+      context: .
+      docker:
+        dockerfile: Dockerfile
+
+# Deployment configuration settings.
+deploy:
+  helm:
+    releases:
+      - name: murmurations-tools
+        chartPath: remixjs
+        namespace: default
+        valuesFiles:
+          - remixjs/values.yaml
+        setValueTemplates:
+          # Dynamically setting image references using setValueTemplates.
+          # Reference: https://skaffold-v2-latest.firebaseapp.com/docs/deployers/helm/#fqn-strategy-single-fully-qualified-name-default
+          image: "{{.IMAGE_FULLY_QUALIFIED_murmurations_tools}}"

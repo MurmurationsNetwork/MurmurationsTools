@@ -1,0 +1,6 @@
+name: "murmurations-tools"
+replica: 1
+image: ""
+
+service:
+  port: 80

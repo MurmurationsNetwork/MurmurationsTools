@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb'
 const username = encodeURIComponent(process.env.PRIVATE_MONGO_USER)
 const password = encodeURIComponent(process.env.PRIVATE_MONGO_PASS)
 const host = process.env.PRIVATE_MONGO_HOST
-const url = host.includes('localhost')
+const url = host.includes('frontend-mongo-service')
   ? `mongodb://${username}:${password}@${host}`
   : `mongodb://${username}:${password}@${host}?tls=true`
 const db = 'mpgdata'
