@@ -2,6 +2,28 @@
 
 > _This project is licensed under the terms of the GNU General Public License v3.0_
 
+## Local Development with Murmurations Services and Frontend Mongo
+
+1. Run Murmurations Services and Frontend Mongo.
+2. Ensure Local `.env` is Set Up. The following is the default `.env` setup.
+
+   ```bash
+   PRIVATE_MONGO_HOST=frontend-mongo-service:27017
+   PRIVATE_MONGO_PASS=password
+   PRIVATE_MONGO_USER=admin
+
+   PUBLIC_TOOLS_URL=http://murmurations-tools-service.default
+   PUBLIC_LIBRARY_URL=http://library-app:8080
+   PUBLIC_INDEX_URL=http://index-app:8080
+   PUBLIC_DATA_PROXY_URL=http://data-proxy-app:8080
+
+   # LOCAL
+   PUBLIC_INDEX_URL_LOCAL=http://index.murmurations.developers
+   ```
+
+3. Execute `make dev`.
+4. Open <http://tools.murmurations.developers> in your browser.
+
 ## Development
 
 ```sh
