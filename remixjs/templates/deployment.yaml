@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+spec:
+  replicas: {{ .Values.replica }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      initContainers:
+        - name: init-npm-install
+          image: {{ .Values.image }}
+          command: [ "sh", "-c" ]
+          args:
+            - |
+              if [ "$(ls -A /app/node_modules)" ]; then
+                echo "node_modules is not empty"
+              else
+                echo "node_modules is empty, running npm install"
+                cd /app && npm install
+              fi
+          volumeMounts:
+            - name: node-modules-storage
+              mountPath: /app/node_modules
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ .Values.image }}
+          volumeMounts:
+            - mountPath: /app/node_modules
+              name: node-modules-storage
+          command: [ "sh", "-c" ]
+          args:
+            - |
+              npm run dev
+      volumes:
+        - name: node-modules-storage
+          hostPath:
+            path: {{ .Values.sourcepath }}/temp-volume

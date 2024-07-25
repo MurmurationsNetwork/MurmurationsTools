@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
-    "dev": "remix vite:dev",
+    "dev": "remix vite:dev --host 0.0.0.0 --port 80",
     "start": "remix-serve ./build/server/index.js",
     "lint": "eslint --ignore-path .gitignore --ext .js --ext .jsx .",
     "lint-fix": "eslint --ignore-path .gitignore --ext .js --ext .jsx . --fix",
