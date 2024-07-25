@@ -39,5 +39,5 @@ spec:
               npm run dev
       volumes:
         - name: node-modules-storage
-          persistentVolumeClaim:
-            claimName: node-modules-pvc
+          hostPath:
+            path: {{ .Values.sourcepath }}/temp-volume

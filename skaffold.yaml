@@ -26,3 +26,4 @@ deploy:
           # Dynamically setting image references using setValueTemplates.
           # Reference: https://skaffold-v2-latest.firebaseapp.com/docs/deployers/helm/#fqn-strategy-single-fully-qualified-name-default
           image: "{{.IMAGE_FULLY_QUALIFIED_murmurations_tools}}"
+          sourcepath: "{{.SOURCEPATH}}"

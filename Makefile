@@ -1,2 +1,2 @@
 dev:
-	skaffold dev --no-prune=false --cache-artifacts=false
+	export SOURCEPATH=$(PWD) && skaffold dev --no-prune=false --cache-artifacts=false
