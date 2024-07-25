@@ -12,6 +12,32 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      initContainers:
+        - name: init-npm-install
+          image: {{ .Values.image }}
+          command: [ "sh", "-c" ]
+          args:
+            - |
+              if [ "$(ls -A /app/node_modules)" ]; then
+                echo "node_modules is not empty"
+              else
+                echo "node_modules is empty, running npm install"
+                cd /app && npm install
+              fi
+          volumeMounts:
+            - name: node-modules-storage
+              mountPath: /app/node_modules
       containers:
         - name: {{ .Values.name }}
           image: {{ .Values.image }}
+          volumeMounts:
+            - mountPath: /app/node_modules
+              name: node-modules-storage
+          command: [ "sh", "-c" ]
+          args:
+            - |
+              npm run dev
+      volumes:
+        - name: node-modules-storage
+          persistentVolumeClaim:
+            claimName: node-modules-pvc
