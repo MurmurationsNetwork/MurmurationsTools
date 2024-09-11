@@ -70,7 +70,7 @@ export async function getNodeStatus(node_id) {
         status: response.status
       })
     }
-    return response
+    return response.json()
   } catch (e) {
     if (e instanceof Response) {
       throw e
