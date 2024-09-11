@@ -7,8 +7,6 @@ export async function getNodes(searchParams) {
       `${process.env.PUBLIC_INDEX_URL}/v2/nodes?${searchParams}`
     )
 
-    console.log(`${process.env.PUBLIC_INDEX_URL}/v2/nodes?${searchParams}`)
-
     if (!response.ok && response.status !== 400) {
       const data = await handleNotOK(response)
       throw new Response(JSON.stringify(data), {
@@ -70,7 +68,7 @@ export async function getNodeStatus(node_id) {
         status: response.status
       })
     }
-    return response
+    return response.json()
   } catch (e) {
     if (e instanceof Response) {
       throw e
