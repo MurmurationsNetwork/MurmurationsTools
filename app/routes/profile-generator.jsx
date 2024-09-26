@@ -257,9 +257,9 @@ export default function Index() {
         let str =
           'Title: ' +
           obj?.title +
-          ',Source: ' +
+          ' - Source: ' +
           obj?.source?.pointer +
-          ',Detail: ' +
+          ' - Detail: ' +
           obj?.detail
         errs.push(str)
       }

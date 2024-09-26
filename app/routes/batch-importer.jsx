@@ -215,7 +215,15 @@ export default function Batch() {
       let errs = []
       for (let key in data.errors) {
         let obj = data.errors[key]
-        let str = 'Title: ' + obj?.title + ',Detail: ' + obj?.detail
+        let str =
+          'OID: ' +
+          obj?.source?.oid +
+          ' - Source: ' +
+          obj?.source?.pointer +
+          ' - Title: ' +
+          obj?.title +
+          ' - Detail: ' +
+          obj?.detail
         errs.push(str)
       }
       setErrors(errs)
