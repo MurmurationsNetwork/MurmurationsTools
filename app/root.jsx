@@ -3,7 +3,6 @@ import {
   isRouteErrorResponse,
   Link,
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -147,7 +146,6 @@ export default function App() {
             src="//stats.murmurations.network/count.js"
           ></script>
           <Scripts />
-          {process.env.NODE_ENV === 'development' && <LiveReload />}
         </div>
       </body>
     </html>

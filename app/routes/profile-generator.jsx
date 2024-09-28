@@ -174,7 +174,9 @@ export async function loader(request) {
     ? cookieHeader.indexOf('murmurations_session=')
     : -1
   const ipfsGatewayUrl = process.env.PUBLIC_IPFS_GATEWAY_URL
-  const profilePostUrl = process.env.PUBLIC_INDEX_URL + '/v2/nodes'
+  const profilePostUrl = process.env.PUBLIC_INDEX_URL.includes(':8080')
+    ? process.env.PUBLIC_INDEX_URL_LOCAL + '/v2/nodes'
+    : process.env.PUBLIC_INDEX_URL + '/v2/nodes'
   let userWithProfile
   // If user is not login or logout, return empty user
   if (loginSession === -1 || cookieHeader.includes('murmurations_session=;')) {
